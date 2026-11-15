@@ -130,6 +130,8 @@
               <option value="lesson3" class="text-slate-900 bg-white">Lesson 3 Pad (26.10.2026)</option>
               <option value="lesson4" class="text-slate-900 bg-white">Lesson 4 Pad (28.10.2026)</option>
               <option value="lesson5" class="text-slate-900 bg-white">Lesson 5 Pad (05.11.2026)</option>
+              <option value="lesson6" class="text-slate-900 bg-white">Lesson 6 Pad (09.11.2026)</option>
+              <option value="lesson7" class="text-slate-900 bg-white" selected>Lesson 7 Pad (11.11.2026)</option>
               <option value="all" class="text-slate-900 bg-white">Stretch All Lessons</option>
             </select>
           </div>
@@ -160,7 +162,61 @@
   </div>
 
   <!-- Pad Workspace Container (Stretches full width across screen/tablet pad) -->
-  <main class="w-full max-w-[1600px] mx-auto px-3 sm:px-6 py-6 flex-1 overflow-x-auto">
+  <main class="w-full max-w-[1600px] mx-auto px-3 sm:px-6 py-5 flex-1 overflow-x-auto space-y-5">
+
+    <!-- ========================================================================= -->
+    <!-- ORGANIZED STUDY & NOTE-WRITING NAVIGATOR BAR (Prevents Feeling Lost)      -->
+    <!-- ========================================================================= -->
+    <div id="study-navigator-bar" class="bg-white rounded-2xl border-2 border-slate-300 p-4 shadow-sm space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <!-- Left: Current Lesson Status & Note-Writing Progress -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-extrabold flex items-center gap-2">
+            <span id="nav-current-lesson-title">Lesson 7 (11.11.2026)</span>
+            <span class="text-slate-400">│</span>
+            <span id="nav-progress-text" class="text-emerald-300">Notebook Progress: 0 / 5 Written</span>
+          </div>
+
+          <!-- View Layout Switcher for Note-Taking -->
+          <div class="inline-flex flex-wrap items-center bg-slate-100 p-1 rounded-xl border border-slate-200 gap-1" role="group" aria-label="Note-Taking Layout">
+            <button type="button" data-note-layout="both" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-900 text-white shadow-sm transition">
+              📋 Copy Sheet + Diagrams
+            </button>
+            <button type="button" data-note-layout="sheet" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
+              📝 Clean Notebook Copy Sheet Only
+            </button>
+            <button type="button" data-note-layout="step" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
+              🎯 Step-by-Step Focus (1 at a Time)
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Quick Jump to Character Writing Pad for This Lesson -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="nav-jump-hanzi-btn" type="button" class="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold shadow-sm transition flex items-center gap-1.5">
+            <span>✍️ Write This Lesson's Hanzi Characters</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Numbered Section Jump Pills + Step-by-Step Prev/Next Controls -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200">
+        <div class="flex flex-wrap items-center gap-1.5" id="nav-section-pills">
+          <!-- Populated dynamically per lesson -->
+        </div>
+        <div id="nav-step-controls" class="hidden flex items-center gap-2">
+          <button id="nav-prev-step-btn" type="button" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-extrabold text-slate-800">
+            ← Prev Section
+          </button>
+          <span id="nav-step-counter" class="text-xs font-mono font-bold text-slate-700">Section 1 / 5</span>
+          <button id="nav-next-step-btn" type="button" class="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold">
+            Next Section →
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div id="zoom-stage" class="space-y-10 min-w-[320px]">
 
       <!-- ========================================================================= -->
@@ -1066,6 +1122,94 @@
 
               <div class="font-mono text-[11px] text-emerald-950 bg-emerald-100/80 px-3 py-1.5 rounded-lg font-bold">
                 📝 Lesson 2 Homework Tree: [HW 2-2: p.008 Ex 1,2,3] + [HW 3-2: p.011 Ex 1,2 &amp; p.012 Ex 3]
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 2.4: PPT 第1课《AI小语，你好！》 TEXT CONTEXTS, MISSED COLLOCATIONS & TONGUE TWISTER 1-7 -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-indigo-700 flex items-center gap-2">
+            <span>[DIAGRAM 2.4]</span>
+            <span>──►</span>
+            <span>PPT Lesson 1《AI小语，你好！》 Text 1–3 Contexts, Extra Slide Examples &amp; Tongue Twister (1-7)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 text-xs">
+
+            <!-- Left 7 Cols: PPT Text 1-3 Story Contexts & Missed Vocabulary Sentences -->
+            <div class="col-span-7 p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-3">
+              <div class="font-mono font-bold text-slate-900 uppercase">📖 PPT《第1课》Text 1–3 Contexts &amp; Slide Sentences (Pages 1–3)</div>
+
+              <div class="grid grid-cols-3 gap-2">
+                <div class="p-2.5 rounded-xl bg-white border border-sky-200 space-y-1">
+                  <div class="font-mono font-extrabold text-sky-900 text-[11px]">Text 1 (1-1 • P1)</div>
+                  <div class="text-[11px] text-slate-600">Office first day: Wang Yifei (王一飞) greets AI assistant Xiaoyu (小语).</div>
+                  <button type="button" data-speak="你好王老师同学你好" data-label="Nǐ hǎo, Wáng lǎoshī! Tóngxué, nǐ hǎo!" class="speak-btn w-full p-1.5 rounded bg-sky-50 border border-sky-200 text-left text-[11px] font-bold">
+                    你好，王老师！ / 同学，你好！ 🔊
+                  </button>
+                </div>
+                <div class="p-2.5 rounded-xl bg-white border border-indigo-200 space-y-1">
+                  <div class="font-mono font-extrabold text-indigo-900 text-[11px]">Text 2 (1-3 • P2)</div>
+                  <div class="text-[11px] text-slate-600">Classroom greetings: 大家, 学生, 们, 老师, 您, 你们.</div>
+                  <button type="button" data-speak="老师您好大家好谢谢大家" data-label="Lǎoshī nín hǎo! Dàjiā hǎo! Xièxie dàjiā!" class="speak-btn w-full p-1.5 rounded bg-indigo-50 border border-indigo-200 text-left text-[11px] font-bold">
+                    老师您好！ / 大家好！ 🔊
+                  </button>
+                </div>
+                <div class="p-2.5 rounded-xl bg-white border border-emerald-200 space-y-1">
+                  <div class="font-mono font-extrabold text-emerald-900 text-[11px]">Text 3 (1-5 • P3)</div>
+                  <div class="text-[11px] text-slate-600">Gratitude &amp; farewell: 谢谢, 不客气, 同学, 再见.</div>
+                  <button type="button" data-speak="再见明天见我下班了再见" data-label="Zàijiàn, míngtiān jiàn! Wǒ xiàbān le, zàijiàn." class="speak-btn w-full p-1.5 rounded bg-emerald-50 border border-emerald-200 text-left text-[11px] font-bold">
+                    再见，明天见！ / 我下班了 🔊
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-2">
+                <div class="font-mono font-bold text-slate-800 uppercase text-[11px]">🔍 Key Slide Collocations &amp; Sentences (Added from《第1课》PPT):</div>
+                <div class="grid grid-cols-2 gap-2">
+                  <button type="button" data-speak="他学习很好我中文不好" data-label="Tā xuéxí hěn hǎo. Wǒ Zhōngwén bù hǎo." class="speak-btn node-card p-2 rounded-lg bg-slate-50 border border-slate-200 text-left">
+                    <strong>好 (hǎo):</strong> 他学习很好。 / 我中文不好。 🔊<br><span class="text-[10px] text-slate-500">He studies well. / My Chinese isn't good.</span>
+                  </button>
+                  <button type="button" data-speak="小学生中学生大学生你们学校有多少学生" data-label="xiǎoxuéshēng / zhōngxuéshēng / dàxuéshēng — Nǐmen xuéxiào yǒu duōshao xuéshēng?" class="speak-btn node-card p-2 rounded-lg bg-slate-50 border border-slate-200 text-left">
+                    <strong>学生 (xuéshēng):</strong> 小学生 / 中学生 / 大学生 🔊<br><span class="text-[10px] text-slate-500">你们学校有多少学生？(How many students?)</span>
+                  </button>
+                  <button type="button" data-speak="他们正在上课她是我的中文老师" data-label="Tāmen zhèngzài shàngkè. Tā shì wǒ de Zhōngwén lǎoshī." class="speak-btn node-card p-2 rounded-lg bg-slate-50 border border-slate-200 text-left">
+                    <strong>们 &amp; 老师:</strong> 他们正在上课。 / 她是我的中文老师。 🔊<br><span class="text-[10px] text-slate-500">They are in class. / She is my Chinese teacher.</span>
+                  </button>
+                  <button type="button" data-speak="您去哪儿你们是哪里人我和他是同学" data-label="Nín qù nǎr? Nǐmen shì nǎlǐ rén? Wǒ hé tā shì tóngxué." class="speak-btn node-card p-2 rounded-lg bg-slate-50 border border-slate-200 text-left">
+                    <strong>您 / 你们 / 同学:</strong> 您去哪儿？ / 我和他是同学。 🔊<br><span class="text-[10px] text-slate-500">Where are you going? / He &amp; I are classmates.</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 5 Cols: PPT 1-7 Tongue Twister (Minimal Tone Practice on "ma") -->
+            <div class="col-span-5 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-3 flex flex-col justify-between">
+              <div class="space-y-2.5">
+                <div class="font-mono font-bold text-amber-950 uppercase">👅 PPT (1-7) Shadow the Tongue Twister (跟读绕口令)</div>
+                <button type="button" data-speak="妈种麻我放马马吃麻妈骂马" data-label="Mā zhòng má, wǒ fàng mǎ. Mǎ chī má, mā mà mǎ." class="speak-btn node-card w-full p-4 rounded-xl bg-slate-900 text-white text-left space-y-2 border-2 border-amber-400">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-extrabold">4-Tone "ma" Drill</span>
+                    <span>🔊</span>
+                  </div>
+                  <div class="text-base font-black text-amber-200 leading-relaxed">
+                    妈种麻，我放马。<br>马吃麻，妈骂马。
+                  </div>
+                  <div class="font-mono text-xs text-sky-300 font-bold">
+                    Mā zhòng má, wǒ fàng mǎ.<br>Mǎ chī má, mā mà mǎ.
+                  </div>
+                  <div class="text-[11px] text-slate-300">
+                    "Mom plants flax. I tend the horse. The horse eats the flax. Mom scolds the horse."
+                  </div>
+                </button>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white border border-amber-200 font-mono text-[11px] grid grid-cols-4 gap-1 text-center font-bold">
+                <div class="p-1 rounded bg-sky-50 text-sky-900">1st ─<br>妈 mā<br><span class="text-[10px] font-normal">Mom</span></div>
+                <div class="p-1 rounded bg-indigo-50 text-indigo-900">2nd ↗<br>麻 má<br><span class="text-[10px] font-normal">Flax</span></div>
+                <div class="p-1 rounded bg-amber-50 text-amber-900">3rd ∨<br>马 mǎ<br><span class="text-[10px] font-normal">Horse</span></div>
+                <div class="p-1 rounded bg-rose-50 text-rose-900">4th ↘<br>骂 mà<br><span class="text-[10px] font-normal">Scold</span></div>
               </div>
             </div>
 
@@ -1995,6 +2139,58 @@
             </div>
 
           </div>
+
+          <!-- Backfill Panel: PPT 第2课《我叫李文》 Text 1-3 Contexts, Extra Slide Examples & Tongue Twister 2-7 -->
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 pt-4 border-t-2 border-dashed border-slate-300 text-xs">
+            <div class="col-span-7 p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2.5">
+              <div class="font-mono font-bold text-slate-900 uppercase">📖 PPT《第2课》Text 1–3 Contexts &amp; Slide Sentences (Pages 6–8)</div>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="p-2 rounded-xl bg-white border border-sky-200 space-y-1">
+                  <div class="font-mono font-extrabold text-sky-900 text-[11px]">Text 1 (2-1 • P6)</div>
+                  <div class="text-[11px] text-slate-600">Classroom: Wang Yifei gets to know students.</div>
+                  <button type="button" data-speak="我的猫叫Coco这个名字真好" data-label="Wǒ de māo jiào Coco. Zhège míngzi zhēn hǎo." class="speak-btn w-full p-1 rounded bg-sky-50 text-left font-bold text-[10px]">我的猫叫 Coco / 这个名字真好 🔊</button>
+                </div>
+                <div class="p-2 rounded-xl bg-white border border-rose-200 space-y-1">
+                  <div class="font-mono font-extrabold text-rose-900 text-[11px]">Text 2 (2-3 • P7)</div>
+                  <div class="text-[11px] text-slate-600">Campus: Chen Tianzhong mistakes Bai Jiayue for someone else.</div>
+                  <button type="button" data-speak="我不是白家月对不起没关系没事" data-label="Wǒ bú shì Bái Jiāyuè. Duìbuqǐ! Méi guānxi / Méishì." class="speak-btn w-full p-1 rounded bg-rose-50 text-left font-bold text-[10px]">我不是白家月 / 没关系 / 没事 🔊</button>
+                </div>
+                <div class="p-2 rounded-xl bg-white border border-emerald-200 space-y-1">
+                  <div class="font-mono font-extrabold text-emerald-900 text-[11px]">Text 3 (2-5 • P8)</div>
+                  <div class="text-[11px] text-slate-600">Campus: Li Wen &amp; Bai Jiayue meet for the first time.</div>
+                  <button type="button" data-speak="我们很高兴你认识他吗我不认识他" data-label="Wǒmen hěn gāoxìng. Nǐ rènshi tā ma? Wǒ bú rènshi tā." class="speak-btn w-full p-1 rounded bg-emerald-50 text-left font-bold text-[10px]">我们很高兴 / 不认识他 🔊</button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-speak="她是谁她的名字叫什么他什么时候来我也去" data-label="Extra Slide Sentences: Tā shì shéi? Tā de míngzi jiào shénme? Tā shénme shíhou lái? Wǒ yě qù." class="speak-btn node-card p-2 rounded-lg bg-white border border-slate-200 text-left text-[11px]">
+                  <strong>Extra PPT Examples:</strong> 她的名字叫什么？ • 他什么时候来？ • 我也去。 🔊
+                </button>
+                <button type="button" data-speak="不能不对你为什么不高兴你也认识她" data-label="bù néng / bú duì • Nǐ wèishénme bù gāoxìng? Nǐ yě rènshi tā?" class="speak-btn node-card p-2 rounded-lg bg-white border border-slate-200 text-left text-[11px]">
+                  <strong>Negative &amp; 也 Drill:</strong> 不能 / 不对 • 你为什么不高兴？ • 你也认识她？ 🔊
+                </button>
+              </div>
+            </div>
+
+            <div class="col-span-5 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-2">
+              <div class="font-mono font-bold text-amber-950 uppercase">👅 PPT (2-7) Tongue Twister (跟读绕口令 — 7+1-1)</div>
+              <button type="button" data-speak="七加一再减一加完减完等于几加完减完还是七" data-label="Qī jiā yī, zài jiǎn yī, jiāwán jiǎnwán děngyú jǐ? Jiāwán jiǎnwán háishì qī." class="speak-btn node-card w-full p-3.5 rounded-xl bg-slate-900 text-white text-left space-y-1.5 border border-amber-400">
+                <div class="flex justify-between items-center">
+                  <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-extrabold">j/q/x Nasal &amp; Tone Rhythm</span>
+                  <span>🔊</span>
+                </div>
+                <div class="text-sm font-black text-amber-200">
+                  七加一，再减一，加完减完等于几？<br>加完减完还是七。
+                </div>
+                <div class="font-mono text-[11px] text-sky-300 font-bold">
+                  Qī jiā yī, zài jiǎn yī, jiāwán jiǎnwán děngyú jǐ?<br>Jiāwán jiǎnwán háishì qī.
+                </div>
+                <div class="text-[10px] text-slate-300">
+                  "Seven plus one, minus one again. Add it up, take it down, what's the gain? Still just seven!"
+                </div>
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </section>
@@ -2339,6 +2535,34 @@
                   <div class="text-[10px] text-amber-800 font-bold">adj. busy (2nd tone)</div>
                   <div class="text-[10px] text-slate-500 mt-0.5">很忙 / 不太忙 / 还忙吗？</div>
                 </button>
+                <button type="button" data-speak="你有工作吗" data-label="ma (吗) — modal particle for yes-no questions" class="speak-btn node-card p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                  <div class="flex justify-between"><strong class="text-sm text-slate-900">吗 (ma)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-amber-800 font-bold">part. question ending (Neutral)</div>
+                  <div class="text-[10px] text-slate-500 mt-0.5">你有工作吗？ / 你认识中国人吗？</div>
+                </button>
+                <button type="button" data-speak="对他是中国人" data-label="duì (对) — adj. right; correct" class="speak-btn node-card p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                  <div class="flex justify-between"><strong class="text-sm text-slate-900">对 (duì)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-amber-800 font-bold">adj. right (4th tone)</div>
+                  <div class="text-[10px] text-slate-500 mt-0.5">很对 / 不对 / 对不对 / 对，他是…</div>
+                </button>
+                <button type="button" data-speak="他太忙了太好了" data-label="tài (太) — adv. too; excessively" class="speak-btn node-card p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                  <div class="flex justify-between"><strong class="text-sm text-slate-900">太 (tài)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-amber-800 font-bold">adv. too; excessively</div>
+                  <div class="text-[10px] text-slate-500 mt-0.5">他太忙了。 / 太好了！</div>
+                </button>
+                <button type="button" data-speak="我们是同学我们一起去上学" data-label="wǒmen (我们) — pron. we; us" class="speak-btn node-card p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                  <div class="flex justify-between"><strong class="text-sm text-slate-900">我们 (wǒmen)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-amber-800 font-bold">pron. we / us</div>
+                  <div class="text-[10px] text-slate-500 mt-0.5">我们是同学。 / 一起去上学</div>
+                </button>
+                <button type="button" data-speak="我想你了他很想她" data-label="xiǎng (想) — v. miss" class="speak-btn node-card p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                  <div class="flex justify-between"><strong class="text-sm text-slate-900">想 (xiǎng)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-amber-800 font-bold">v. miss (3rd tone)</div>
+                  <div class="text-[10px] text-slate-500 mt-0.5">我想你了。 / 他很想她。</div>
+                </button>
+              </div>
+              <div class="text-[10px] font-mono text-amber-900 bg-white/80 p-2 rounded-lg border border-amber-200">
+                📖 <strong>PPT Contexts:</strong> Text 2 (3-3 P12: 安妮 &amp; 陈天中 looking at cell phone photos) • Text 3 (3-5 P14: 王一雪 video-calling 王一飞 at home)
               </div>
             </div>
 
@@ -2411,6 +2635,28 @@
                   </button>
                   <button type="button" data-speak="我老师不是法国人" data-label="(3) Wǒ lǎoshī bú shì Fǎguórén. (My teacher is not French.)" class="speak-btn p-2 rounded-lg bg-white border border-rose-300 text-left">
                     <strong>(3) 我老师不是法国人。</strong> 🔊<br><span class="text-[10px] text-rose-700">Negative: 不是 (bú shì)</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Small Block 4 (PPT Slide 53): Yes-No Question with "吗" -->
+              <div class="p-3.5 rounded-2xl bg-sky-50 border-2 border-sky-300 space-y-2">
+                <div class="font-mono font-bold text-sky-950 uppercase flex items-center justify-between">
+                  <span>小语讲堂 4: 用“吗”的是非问句 (Yes-No Question with “吗”)</span>
+                  <span class="px-2 py-0.5 rounded bg-sky-600 text-white text-[10px]">……吗？</span>
+                </div>
+                <div class="text-[11px] text-slate-700">
+                  “吗” (ma) is a modal particle placed at the <strong>end of a statement</strong> to turn it into a Yes-No question:
+                </div>
+                <div class="grid grid-cols-3 gap-2 font-mono text-[11px]">
+                  <button type="button" data-speak="你也很忙吗" data-label="(1) Nǐ yě hěn máng ma? (Are you also busy?)" class="speak-btn p-2 rounded-lg bg-white border border-sky-200 text-left">
+                    <strong>(1) 你也很忙吗？</strong> 🔊
+                  </button>
+                  <button type="button" data-speak="你是他的中文老师吗" data-label="(2) Nǐ shì tā de Zhōngwén lǎoshī ma?" class="speak-btn p-2 rounded-lg bg-white border border-sky-200 text-left">
+                    <strong>(2) 你是他的中文老师吗？</strong> 🔊
+                  </button>
+                  <button type="button" data-speak="你有姐姐吗" data-label="(3) Nǐ yǒu jiějie ma? (yǒu 有 = have)" class="speak-btn p-2 rounded-lg bg-white border border-sky-200 text-left">
+                    <strong>(3) 你有姐姐吗？</strong> 🔊<br><span class="text-[10px] text-sky-700">yǒu (有) = have</span>
                   </button>
                 </div>
               </div>
@@ -2670,6 +2916,751 @@
             </div>
 
           </div>
+
+          <!-- Backfill Panel: PPT 第3课 Tongue Twister 3-7 & Missed Slide Examples -->
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 pt-4 border-t-2 border-dashed border-slate-300 text-xs">
+            <div class="col-span-6 p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 space-y-2">
+              <div class="font-mono font-bold text-slate-900 uppercase">📖 Extra PPT《第3课》Slide Collocations &amp; Sentences (P10–P17)</div>
+              <div class="grid grid-cols-2 gap-2 font-mono text-[11px]">
+                <button type="button" data-speak="同学们一起学中文他在中国学习" data-label="Tóngxuémen yìqǐ xué Zhōngwén. Tā zài Zhōngguó xuéxí." class="speak-btn p-2 rounded-lg bg-white border border-slate-200 text-left">
+                  <strong>中文 / 中国:</strong> 同学们一起学中文。 / 他在中国学习。 🔊
+                </button>
+                <button type="button" data-speak="两国学生是朋友谁认识法国人" data-label="Liǎng guó xuésheng shì péngyou. Shéi rènshi Fǎguórén?" class="speak-btn p-2 rounded-lg bg-white border border-slate-200 text-left">
+                  <strong>国 / 谁:</strong> 两国学生是朋友。 / 谁认识法国人？ 🔊
+                </button>
+                <button type="button" data-speak="你喜欢什么工作她们没有姐姐" data-label="Nǐ xǐhuan shénme gōngzuò? Tāmen méiyǒu jiějie." class="speak-btn p-2 rounded-lg bg-white border border-slate-200 text-left">
+                  <strong>工作 / 姐姐:</strong> 你喜欢什么工作？ / 没有工作 / 一个姐姐 🔊
+                </button>
+                <button type="button" data-speak="她还在泰国吗我今天不忙" data-label="Tā hái zài Tàiguó ma? Wǒ jīntiān bù máng." class="speak-btn p-2 rounded-lg bg-white border border-slate-200 text-left">
+                  <strong>还 / 忙:</strong> 她还在泰国吗？ / 我今天不忙 / 忙不忙 🔊
+                </button>
+              </div>
+            </div>
+
+            <div class="col-span-6 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-2">
+              <div class="font-mono font-bold text-amber-950 uppercase">👅 PPT (3-7) Shadow the Tongue Twister (跟读绕口令 — s vs. sh)</div>
+              <button type="button" data-speak="四是四十是十十四是十四四十是四十" data-label="Sì shì sì, shí shì shí. Shísì shì shísì, sìshí shì sìshí." class="speak-btn node-card w-full p-3.5 rounded-xl bg-slate-900 text-white text-left space-y-1.5 border border-amber-400">
+                <div class="flex justify-between items-center">
+                  <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-mono text-[10px] font-extrabold">4 (sì) vs. 10 (shí) vs. 14 (shísì) vs. 40 (sìshí)</span>
+                  <span>🔊</span>
+                </div>
+                <div class="text-sm font-black text-amber-200">
+                  四是四，十是十。十四是十四，四十是四十。
+                </div>
+                <div class="font-mono text-[11px] text-sky-300 font-bold">
+                  Sì shì sì, shí shì shí. Shísì shì shísì, sìshí shì sìshí.
+                </div>
+                <div class="text-[10px] text-slate-300">
+                  "Four is four. Ten is ten. Fourteen is fourteen. Forty is forty." (Workbook Review P16–17)
+                </div>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- VIEW LESSON 6: 2026年11月9日 — PPT 第4课《我有两个孩子》 & BLACKBOARD    -->
+      <!-- ========================================================================= -->
+      <section id="view-lesson6" class="lesson-section hidden space-y-8">
+
+        <!-- Lesson 6 Structural Header Banner -->
+        <div class="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-lg flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b-4 border-amber-500">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold tracking-wider uppercase mb-2">
+              2026年11月9日 • 09.11.2026 │ Class 6: 《第4课》我有两个孩子 + Blackboard Formulas
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Class 6 Mind-Map: Family Size, Age Inquiry, Measure Words &amp; Master Formulas</h2>
+            <p class="text-slate-300 text-sm mt-1">
+              Based on PPT Lesson 4《我有两个孩子》(P19–P25) + Teacher Zhao's Chalkboard Formulas 1 &amp; 2 ("吗?" vs. QW Exclusion Rule &amp; 年纪).
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-speak="我家有四口人我有两个孩子" data-label="Wǒ jiā yǒu sì kǒu rén. Wǒ yǒu liǎng gè háizi." class="speak-btn px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow transition">
+              🔊 Speak: 我有两个孩子
+            </button>
+            <button type="button" data-speak="你家有几口人你儿子今年几岁" data-label="Nǐ jiā yǒu jǐ kǒu rén? Nǐ érzi jīnnián jǐ suì?" class="speak-btn px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold text-xs shadow transition">
+              🔊 Speak: 你家有几口人？
+            </button>
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 6.1: WARM-UP, TEXT 1 (4-2) & TEXT 2 (4-4 FAMILY TREE) -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-amber-700 flex items-center gap-2">
+            <span>[DIAGRAM 6.1]</span>
+            <span>──►</span>
+            <span>Lesson 4 Warm-Up (热身), Text 1 (生词 4-2: 有/多少/个) &amp; Text 2 (生词 4-4: Family Members)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6">
+
+            <!-- Left 5 Cols: Warm-up + Text 1 (4-2) -->
+            <div class="col-span-5 space-y-4">
+              <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-300 space-y-2">
+                <div class="font-mono text-xs font-bold text-slate-900 uppercase">🔥 热身 (Warm-Up Match) &amp; 📖 Text 1 (4-1 • P19)</div>
+                <div class="text-[11px] text-slate-600">
+                  Liu Ming (刘明) &amp; Wang Yixue (王一雪) chatting at home • Warm-up words: <strong>五 (wǔ) • 哥哥 (gēge) • 学生 (xuéshēng) • 六十岁 (liùshí suì) • 妈妈 (māma) • 老师 (lǎoshī)</strong>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-2.5">
+                <div class="font-mono text-xs font-bold text-amber-950 uppercase">📦 Text 1 New Words (生词 4-2)</div>
+                <div class="space-y-2">
+                  <button type="button" data-speak="有他有女朋友你有法国同学吗" data-label="yǒu (有) — v. have: Tā yǒu nǚpéngyou. Nǐ yǒu Fǎguó tóngxué ma?" class="speak-btn node-card w-full p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                    <div class="flex justify-between items-center">
+                      <strong class="text-sm text-slate-900">1. 有 (yǒu)</strong>
+                      <span class="font-mono text-[10px] text-amber-800 font-bold">v. have 🔊</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 mt-0.5">他有女朋友。 / 你有法国同学吗？ (Neg: 没 / 没有)</div>
+                  </button>
+                  <button type="button" data-speak="多少你还有多少钱你们学校有多少学生" data-label="duōshao (多少) — pron. how many/much" class="speak-btn node-card w-full p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                    <div class="flex justify-between items-center">
+                      <strong class="text-sm text-slate-900">2. 多少 (duōshao)</strong>
+                      <span class="font-mono text-[10px] text-amber-800 font-bold">pron. how many/much 🔊</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 mt-0.5">你还有多少钱？ / 你们学校有多少学生？</div>
+                  </button>
+                  <button type="button" data-speak="个我有一个姐姐他是一个学生" data-label="gè (个) — m. general measure word: yí gè, jǐ gè, duōshao gè" class="speak-btn node-card w-full p-2.5 rounded-xl bg-white border border-amber-200 text-left">
+                    <div class="flex justify-between items-center">
+                      <strong class="text-sm text-slate-900">3. 个 (gè / ge)</strong>
+                      <span class="font-mono text-[10px] text-amber-800 font-bold">m. general M.W. 🔊</span>
+                    </div>
+                    <div class="text-[11px] text-slate-600 mt-0.5">我有一个姐姐。 / 一个 • 几个 • 多少个</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 7 Cols: Text 2 (4-3 P22) + Family Tree New Words (4-4) -->
+            <div class="col-span-7 p-4 rounded-2xl bg-sky-50 border-2 border-sky-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="font-mono text-xs font-bold text-sky-950 uppercase">👨‍👩‍👧‍👦 Text 2 (4-3 • P22): Family Members &amp; New Words (生词 4-4)</div>
+                <span class="px-2 py-0.5 rounded bg-sky-600 text-white font-mono text-[10px] font-bold">10 Words</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white border border-sky-200 text-[11px] text-slate-700 font-mono">
+                📖 <strong>Text 2 Context:</strong> At the company break, Wang Yixue &amp; Yang Tongle chat ──► Listening Check: <strong>杨同乐有一个妹妹 (A)</strong> • <strong>杨同乐家有四口人 (B)</strong>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-speak="哥哥他是我哥哥" data-label="gēge (哥哥) — elder brother" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">哥哥 (gēge)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">n. elder brother │ 一个哥哥 / 我哥哥</div>
+                </button>
+                <button type="button" data-speak="妹妹她是我妹妹" data-label="mèimei (妹妹) — younger sister" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">妹妹 (mèimei)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">n. younger sister │ 一个妹妹 / 几个妹妹</div>
+                </button>
+                <button type="button" data-speak="爸爸我爸爸的工作很忙" data-label="bàba (爸爸) — father" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">爸爸 (bàba)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">n. father │ 我爸爸的工作很忙。</div>
+                </button>
+                <button type="button" data-speak="妈妈他妈妈在法国" data-label="māma (妈妈) — mother" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">妈妈 (māma)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">n. mother │ 他妈妈在法国。 / 我很想妈妈。</div>
+                </button>
+                <button type="button" data-speak="家我家有三口人" data-label="jiā (家) — family; home" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">家 (jiā)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">n. family │ 你家 / 我家有三口人。 / 她家没有狗。</div>
+                </button>
+                <button type="button" data-speak="口几口人三口人我家有五口人" data-label="kǒu (口) — measure word for family members" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">几 (jǐ) &amp; 口 (kǒu)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">jǐ = how many (small) │ kǒu = M.W. for family (几口人)</div>
+                </button>
+                <button type="button" data-speak="没有我没有哥哥他还没有女朋友" data-label="méiyǒu (没有) — v. not have" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">没有 (méiyǒu)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">v. not have │ 我没有哥哥。(Never "不有"!)</div>
+                </button>
+                <button type="button" data-speak="呢和我和她是同学你呢" data-label="ne (呢) modal particle & hé (和) conjunction and" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <div class="flex justify-between"><strong class="text-slate-900">呢 (ne) &amp; 和 (hé)</strong><span>🔊</span></div>
+                  <div class="text-[10px] text-slate-600">ne: "…what about you?" │ hé: "and" (哥哥和妹妹)</div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 6.2: TEXT 3 (4-5 P24), NEW WORDS 4-6 & AGE INQUIRY TREE -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-indigo-700 flex items-center gap-2">
+            <span>[DIAGRAM 6.2]</span>
+            <span>──►</span>
+            <span>Text 3 (4-5 • P24), New Words (生词 4-6) &amp; Age Inquiry Branching (几岁 vs. 多大 vs. 年纪)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6">
+
+            <!-- Left 7 Cols: New Words 4-6 -->
+            <div class="col-span-7 p-4 rounded-2xl bg-indigo-50 border-2 border-indigo-200 space-y-3">
+              <div class="font-mono text-xs font-bold text-indigo-950 uppercase">📖 Text 3 Context (4-5 • P24) &amp; New Words (生词 4-6)</div>
+              <div class="p-2 rounded-lg bg-white border border-indigo-200 text-[11px] text-slate-700 font-mono">
+                Street encounter: Wang Yixue &amp; her son bump into Yang Tongle ──► <strong>王一雪有两个孩子 (B)</strong> • <strong>女儿今年十二岁 (B)</strong>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-speak="儿子他是李老师的儿子" data-label="érzi (儿子) — n. son" class="speak-btn node-card p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong class="text-slate-900">1. 儿子 (érzi)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. son │ 家里的第一个儿子</span>
+                </button>
+                <button type="button" data-speak="孩子我们都是她的孩子" data-label="háizi (孩子) — n. children" class="speak-btn node-card p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong class="text-slate-900">2. 孩子 (háizi)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. children │ 他还是一个孩子。</span>
+                </button>
+                <button type="button" data-speak="女儿她喜欢女儿" data-label="nǚ'ér (女儿) — n. daughter" class="speak-btn node-card p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong class="text-slate-900">3. 女儿 (nǚ'ér)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. daughter │ 第二个女儿 / 大女儿</span>
+                </button>
+                <button type="button" data-speak="岁你几岁了我十岁了" data-label="suì (岁) — m. year of age" class="speak-btn node-card p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong class="text-slate-900">4. 岁 (suì)</strong> 🔊<br><span class="text-[10px] text-slate-600">m. year (of age) │ 你几岁了？我十岁了。</span>
+                </button>
+                <button type="button" data-speak="他他是我同学今年" data-label="tā (他 — he/him) & jīnnián (今年 — this year)" class="speak-btn node-card p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong class="text-slate-900">5. 他 (tā) &amp; 6. 今年 (jīnnián)</strong> 🔊<br><span class="text-[10px] text-slate-600">he/him │ this year (今年是2026年。)</span>
+                </button>
+                <button type="button" data-speak="多大大你儿子多大她才两岁大" data-label="duō (多 how) & dà (大 old of age)" class="speak-btn node-card p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong class="text-slate-900">7. 多 (duō) &amp; 8. 大 (dà)</strong> 🔊<br><span class="text-[10px] text-slate-600">duō = how/what extent (多贵？500块!) │ dà = age old</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right 5 Cols: Asking Age Tree (PPT Age Objectives + Blackboard "niánjì?") -->
+            <div class="col-span-5 p-4 rounded-2xl bg-slate-900 text-white space-y-3">
+              <div class="font-mono text-xs font-bold text-amber-300 uppercase">🎂 Age Inquiry Branching (年龄问答 + Chalkboard Note)</div>
+              <div class="space-y-2.5 text-xs">
+                <button type="button" data-speak="你儿子今年几岁" data-label="Children (~1–10 yrs): jǐ suì? (几岁？)" class="speak-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-sky-500/40 text-left">
+                  <div class="font-mono text-sky-300 font-bold">1. Children (~1–10 years old):</div>
+                  <strong>……几岁？ (jǐ suì?)</strong> 🔊<br>
+                  <span class="text-[11px] text-slate-300">e.g. 王一雪儿子今年几岁？ / 他十岁。</span>
+                </button>
+                <button type="button" data-speak="他姐姐今年多大" data-label="Peers & General Age: duō dà? (多大？)" class="speak-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-emerald-500/40 text-left">
+                  <div class="font-mono text-emerald-300 font-bold">2. Teens / Adults / General:</div>
+                  <strong>……多大？ / 多大了？ (duō dà?)</strong> 🔊<br>
+                  <span class="text-[11px] text-slate-300">e.g. 他姐姐今年多大？ / 你儿子多大？</span>
+                </button>
+                <button type="button" data-speak="多大年纪" data-label="Elders / Polite Age (Teacher Zhao Blackboard): ……niánjì? (年纪)" class="speak-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-amber-400 text-left">
+                  <div class="font-mono text-amber-300 font-bold">3. Polite / Elders (Blackboard Left Note):</div>
+                  <strong>……niánjì? (多大年纪？ / 年纪)</strong> 🔊<br>
+                  <span class="text-[11px] text-slate-300">Chalkboard: <span class="font-mono text-amber-200">...... niánjì ?</span> — respectful way to ask elders' age.</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 6.3: GRAMMAR (小语讲堂 4 SLIDES: 有, 呢, 名量结构, NUMBER SYSTEM) -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-emerald-700 flex items-center gap-2">
+            <span>[DIAGRAM 6.3]</span>
+            <span>──►</span>
+            <span>PPT《小语讲堂》Grammar Tree: “有”字句(1), Modal “呢”(1), Measure Structure &amp; Numbers (0–10,000 + 二 vs 两)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-5 text-xs">
+
+            <!-- Box 1: 有 Sentence -->
+            <div class="col-span-4 p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 space-y-2.5">
+              <div class="font-mono font-bold text-emerald-950 uppercase">1. “有”字句 (1) — Possession</div>
+              <div class="p-2 rounded-lg bg-white border border-emerald-200 font-mono">
+                ✅ <strong>S + 有 + O</strong><br>
+                ❌ <strong>S + 没 / 没有 + O</strong> <span class="text-rose-700 font-bold">(NEVER 不有!)</span>
+              </div>
+              <div class="space-y-1.5">
+                <button type="button" data-speak="她有二十个学生" data-label="Tā yǒu èrshí gè xuésheng." class="speak-btn w-full p-2 rounded-lg bg-white border border-emerald-200 text-left font-bold">
+                  (1) 她有二十个学生。 🔊
+                </button>
+                <button type="button" data-speak="她有一个姐姐" data-label="Tā yǒu yí gè jiějie." class="speak-btn w-full p-2 rounded-lg bg-white border border-emerald-200 text-left font-bold">
+                  (2) 她有一个姐姐。 🔊
+                </button>
+                <button type="button" data-speak="我没有姐姐" data-label="Wǒ méi / méiyǒu jiějie." class="speak-btn w-full p-2 rounded-lg bg-rose-50 border border-rose-300 text-left font-bold text-rose-900">
+                  (3) 我没 / 没有姐姐。 🔊
+                </button>
+              </div>
+            </div>
+
+            <!-- Box 2: Particle 呢 & Num+M+(N) -->
+            <div class="col-span-4 p-4 rounded-2xl bg-purple-50 border-2 border-purple-200 space-y-2.5">
+              <div class="font-mono font-bold text-purple-950 uppercase">2. “呢” (1) &amp; 3. 名量结构 [Num+M+(N)]</div>
+              <div class="p-2.5 rounded-lg bg-white border border-purple-200 space-y-1">
+                <div class="font-mono font-bold text-purple-900">A……，B呢？ (Return previous question)</div>
+                <button type="button" data-speak="我有两个哥哥你呢" data-label="Wǒ yǒu liǎng gè gēge, nǐ ne?" class="speak-btn block w-full text-left text-[11px] hover:underline">• 我有两个哥哥，<strong>你呢？</strong> 🔊</button>
+                <button type="button" data-speak="我叫白家月你呢" data-label="Wǒ jiào Bái Jiāyuè, nǐ ne?" class="speak-btn block w-full text-left text-[11px] hover:underline">• 我叫白家月，<strong>你呢？</strong> 🔊</button>
+                <button type="button" data-speak="我是中国人你呢" data-label="Wǒ shì Zhōngguórén, nǐ ne?" class="speak-btn block w-full text-left text-[11px] hover:underline">• 我是中国人，<strong>你呢？</strong> 🔊</button>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white border border-purple-200 space-y-1">
+                <div class="font-mono font-bold text-purple-900">Numeral + Measure Word + (Noun):</div>
+                <button type="button" data-speak="四口人两个学生" data-label="sì kǒu rén (four family members) • liǎng gè xuésheng (two students)" class="speak-btn w-full text-left text-[11px] font-bold">
+                  四口 / 四口人 • 两个 / 两个学生 🔊
+                </button>
+                <div class="text-[10px] text-slate-500">Chinese numerals must attach a measure word (口, 个, etc.) before nouns!</div>
+              </div>
+            </div>
+
+            <!-- Box 3: Expression of Numbers (P20-21) -->
+            <div class="col-span-4 p-4 rounded-2xl bg-slate-900 text-white space-y-2.5">
+              <div class="font-mono font-bold text-amber-300 uppercase">4. 数字的表达 (Numbers • P20–21)</div>
+              <div class="text-[11px] text-slate-300">
+                Two scripts: <strong>Arabic ("1")</strong> vs. <strong>Hanzi ("一")</strong>.
+              </div>
+              <div class="p-2 rounded-lg bg-slate-800 border border-slate-700 font-mono text-[11px] space-y-1">
+                <div><strong>(1) 0–99:</strong> 十 (10) • 二十五 (25) • 九十九 (99)</div>
+                <div><strong>(2) 百(100) – 千(1k) – 万(10k):</strong> 一百 (100) • 一千 (1,000) • 一万 (10,000)</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-amber-950/70 border border-amber-400 space-y-1">
+                <div class="font-mono font-extrabold text-amber-300">(3) CRITICAL: “二 (èr)” vs. “两 (liǎng)”</div>
+                <div class="text-[11px]">• <strong>二 (èr):</strong> counting (一二三), tens (十二, 二十), room/bus #</div>
+                <button type="button" data-speak="两个孩子两口人两百两千" data-label="liǎng gè háizi, liǎng kǒu rén, liǎng bǎi, liǎng qiān" class="speak-btn text-left text-[11px] text-emerald-300 font-bold underline">
+                  • <strong>两 (liǎng):</strong> before M.W. &amp; 百/千/万 ──► 两个孩子, 两口人, 两百 🔊
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 6.4: TEACHER ZHAO'S CLASS 6 BLACKBOARD MASTER FORMULAS & QUESTION EXCLUSION LAW -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-rose-700 flex items-center gap-2">
+            <span>[DIAGRAM 6.4]</span>
+            <span>──►</span>
+            <span>Chalkboard Snapshot: Master Formula 1, Formula 2 (“还”) &amp; The Question Exclusion Law (吗? ✕和 QW)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 text-xs">
+
+            <!-- Left 8 Cols: Chalkboard Formulas 1 & 2 -->
+            <div class="col-span-8 p-5 rounded-2xl bg-slate-900 text-white space-y-4 border-2 border-slate-700">
+              <div class="font-mono text-xs font-bold text-emerald-300 uppercase">🧑‍🏫 Teacher Zhao's Class 6 Chalkboard Equations:</div>
+
+              <!-- Formula 1 -->
+              <div class="p-4 rounded-xl bg-slate-800 border border-sky-500/40 space-y-2">
+                <div class="font-mono text-xs font-extrabold text-sky-300">Formula ① — Expanded S + V + O (Time Words, Adverbs &amp; Quantifier Objects):</div>
+                <div class="flex flex-wrap items-center gap-1.5 font-mono text-xs font-bold">
+                  <span class="px-2 py-1 rounded bg-slate-700 text-amber-200">[time]</span>
+                  <span class="px-2 py-1 rounded bg-sky-700">S (你家 / 我)</span>
+                  <span class="px-2 py-1 rounded bg-slate-700 text-amber-200">[time]</span>
+                  <span>+</span>
+                  <span class="px-2 py-1 rounded bg-indigo-700">[也]</span>
+                  <span class="px-2 py-1 rounded bg-rose-700">[没有 / 不 / 很]</span>
+                  <span>+</span>
+                  <span class="px-2 py-1 rounded bg-emerald-700">V (有 / 是 / 想)</span>
+                  <span>+</span>
+                  <span class="px-2 py-1 rounded bg-purple-700">O (num.+m.w.+n. / 几口人? / 多少+(个)学生?)</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                  <button type="button" data-speak="你家有几口人我家有四口人" data-label="Nǐ jiā yǒu jǐ kǒu rén? Wǒ jiā yǒu sì kǒu rén." class="speak-btn p-2 rounded-lg bg-slate-900 border border-slate-600 text-left text-[11px]">
+                    <strong>几 (&lt; 10, M.W. required):</strong> 你家有<strong>几口</strong>人？ 🔊
+                  </button>
+                  <button type="button" data-speak="你们班有多少学生" data-label="Nǐmen bān yǒu duōshao (gè) xuésheng?" class="speak-btn p-2 rounded-lg bg-slate-900 border border-slate-600 text-left text-[11px]">
+                    <strong>多少 (any #, M.W. optional):</strong> <strong>多少+(个)</strong>学生？ 🔊
+                  </button>
+                </div>
+              </div>
+
+              <!-- Formula 2 -->
+              <div class="p-4 rounded-xl bg-slate-800 border border-amber-500/40 space-y-2">
+                <div class="font-mono text-xs font-extrabold text-amber-300">Formula ② — Adjective Predicate with “hái (还)” + Adverbs:</div>
+                <div class="flex flex-wrap items-center gap-2 font-mono text-xs font-bold">
+                  <span class="px-2.5 py-1 rounded bg-sky-700">S</span>
+                  <span>+</span>
+                  <span class="px-2.5 py-1 rounded bg-amber-600 text-slate-950">hái (还)</span>
+                  <span>+</span>
+                  <span class="px-2.5 py-1 rounded bg-rose-700">[adv: bù 不 / hěn 很 / bú tài 不太]</span>
+                  <span>+</span>
+                  <span class="px-2.5 py-1 rounded bg-emerald-700">adj.</span>
+                  <span>──►</span>
+                  <button type="button" data-speak="他还忙吗他还不太忙" data-label="S + hái + adj + ma? -> Tā hái máng ma? Tā hái bú tài máng." class="speak-btn px-2.5 py-1 rounded bg-amber-300 text-slate-950 font-black">
+                    ❓ S + hái + adj + 吗? 🔊
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 4 Cols: Question Exclusion Rule -->
+            <div class="col-span-4 p-5 rounded-2xl bg-rose-50 border-2 border-rose-400 space-y-3 flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="font-mono font-black text-rose-950 uppercase text-sm">🚫 Blackboard Question Law</div>
+                <div class="p-3 rounded-xl bg-white border-2 border-rose-300 text-center font-mono space-y-1">
+                  <div class="text-sm font-black text-slate-900">① ……吗? &nbsp; <span class="text-rose-600 text-lg">✕和</span> &nbsp; ② QW</div>
+                  <div class="text-[11px] text-rose-800 font-bold">Yes/No “吗?” and Question Words (QW) are MUTUALLY EXCLUSIVE!</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-white border border-rose-200 text-[11px] space-y-1">
+                  <div class="text-emerald-800 font-bold">✓ ① 他有妹妹吗？ (Yes/No + 吗)</div>
+                  <div class="text-emerald-800 font-bold">✓ ② 他有几个妹妹？ (QW 几 — NO 吗!)</div>
+                  <div class="text-rose-700 font-bold line-through">✗ 他有几个妹妹吗？ (NEVER combine!)</div>
+                </div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-rose-100/80 font-mono text-[11px] font-bold text-rose-950">
+                📝 Class 6 Checklist: Review P25 Comprehensive Exercises &amp; Pair Role-Play (Family + Age + 几/多少).
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- VIEW LESSON 7: 2026年11月11日 — PPT 第5课 & 第6课 + SMARTBOARD            -->
+      <!-- ========================================================================= -->
+      <section id="view-lesson7" class="lesson-section hidden space-y-8">
+
+        <!-- Lesson 7 Structural Header Banner -->
+        <div class="bg-slate-900 rounded-2xl p-6 sm:p-8 text-white shadow-lg flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b-4 border-violet-500">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/40 text-violet-300 font-mono text-xs font-bold tracking-wider uppercase mb-2">
+              2026年11月11日 • 11.11.2026 │ Class 7: 《第5课》今天我休息 &amp; 《第6课》你的手机号是多少？
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Class 7 Mind-Map: Dates, Cooking (会), Hobbies (真好看/好吃), Phone # &amp; Serial Verbs (想/怎么/坐出租车)</h2>
+            <p class="text-slate-300 text-sm mt-1">
+              Covers Smartboard Notes (11.11 Nominal Predicates &amp; 上课/说/喜欢/好吃) + PPT Lesson 5 (P28–P33) + PPT Lesson 6 (P36–P44).
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-speak="今天十一月十一号你会做饭吗" data-label="Jīntiān shíyī yuè shíyī hào. Nǐ huì zuò fàn ma?" class="speak-btn px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs shadow transition">
+              🔊 Speak: 今天11月11号
+            </button>
+            <button type="button" data-speak="你的手机号是多少我们坐出租车去西安饭店" data-label="Nǐ de shǒujī hào shì duōshao? Wǒmen zuò chūzūchē qù Xī'ān Fàndiàn." class="speak-btn px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold text-xs shadow transition">
+              🔊 Speak: 坐出租车去西安饭店
+            </button>
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 7.1: SMARTBOARD 11.11 FORMULAS + PPT L5 TEXT 1 (5-2 DATES & NOMINAL PREDICATE) -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-violet-700 flex items-center gap-2">
+            <span>[DIAGRAM 7.1]</span>
+            <span>──►</span>
+            <span>Smartboard Master Patterns (11.11) + PPT《第5课》Text 1 (生词 5-2: Dates, Weeks &amp; Nominal Predicates)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6">
+
+            <!-- Left 6 Cols: Smartboard 11.11 Equations + 名词谓语句 & Date Order -->
+            <div class="col-span-6 space-y-4">
+              <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-3 border-2 border-violet-500/40">
+                <div class="font-mono text-xs font-bold text-violet-300 uppercase">🖥️ Class 7 Smartboard Formulas (Date: 十一号 = Nov 11)</div>
+                <div class="p-3 rounded-xl bg-slate-800 border border-slate-700 font-mono text-[11px] space-y-2">
+                  <div><strong class="text-sky-300">① (time) S / (time) + V (是 / 认识) + O:</strong><br>
+                    O slots: 一些 / ?个 + n / num + m.w. │ Time domains: <em>o'clock, time, year·month·date, age, week</em>
+                  </div>
+                  <div><strong class="text-amber-300">② (time) S + adv (也 / 很 hěn) + adj</strong></div>
+                  <div class="p-2.5 rounded-lg bg-violet-950/80 border border-violet-400">
+                    <div class="text-emerald-300 font-extrabold">Nominal Predicate (S + O — NO verb “是”! For Date, Week, Age):</div>
+                    <button type="button" data-speak="今天十一号今天几号今天星期几我妹妹十二岁" data-label="Jīntiān shíyī hào. Jīntiān jǐ hào? Jīntiān xīngqī jǐ? Wǒ mèimei shí'èr suì." class="speak-btn text-left mt-1 text-white hover:underline">
+                      • 今天 <strong>十一</strong> 号 ──► 今天 <strong class="text-rose-300">几</strong> 号？ (S+O directly!) 🔊<br>
+                      • 今天 星期<strong class="text-rose-300">几</strong>？ │ 我妹妹<strong>12岁</strong>。(No 是!)
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-violet-50 border-2 border-violet-200 space-y-2">
+                <div class="font-mono text-xs font-bold text-violet-950 uppercase">📅 小语讲堂: 时间的表达 (1) — Big ──► Small Rule</div>
+                <div class="flex items-center gap-1.5 font-mono text-xs font-black text-slate-900 bg-white p-2.5 rounded-xl border border-violet-200">
+                  <span class="px-2 py-0.5 rounded bg-violet-200">年 (Year)</span> ➔
+                  <span class="px-2 py-0.5 rounded bg-violet-200">月 (Month)</span> ➔
+                  <span class="px-2 py-0.5 rounded bg-violet-200">日/号 (Date)</span> ➔
+                  <span class="px-2 py-0.5 rounded bg-violet-200">星期 (Day)</span>
+                </div>
+                <button type="button" data-speak="二零二六年十一月十一日" data-label="2026年11月11日 (Formal: 日 rì) / 11月11号 (Spoken: 号 hào)" class="speak-btn w-full p-2 rounded-lg bg-white border border-violet-200 text-left text-[11px] font-bold">
+                  e.g. 2026年3月6日 (Written/Formal: 日 rì) vs. 3月1号 (Spoken: 号 hào) 🔊
+                </button>
+              </div>
+            </div>
+
+            <!-- Right 6 Cols: PPT L5 Warm-up + Text 1 New Words 5-2 -->
+            <div class="col-span-6 p-4 rounded-2xl bg-sky-50 border-2 border-sky-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="font-mono text-xs font-bold text-sky-950 uppercase">📖 PPT《第5课》Text 1 (5-1 • P28) &amp; New Words (生词 5-2)</div>
+                <span class="px-2 py-0.5 rounded bg-sky-600 text-white font-mono text-[10px] font-bold">8 Words</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white border border-sky-200 text-[11px] text-slate-700 font-mono">
+                Text 1: Liu Ming &amp; Wang Yixue at home • Warm-Up: 2025年5月 • 星期一 • 电脑 • 做饭 • 休息 • 饺子
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-speak="今天我今天很高兴今天他来找我" data-label="jīntiān (今天) — n. today" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <strong>1. 今天 (jīntiān)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. today │ 今天他来找我。</span>
+                </button>
+                <button type="button" data-speak="月九月三个月" data-label="yuè (月) — n. month: 九月, 三个月" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <strong>2. 月 (yuè)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. month │ 九月 / 我工作了三个月。</span>
+                </button>
+                <button type="button" data-speak="号三月一号你几号上班" data-label="hào (号) — m. spoken date: 3月1号" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <strong>3. 号 (hào)</strong> 🔊<br><span class="text-[10px] text-slate-600">m. date (spoken) │ 我们3月1号上课。</span>
+                </button>
+                <button type="button" data-speak="日九月七日" data-label="rì (日) — m. written day: 9月7日" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <strong>4. 日 (rì)</strong> 🔊<br><span class="text-[10px] text-slate-600">m. day (written) │ 明天是9月7日。</span>
+                </button>
+                <button type="button" data-speak="星期今天星期几两个星期" data-label="xīngqī (星期) — n. week: 今天星期几？" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <strong>5. 星期 (xīngqī)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. week │ 今天星期几？ / 去美国两个星期</span>
+                </button>
+                <button type="button" data-speak="星期日星期天星期天我不上学" data-label="Xīngqīrì (星期日) / Xīngqītiān (星期天) — Sunday" class="speak-btn node-card p-2 rounded-xl bg-white border border-sky-200 text-left">
+                  <strong>6–7. 星期日 / 星期天</strong> 🔊<br><span class="text-[10px] text-slate-600">Sunday (日=formal, 天=spoken)</span>
+                </button>
+                <button type="button" data-speak="休息星期天我休息他想好好休息一下" data-label="xiūxi (休息) — v. have a rest" class="speak-btn node-card col-span-2 p-2 rounded-xl bg-amber-50 border border-amber-300 text-left">
+                  <strong>8. 休息 (xiūxi)</strong> 🔊 — v. have a rest │ 星期天我休息。 / 他想好好休息一下。
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 7.2: SMARTBOARD 4 CHALK WORDS + PPT L5 TEXT 2 (5-4 会) & TEXT 3 (5-6 NEW COMPUTER) -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-emerald-700 flex items-center gap-2">
+            <span>[DIAGRAM 7.2]</span>
+            <span>──►</span>
+            <span>Smartboard 4 Words (上课/说/喜欢/好吃) + PPT《第5课》Text 2 (生词 5-4 &amp; 能愿动词 “会”) + Text 3 (生词 5-6)</span>
+          </div>
+
+          <!-- Top Highlight Strip: Smartboard 4 Handwritten Words -->
+          <div class="min-w-[860px] p-4 rounded-2xl bg-emerald-950 text-white grid grid-cols-4 gap-3 text-xs">
+            <button type="button" data-speak="上课我们今天上课" data-label="shàngkè (上课) — Smartboard Word 1: attend class / class begins" class="speak-btn p-2.5 rounded-xl bg-emerald-900/80 border border-emerald-500/40 text-left">
+              <div class="text-[10px] font-mono text-emerald-300 font-bold">Smartboard #1</div>
+              <strong class="text-sm">上课 (shàng kè)</strong> 🔊<br><span class="text-[11px] text-emerald-100">attend class / class starts (vs 下课)</span>
+            </button>
+            <button type="button" data-speak="说我会说中文" data-label="shuō (说) — Smartboard Word 2: v. speak; say" class="speak-btn p-2.5 rounded-xl bg-emerald-900/80 border border-emerald-500/40 text-left">
+              <div class="text-[10px] font-mono text-emerald-300 font-bold">Smartboard #2</div>
+              <strong class="text-sm">说 (shuō)</strong> 🔊<br><span class="text-[11px] text-emerald-100">v. speak / say (我会说中文 / 电话里说)</span>
+            </button>
+            <button type="button" data-speak="喜欢我喜欢吃面条儿" data-label="xǐhuan (喜欢) — Smartboard Word 3: v. like" class="speak-btn p-2.5 rounded-xl bg-emerald-900/80 border border-emerald-500/40 text-left">
+              <div class="text-[10px] font-mono text-emerald-300 font-bold">Smartboard #3</div>
+              <strong class="text-sm">喜欢 (xǐhuan)</strong> 🔊<br><span class="text-[11px] text-emerald-100">v. like (很喜欢 / 不喜欢)</span>
+            </button>
+            <button type="button" data-speak="好吃饺子真好吃" data-label="hǎochī (好吃) — Smartboard Word 4: adj. delicious; tasty" class="speak-btn p-2.5 rounded-xl bg-emerald-900/80 border border-emerald-500/40 text-left">
+              <div class="text-[10px] font-mono text-emerald-300 font-bold">Smartboard #4</div>
+              <strong class="text-sm">好吃 (hǎo chī)</strong> 🔊<br><span class="text-[11px] text-emerald-100">adj. delicious / tasty (真好吃！)</span>
+            </button>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 text-xs">
+
+            <!-- Left 6 Cols: Text 2 (5-3 P30) + New Words 5-4 + 会 -->
+            <div class="col-span-6 p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 space-y-3">
+              <div class="font-mono font-bold text-amber-950 uppercase">🥟 Text 2 (5-3 • P30): Cooking &amp; Modal Verb “会” (生词 5-4)</div>
+              <div class="p-2 rounded-lg bg-white border border-amber-200 text-[11px] font-mono">
+                Listening Check (P30): 杨同乐 <strong>会 (A)</strong> 做饭 • 杨同乐 <strong>星期日 (C)</strong> 也做饭
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-speak="会你会做饭吗我会说中文" data-label="huì (会) — mod. can (learned skill)" class="speak-btn p-2 rounded-xl bg-white border border-amber-200 text-left">
+                  <strong>1. 会 (huì)</strong> 🔊<br><span class="text-[10px] text-slate-600">mod. can (learned) │ 我会写字 / 说中文</span>
+                </button>
+                <button type="button" data-speak="做饭做我做了三个菜" data-label="zuò fàn (做饭 cook) & zuò (做 make/produce)" class="speak-btn p-2 rounded-xl bg-white border border-amber-200 text-left">
+                  <strong>2–3. 做饭 / 做 (zuò)</strong> 🔊<br><span class="text-[10px] text-slate-600">做饭=cook │ 做菜 │ 我做了三个菜</span>
+                </button>
+                <button type="button" data-speak="面条儿饺子饺子很好吃" data-label="miàntiáor (面条儿 noodles) & jiǎozi (饺子 dumplings)" class="speak-btn p-2 rounded-xl bg-white border border-amber-200 text-left">
+                  <strong>4–5. 面条儿 / 饺子</strong> 🔊<br><span class="text-[10px] text-slate-600">noodles (儿化) │ jiaozi dumplings</span>
+                </button>
+                <button type="button" data-speak="一些菜" data-label="yìxiē (一些 some — yī becomes yì before 1st tone) & cài (菜 dish)" class="speak-btn p-2 rounded-xl bg-white border border-amber-200 text-left">
+                  <strong>6–7. 一些 (yìxiē) / 菜 (cài)</strong> 🔊<br><span class="text-[10px] text-slate-600">some (yī➔yì) │ dish/course (做菜)</span>
+                </button>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-1">
+                <div class="text-amber-300 font-bold">小语讲堂 — Modal Verb “会 + Verb” (Acquired Ability):</div>
+                <button type="button" data-speak="你会做饭吗我会做面条儿我不会做菜" data-label="Nǐ huì zuò fàn ma? Wǒ huì zuò miàntiáor. Wǒ bú huì zuò cài." class="speak-btn text-left hover:underline">
+                  (1) 你会做饭吗？ (2) 我会做面条儿。 (3) 我不会做菜。 🔊
+                </button>
+              </div>
+            </div>
+
+            <!-- Right 6 Cols: Text 3 (5-5 P32) + New Words 5-6 -->
+            <div class="col-span-6 p-4 rounded-2xl bg-indigo-50 border-2 border-indigo-200 space-y-3">
+              <div class="font-mono font-bold text-indigo-950 uppercase">💻 Text 3 (5-5 • P32): After Work &amp; New Computer (生词 5-6)</div>
+              <div class="p-2 rounded-lg bg-white border border-indigo-200 text-[11px] font-mono">
+                Listening Check (P32): 杨同乐也 <strong>下班 (B)</strong> • 杨同乐有一个新 <strong>电脑 (C)</strong>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button type="button" data-speak="下班她六点下班" data-label="xiàbān (下班 get off work) vs. shàngbān (上班 go to work)" class="speak-btn p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong>1. 下班 (xiàbān)</strong> 🔊<br><span class="text-[10px] text-slate-600">v. get off work (vs 上班) │ 六点下班</span>
+                </button>
+                <button type="button" data-speak="新电脑我买了一件新衣服" data-label="xīn (新 new) & diànnǎo (电脑 computer)" class="speak-btn p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong>2–3. 新 (xīn) / 电脑 (diànnǎo)</strong> 🔊<br><span class="text-[10px] text-slate-600">new (新衣服/新一天) │ computer (一台电脑)</span>
+                </button>
+                <button type="button" data-speak="真这个菜真好吃真好看真好喝真好听" data-label="zhēn (真 truly) & hǎokàn (好看 good-looking)" class="speak-btn p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong>4–5. 真 (zhēn) / 好看 (hǎokàn)</strong> 🔊<br><span class="text-[10px] text-slate-600">真好 / 真贵 / 真好吃 / 真好喝 / 真好听 / 真好看!</span>
+                </button>
+                <button type="button" data-speak="喜欢它它喜欢吃鱼它是一只漂亮的小狗" data-label="xǐhuan (喜欢 like) & tā (它 it — animals/objects)" class="speak-btn p-2 rounded-xl bg-white border border-indigo-200 text-left">
+                  <strong>6–7. 喜欢 (xǐhuan) / 它 (tā)</strong> 🔊<br><span class="text-[10px] text-slate-600">like (玩电脑) │ it (animals: 它喜欢吃鱼。)</span>
+                </button>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white border border-indigo-200 text-[11px] font-mono text-indigo-950">
+                💡 <strong>3rd-Person Pronouns Complete Set:</strong> 他 (he) • 她 (she) • <strong>它 (it)</strong> — all pronounced <strong>tā</strong> (1st tone)!
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 7.3: PPT LESSON 6《你的手机号是多少？》 TEXT 1 & 2 (6-2 PHONE, 6-4 SHOPPING & MODAL "想") -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-sky-700 flex items-center gap-2">
+            <span>[DIAGRAM 7.3]</span>
+            <span>──►</span>
+            <span>PPT《第6课》Warm-Up, Text 1 (6-2: Phone Numbers) &amp; Text 2 (6-4: Tomorrow, Supermarket &amp; Modal Verb “想”)</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 text-xs">
+
+            <!-- Left 5 Cols: L6 Warm-Up & Text 1 (6-2) -->
+            <div class="col-span-5 space-y-3">
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-300 text-[11px] text-slate-700 font-mono">
+                <strong>L6 Warm-Up (热身):</strong> 手机 (shǒujī) • 晚饭 (wǎnfàn) • 超市 (chāoshì) • 牛奶 (niúnǎi) • 出租车 (chūzūchē) • 米饭 (mǐfàn)
+              </div>
+
+              <div class="p-4 rounded-2xl bg-sky-50 border-2 border-sky-300 space-y-2.5">
+                <div class="font-mono font-bold text-sky-950 uppercase">📱 Text 1 (6-1 • P36): Asking Phone Numbers (生词 6-2)</div>
+                <div class="text-[11px] text-slate-600">On campus: Li Wen asks Bai Jiayue for her cell phone number.</div>
+                <button type="button" data-speak="你的手机号是多少" data-label="Nǐ de shǒujī hào shì duōshao? (What is your cell phone number?)" class="speak-btn w-full p-2.5 rounded-xl bg-slate-900 text-white text-left">
+                  <div class="text-amber-300 font-mono font-bold">你的手机号是多少？ 🔊</div>
+                  <div class="text-[11px] text-slate-300">Note: Phone digits are read one-by-one (yāo = 1 often on phones)</div>
+                </button>
+                <div class="space-y-1.5">
+                  <button type="button" data-speak="手机我喜欢我的新手机" data-label="shǒujī (手机) — n. cell phone" class="speak-btn w-full p-2 rounded-lg bg-white border border-sky-200 text-left">
+                    <strong>1. 手机 (shǒujī):</strong> 新手机 / 买手机 / 手机号 🔊
+                  </button>
+                  <button type="button" data-speak="电话他正在打电话呢我们在电话里说吧" data-label="diànhuà (电话) — n. telephone / phone call" class="speak-btn w-full p-2 rounded-lg bg-white border border-sky-200 text-left">
+                    <strong>2. 电话 (diànhuà):</strong> 打电话 (make call) / 电话号码 🔊
+                  </button>
+                  <button type="button" data-speak="号你知道他的电话号吗" data-label="hào (号) — n. number: +86 135 XXXX 1160" class="speak-btn w-full p-2 rounded-lg bg-white border border-sky-200 text-left">
+                    <strong>3. 号 (hào):</strong> 电话号 / 我的手机号是 +86 135… 🔊
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 7 Cols: Text 2 (6-3 P37) + New Words 6-4 + Grammar "想" -->
+            <div class="col-span-7 p-4 rounded-2xl bg-indigo-50 border-2 border-indigo-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="font-mono font-bold text-indigo-950 uppercase">🛒 Text 2 (6-3 • P37): Shopping Plans &amp; New Words (生词 6-4)</div>
+                <span class="px-2 py-0.5 rounded bg-indigo-600 text-white font-mono text-[10px] font-bold">9 Words</span>
+              </div>
+              <div class="p-2 rounded-lg bg-white border border-indigo-200 text-[11px] font-mono">
+                Listening Check (P37): 白家月 <strong>明天 (C)</strong> 想去超市 • 想买 <strong>牛奶 (B)</strong>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" data-speak="明天我休息不工作" data-label="míngtiān (明天 tomorrow) — 明天见" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>1. 明天 (míngtiān)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. tomorrow / 明天见</span>
+                </button>
+                <button type="button" data-speak="你明天去公司吗我去学校" data-label="qù (去 go to) — 去学校 / 去不去" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>2. 去 (qù)</strong> 🔊<br><span class="text-[10px] text-slate-600">v. go to │ 去公司/学校</span>
+                </button>
+                <button type="button" data-speak="你们去哪儿玩你家在哪儿" data-label="nǎr (哪儿 where)" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>3. 哪儿 (nǎr)</strong> 🔊<br><span class="text-[10px] text-slate-600">pron. where │ 你家在哪儿?</span>
+                </button>
+                <button type="button" data-speak="我想看电影你想吃面条儿吗" data-label="xiǎng (想 want/would like)" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>4. 想 (xiǎng)</strong> 🔊<br><span class="text-[10px] text-slate-600">mod. want/would like</span>
+                </button>
+                <button type="button" data-speak="妈妈去超市买菜" data-label="chāoshì (超市 supermarket)" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>5. 超市 (chāoshì)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. supermarket │ 一家超市</span>
+                </button>
+                <button type="button" data-speak="我买了一个新手机" data-label="mǎi (买 buy) — 买东西 / 买菜" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>6. 买 (mǎi)</strong> 🔊<br><span class="text-[10px] text-slate-600">v. buy │ 买东西 / 买菜</span>
+                </button>
+                <button type="button" data-speak="我去超市买东西" data-label="dōngxi (东西 thing)" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>7. 东西 (dōngxi)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. thing (neutral xi)</span>
+                </button>
+                <button type="button" data-speak="你吃些苹果吧" data-label="xiē (些 some; a few)" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>8. 些 (xiē)</strong> 🔊<br><span class="text-[10px] text-slate-600">m. some; a few (吃些苹果)</span>
+                </button>
+                <button type="button" data-speak="牛奶很好喝" data-label="niúnǎi (牛奶 cow's milk)" class="speak-btn p-2 rounded-lg bg-white border border-indigo-200 text-left">
+                  <strong>9. 牛奶 (niúnǎi)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. milk │ 爱喝牛奶</span>
+                </button>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] flex flex-wrap items-center justify-between gap-2">
+                <div><strong class="text-amber-300">小语讲堂 — Modal Verb “想 + Verb” (Desire / Intention):</strong> Neg: <strong>不想</strong></div>
+                <button type="button" data-speak="我想去超市我哥哥不想休息" data-label="(1) Wǒ xiǎng qù chāoshì. (2) Wǒ gēge bù xiǎng xiūxi." class="speak-btn px-2.5 py-1 rounded bg-indigo-700 hover:bg-indigo-600 font-bold">
+                  (1) 我想去超市。 (2) 我哥哥不想休息。 🔊
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- STRUCTURE DIAGRAM 7.4: PPT L6 TEXT 3 (6-6 DINNER & XI'AN RESTAURANT) + 连动句(1) + 怎么 -->
+        <div class="bg-white/95 rounded-2xl border-2 border-slate-300 p-5 sm:p-6 shadow-sm overflow-x-auto space-y-6">
+          <div class="text-xs font-mono font-bold uppercase text-rose-700 flex items-center gap-2">
+            <span>[DIAGRAM 7.4]</span>
+            <span>──►</span>
+            <span>PPT《第6课》Text 3 (生词 6-6: Xi'an Restaurant), Serial Verb Sentences《连动句 (1)》&amp; “怎么”</span>
+          </div>
+
+          <div class="min-w-[860px] grid grid-cols-12 gap-6 text-xs">
+
+            <!-- Left 7 Cols: Text 3 (6-5 P39) + New Words 6-6 -->
+            <div class="col-span-7 p-4 rounded-2xl bg-rose-50 border-2 border-rose-200 space-y-3">
+              <div class="font-mono font-bold text-rose-950 uppercase">🍽️ Text 3 (6-5 • P39): Weekend Dinner at 西安饭店 (生词 6-6)</div>
+              <div class="p-2 rounded-lg bg-white border border-rose-200 text-[11px] font-mono">
+                Listening Check (P39): 王一雪一家人想去西安饭店 <strong>吃晚饭 (C)</strong> • 刘小明不想吃 <strong>包子 (B)</strong>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <button type="button" data-speak="吃姐姐在吃饭我想吃水果" data-label="chī (吃 v. eat)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>1. 吃 (chī)</strong> 🔊<br><span class="text-[10px] text-slate-600">v. eat │ 吃饭 / 吃东西</span>
+                </button>
+                <button type="button" data-speak="晚饭我们家六点吃晚饭" data-label="wǎnfàn (晚饭 dinner) — 早饭 breakfast / 午饭 lunch" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>2. 晚饭 (wǎnfàn)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. dinner (早/午/晚饭)</span>
+                </button>
+                <button type="button" data-speak="看那边那边有很多人" data-label="nàbiān (那边 pron. there)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>3. 那边 (nàbiān)</strong> 🔊<br><span class="text-[10px] text-slate-600">pron. there │ 看那边!</span>
+                </button>
+                <button type="button" data-speak="晚饭我想吃包子" data-label="bāozi (包子 steamed stuffed bun)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>4. 包子 (bāozi)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. steamed bun / 菜包子</span>
+                </button>
+                <button type="button" data-speak="非常非常好吃非常好非常快" data-label="fēicháng (非常 adv. very/extremely)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>5. 非常 (fēicháng)</strong> 🔊<br><span class="text-[10px] text-slate-600">adv. extremely │ 非常快</span>
+                </button>
+                <button type="button" data-speak="法国菜很好吃学校的饭不好吃" data-label="hǎochī (好吃 adj. tasty/delicious)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>6. 好吃 (hǎochī)</strong> 🔊<br><span class="text-[10px] text-slate-600">adj. delicious (vs 好喝)</span>
+                </button>
+                <button type="button" data-speak="我喜欢吃米饭你做米饭了吗" data-label="mǐfàn (米饭 cooked rice)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>7. 米饭 (mǐfàn)</strong> 🔊<br><span class="text-[10px] text-slate-600">n. cooked rice │ 吃米饭</span>
+                </button>
+                <button type="button" data-speak="请问怎么去这家电影院" data-label="zěnme (怎么 pron. how)" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>8. 怎么 (zěnme)</strong> 🔊<br><span class="text-[10px] text-slate-600">pron. how │ 怎么做 / 怎么吃</span>
+                </button>
+                <button type="button" data-speak="坐出租车我们坐车去西安饭店" data-label="zuò (坐 travel by) & chūzūchē (出租车 taxi) & Xī'ān Fàndiàn" class="speak-btn p-2 rounded-lg bg-white border border-rose-200 text-left">
+                  <strong>9–11. 坐 / 出租车 / 西安饭店</strong> 🔊<br><span class="text-[10px] text-slate-600">take (车/飞机) • taxi • Xi'an Rest.</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right 5 Cols: Grammar — Serial Verb Sentences 连动句 (1) & 怎么 -->
+            <div class="col-span-5 p-4 rounded-2xl bg-slate-900 text-white space-y-3 flex flex-col justify-between">
+              <div class="space-y-3">
+                <div class="font-mono font-bold text-amber-300 uppercase">⚙️ Grammar: 连动句 (1) Serial Verb Sentences &amp; “怎么”</div>
+
+                <!-- Serial Verb Type 1: Purpose -->
+                <div class="p-3 rounded-xl bg-slate-800 border border-sky-500/40 space-y-1">
+                  <div class="font-mono text-sky-300 font-bold text-[11px]">(1) Purpose (目的): S + V1 (go) + Place + V2 (purpose)</div>
+                  <button type="button" data-speak="我想去超市买东西" data-label="Wǒ xiǎng qù chāoshì mǎi dōngxi." class="speak-btn text-left font-bold text-white hover:underline">
+                    我 [想] <span class="text-sky-300">去超市</span>(V1) <span class="text-emerald-300">买东西</span>(V2)。 🔊
+                  </button>
+                  <div class="text-[10px] text-slate-400">V2 ("buy things") is the purpose of V1 ("go to supermarket").</div>
+                </div>
+
+                <!-- Serial Verb Type 2: Manner -->
+                <div class="p-3 rounded-xl bg-slate-800 border border-emerald-500/40 space-y-1">
+                  <div class="font-mono text-emerald-300 font-bold text-[11px]">(2) Manner (方式): S + V1 (transport) + V2 (go + place)</div>
+                  <button type="button" data-speak="我们坐出租车去西安饭店" data-label="Wǒmen zuò chūzūchē qù Xī'ān Fàndiàn." class="speak-btn text-left font-bold text-white hover:underline">
+                    我们 <span class="text-amber-300">坐出租车</span>(V1: how) <span class="text-sky-300">去西安饭店</span>(V2)。 🔊
+                  </button>
+                  <div class="text-[10px] text-slate-400">Transport/manner ALWAYS comes BEFORE destination!</div>
+                </div>
+
+                <!-- Question word 怎么 -->
+                <div class="p-3 rounded-xl bg-rose-950/80 border border-rose-400 space-y-1">
+                  <div class="font-mono text-rose-300 font-bold text-[11px]">❓ Asking How — 怎么 + Verb (NO 吗!):</div>
+                  <button type="button" data-speak="我们怎么去她怎么去超市这个菜怎么做" data-label="Wǒmen zěnme qù? Tā zěnme qù chāoshì? Zhège cài zěnme zuò?" class="speak-btn text-left text-[11px] font-bold hover:underline">
+                    (1) 我们怎么去？ (2) 她怎么去超市？ (3) 这个菜怎么做？ 🔊
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-2 rounded-lg bg-slate-800 border border-slate-700 font-mono text-[10px] text-slate-300">
+                📝 Workbook Targets: L5 Summary P33 • L6 Exercises P40–44 (Breakfast Schedule P42 &amp; Serial Verb Drills)
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </section>
@@ -2855,6 +3846,8 @@
                     <option value="L3">Lesson 3 (26.10)</option>
                     <option value="L4">Lesson 4 (28.10)</option>
                     <option value="L5">Lesson 5 (05.11)</option>
+                    <option value="L6">Lesson 6 (09.11)</option>
+                    <option value="L7">Lesson 7 (11.11)</option>
                   </select>
                 </div>
               </div>
@@ -2948,6 +3941,9 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
+              <button id="hanzi-back-lesson-btn" type="button" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-extrabold text-slate-800 transition">
+                ← Back to Lesson Notes
+              </button>
               <!-- Lesson Filter Dropdown -->
               <div class="flex items-center gap-2 bg-red-50 px-3 py-1.5 rounded-xl border-2 border-red-300">
                 <label for="hanzi-lesson-select" class="text-xs font-mono font-bold uppercase text-red-800">Lesson Set:</label>
@@ -2956,33 +3952,46 @@
                   <option value="L2">Lesson 2 (22.10.2026) — Greetings, Meats &amp; Tone Pairs</option>
                   <option value="L3">Lesson 3 (26.10.2026) — Syllable Finals &amp; Ex ① Characters</option>
                   <option value="L4">Lesson 4 (28.10.2026) — Names, SVO, Questions &amp; Apologies</option>
-                  <option value="L5" selected>Lesson 5 (05.11.2026) — Nationalities, Particle 的, Measure Words &amp; Work</option>
-                  <option value="all">All Lessons (L1–L5 Complete Pool)</option>
+                  <option value="L5">Lesson 5 (05.11.2026) — Nationalities, Particle 的, Measure Words &amp; Work</option>
+                  <option value="L6">Lesson 6 (09.11.2026) — Family, Age, Numbers &amp; Measure Words</option>
+                  <option value="L7" selected>Lesson 7 (11.11.2026) — Dates, Cooking, Ability 会, Hobbies &amp; Taxi</option>
+                  <option value="all">All Lessons (L1–L7 Complete Pool)</option>
                 </select>
               </div>
               <span id="hanzi-checked-badge" class="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-mono font-extrabold">
                 Checked: 0 ✓
               </span>
               <span id="hanzi-counter-badge" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-extrabold">
-                Char 1 / 23
+                Char 1 / 27
               </span>
             </div>
           </div>
 
           <!-- Character Quick-Picker Bar for Selected Lesson -->
           <div>
-            <div class="text-[11px] font-mono font-bold uppercase text-slate-500 mb-2">Lesson Character Strip (Click any character to practice writing it):</div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-[11px] font-mono font-bold uppercase text-slate-500">Numbered Lesson Character Checklist (Work in order #1 ──► End so you never lose your place):</span>
+              <span id="hanzi-lesson-progress-text" class="text-[11px] font-mono font-extrabold text-emerald-700">Lesson Progress: 0 / 27 Completed ✓</span>
+            </div>
             <div id="hanzi-char-strip" class="flex flex-wrap gap-1.5"></div>
           </div>
 
           <!-- Main Writing Desk Grid -->
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-            <!-- Left Column: Mǐzìgé Drawing Canvas + Animation / Step / Check Controls -->
+            <!-- Left Column: Mǐzìgé Drawing Canvas + Live Next-Stroke Guide + Animation / Step / Check Controls -->
             <div class="lg:col-span-5 flex flex-col items-center space-y-3 bg-slate-50 p-5 rounded-2xl border border-slate-200">
               <div class="flex items-center justify-between w-full max-w-[320px] text-xs font-mono text-slate-600">
                 <span id="hanzi-grid-mode-label" class="font-bold text-red-700">米字格 Mǐzìgé • Trace Guide: ON</span>
                 <span id="hanzi-stroke-count" class="font-bold">Strokes: 0 / 10</span>
+              </div>
+
+              <!-- Live Next-Stroke Guidance Banner (Tells student which stroke to write right now!) -->
+              <div id="hanzi-next-stroke-banner" class="w-full max-w-[320px] px-3 py-2 rounded-xl bg-slate-900 text-white text-xs font-mono font-bold flex items-center justify-between gap-2 border border-slate-700 shadow-sm">
+                <span id="hanzi-next-stroke-text" class="text-amber-300 truncate">👉 Stroke 1: Follow numbered dot 1 ──►</span>
+                <button id="hanzi-live-hint-btn" type="button" class="shrink-0 px-2 py-0.5 rounded bg-sky-600 hover:bg-sky-500 text-[10px] font-extrabold text-white transition" title="Toggle highlighting the next stroke on the Mǐzìgé grid">
+                  🎯 Guide: ON
+                </button>
               </div>
 
               <!-- Red Mǐzìgé Canvas Container -->
@@ -3192,22 +4201,34 @@
       practiceView.classList.add('hidden');
       drillsView.classList.add('hidden');
 
+      const studyNavBar = document.getElementById('study-navigator-bar');
+      if (studyNavBar) {
+        if (isPracticeOrDrills) {
+          studyNavBar.classList.add('hidden');
+        } else {
+          studyNavBar.classList.remove('hidden');
+        }
+      }
+
       if (mode === 'all') {
         lessonSections.forEach((sec) => sec.classList.remove('hidden'));
+        if (typeof updateStudyNavigator === 'function') updateStudyNavigator('all');
       } else if (mode === 'practice') {
         practiceView.classList.remove('hidden');
       } else if (mode === 'drills') {
         drillsView.classList.remove('hidden');
       } else {
+        lastViewedLessonMode = mode;
         const targetSection = document.getElementById(`view-${mode}`);
         if (targetSection) targetSection.classList.remove('hidden');
         // Sync Hanzi writing lesson filter with last viewed lesson
-        const lessonMap = { lesson1: 'L1', lesson2: 'L2', lesson3: 'L3', lesson4: 'L4', lesson5: 'L5' };
+        const lessonMap = { lesson1: 'L1', lesson2: 'L2', lesson3: 'L3', lesson4: 'L4', lesson5: 'L5', lesson6: 'L6', lesson7: 'L7' };
         const hanziSelectEl = document.getElementById('hanzi-lesson-select');
         if (hanziSelectEl && lessonMap[mode]) {
           hanziSelectEl.value = lessonMap[mode];
           hanziSelectEl.dispatchEvent(new Event('change'));
         }
+        if (typeof updateStudyNavigator === 'function') updateStudyNavigator(mode);
       }
     }
 
@@ -3548,6 +4569,72 @@
         ],
         answer: 0,
         speak: '他是哪国人'
+      },
+      {
+        prompt: 'Lesson 6 Numbers Rule: Which word for "2" must be used before Measure Words (个, 口, 岁) and 百/千/万?',
+        options: [
+          'liǎng (两) ──► 两个孩子 (liǎng gè háizi) / 两口人',
+          'èr (二) ──► 二个孩子 / 二口人',
+          'bàn (半)',
+          'jǐ (几)'
+        ],
+        answer: 0,
+        speak: '两个孩子两口人'
+      },
+      {
+        prompt: 'Lesson 6 Blackboard Law (① ……吗? ✕和 ② QW): Which family question is grammatically CORRECT?',
+        options: [
+          'Nǐ jiā yǒu jǐ kǒu rén? (你家有几口人？ — Question Word 几, NO 吗!)',
+          'Nǐ jiā yǒu jǐ kǒu rén ma? (你家有几口人吗？)',
+          'Nǐ jiā bù yǒu gēge ma? (你家不有哥哥吗？)',
+          'Nǐ érzi duōshao suì ma? (你儿子多少岁吗？)'
+        ],
+        answer: 0,
+        speak: '你家有几口人'
+      },
+      {
+        prompt: 'Lesson 6 Age Inquiry: How should you respectfully ask an elder person about their age (Blackboard note)?',
+        options: [
+          'Using 年纪 (……niánjì? — 多大年纪？)',
+          'Using 几岁 (jǐ suì? — meant for young children)',
+          'Using 你有几岁吗',
+          'Using 多少岁吧'
+        ],
+        answer: 0,
+        speak: '多大年纪'
+      },
+      {
+        prompt: 'Lesson 7 Nominal Predicate (11.11 Smartboard): How do you ask and state the date in Chinese?',
+        options: [
+          '今天几号？ ──► 今天十一月十一号。(Nominal Predicate: NO verb 是!)',
+          '今天是几号吗？ ──► 今天有十一号。',
+          '十一月十一号今天是。',
+          '今天几星期号？'
+        ],
+        answer: 0,
+        speak: '今天几号今天十一月十一号'
+      },
+      {
+        prompt: 'Lesson 7 Modal Verbs ("会" vs. "想"): Which sentence correctly expresses a learned skill vs. a desire/plan?',
+        options: [
+          '我会做面条儿 (learned skill) vs. 我想去超市买牛奶 (desire/intention)',
+          '我想做中文 (learned skill) vs. 我会去超市 (desire)',
+          '我不有做饭 vs. 我没有想去',
+          '会 and 想 can never be followed by verbs'
+        ],
+        answer: 0,
+        speak: '我会做面条儿我想去超市买牛奶'
+      },
+      {
+        prompt: 'Lesson 7 Serial Verb Sentence (连动句 1): How do you say "We take a taxi to go to Xi\'an Restaurant"?',
+        options: [
+          '我们坐出租车去西安饭店。(Manner V1 坐出租车 BEFORE destination V2 去西安饭店)',
+          '我们去西安饭店坐出租车吗？',
+          '我们怎么坐西安饭店去？',
+          '去西安饭店出租车我们坐。'
+        ],
+        answer: 0,
+        speak: '我们坐出租车去西安饭店'
       }
     ];
 
@@ -3670,7 +4757,17 @@
       { hanzi: '工作还忙吗', pinyin: 'gōngzuò hái máng ma?', tone: '1st+4th + 2nd + 2nd + 0', meaning: 'Is work still busy?', lesson: 'L5' },
       { hanzi: '一件衣服', pinyin: 'yí jiàn yīfu', tone: '2nd + 4th + 1st + 0', meaning: 'One piece of clothing (yī -> yí before 4th)', lesson: 'L5' },
       { hanzi: '一本书', pinyin: 'yì běn shū', tone: '4th + 3rd + 1st', meaning: 'One book (yī -> yì before 3rd)', lesson: 'L5' },
-      { hanzi: '一辆汽车', pinyin: 'yí liàng qìchē', tone: '2nd + 4th + 4th + 1st', meaning: 'One car (Measure word 辆 liàng)', lesson: 'L5' }
+      { hanzi: '一辆汽车', pinyin: 'yí liàng qìchē', tone: '2nd + 4th + 4th + 1st', meaning: 'One car (Measure word 辆 liàng)', lesson: 'L5' },
+      { hanzi: '我家有四口人', pinyin: 'Wǒ jiā yǒu sì kǒu rén', tone: '3rd+1st+3rd+4th+3rd+2nd', meaning: 'There are 4 people in my family', lesson: 'L6' },
+      { hanzi: '两个孩子', pinyin: 'liǎng gè háizi', tone: '3rd + 4th + 2nd + 0', meaning: 'Two children (Use 两 before 个)', lesson: 'L6' },
+      { hanzi: '你家有几口人', pinyin: 'Nǐ jiā yǒu jǐ kǒu rén?', tone: '3rd+1st+3rd+3rd+3rd+2nd', meaning: 'How many people are in your family?', lesson: 'L6' },
+      { hanzi: '儿子和女儿', pinyin: 'érzi hé nǚ’ér', tone: '2nd+0 + 2nd + 3rd+2nd', meaning: 'Son and daughter', lesson: 'L6' },
+      { hanzi: '她十二岁了', pinyin: 'Tā shí’èr suì le', tone: '1st + 2nd+4th + 4th + 0', meaning: 'She is 12 years old', lesson: 'L6' },
+      { hanzi: '今天十一月十一号', pinyin: 'Jīntiān shíyī yuè shíyī hào', tone: 'Big ──► Small Date', meaning: 'Today is November 11th', lesson: 'L7' },
+      { hanzi: '你会做饭吗', pinyin: 'Nǐ huì zuò fàn ma?', tone: '3rd+4th+4th+4th+0', meaning: 'Can you cook? (Modal verb 会)', lesson: 'L7' },
+      { hanzi: '我想去超市买牛奶', pinyin: 'Wǒ xiǎng qù chāoshì mǎi niúnǎi', tone: 'Serial Verb (Purpose)', meaning: 'I want to go to the supermarket to buy milk', lesson: 'L7' },
+      { hanzi: '我们坐出租车去', pinyin: 'Wǒmen zuò chūzūchē qù', tone: 'Serial Verb (Manner)', meaning: 'We go by taxi', lesson: 'L7' },
+      { hanzi: '饺子非常好吃', pinyin: 'Jiǎozi fēicháng hǎochī', tone: '3rd+0 + 1st+2nd + 3rd+1st', meaning: 'Dumplings are extremely delicious', lesson: 'L7' }
     ];
 
     let dictIdx = 0;
@@ -3688,7 +4785,7 @@
     function renderDictation() {
       const target = dictationPool[dictIdx];
       let answered = false;
-      const lessonMap = { L1: 'Lesson 1 (19.10)', L2: 'Lesson 2 (22.10)', L3: 'Lesson 3 (26.10)', L4: 'Lesson 4 (28.10)', L5: 'Lesson 5 (05.11)' };
+      const lessonMap = { L1: 'Lesson 1 (19.10)', L2: 'Lesson 2 (22.10)', L3: 'Lesson 3 (26.10)', L4: 'Lesson 4 (28.10)', L5: 'Lesson 5 (05.11)', L6: 'Lesson 6 (09.11)', L7: 'Lesson 7 (11.11)' };
       dictLessonTag.textContent = `${lessonMap[target.lesson] || target.lesson} • Audio Dictation`;
       dictHintText.textContent = 'Click "🔊 Play / Repeat Audio" to listen, then choose the matching Pinyin + Hanzi node.';
       dictFeedbackEl.classList.add('hidden');
@@ -3930,6 +5027,34 @@
         speak: '喂请问是王老师吗',
         blocks: ['Wèi, (喂，)', 'qǐngwèn (请问)', 'shì (是)', 'Wáng lǎoshī (王老师)', 'ma? (吗？)'],
         distractors: ['shénme (什么)', 'hái máng (还忙)']
+      },
+      {
+        english: 'My family has four people.',
+        hint: '[S: Wǒ jiā] ──► [V: yǒu] ──► [Num+M+N: sì kǒu rén]',
+        speak: '我家有四口人',
+        blocks: ['Wǒ jiā (我家)', 'yǒu (有)', 'sì (四)', 'kǒu (口)', 'rén. (人。)'],
+        distractors: ['bú yǒu (不有)', 'liǎng (两)']
+      },
+      {
+        english: 'How old is your son this year?',
+        hint: '[S: Nǐ érzi] ──► [Time: jīnnián] ──► [QW: jǐ suì]',
+        speak: '你儿子今年几岁',
+        blocks: ['Nǐ érzi (你儿子)', 'jīnnián (今年)', 'jǐ (几)', 'suì? (岁？)'],
+        distractors: ['ma? (吗？)', 'shì (是)']
+      },
+      {
+        english: 'I want to go to the supermarket to buy things.',
+        hint: '[S: Wǒ] + [Modal: xiǎng] + [V1: qù chāoshì] + [V2 Purpose: mǎi dōngxi]',
+        speak: '我想去超市买东西',
+        blocks: ['Wǒ (我)', 'xiǎng (想)', 'qù chāoshì (去超市)', 'mǎi dōngxi. (买东西。)'],
+        distractors: ['坐出租车 (zuò chūzūchē)', '怎么 (zěnme)']
+      },
+      {
+        english: 'We take a taxi to go to Xi’an Restaurant.',
+        hint: '[S: Wǒmen] + [V1 Manner: zuò chūzūchē] + [V2: qù Xī’ān Fàndiàn]',
+        speak: '我们坐出租车去西安饭店',
+        blocks: ['Wǒmen (我们)', 'zuò chūzūchē (坐出租车)', 'qù (去)', 'Xī’ān Fàndiàn. (西安饭店。)'],
+        distractors: ['吗？ (ma?)', '不想 (bù xiǎng)']
       }
     ];
 
@@ -4064,7 +5189,19 @@
       { lesson: 'L5', hanzi: '女朋友 / 她', pinyin: 'nǚpéngyou / tā', meaning: 'girlfriend / she; her', structure: '她是谁的女朋友？ │ 他的女朋友很漂亮。 │ 我的女朋友是泰国人。' },
       { lesson: 'L5', hanzi: '喂 / 姐姐 / 工作 / 还 / 忙', pinyin: 'wèi / jiějie / gōngzuò / hái / máng', meaning: 'hello (phone) / elder sister / job / still / busy', structure: 'New Words 3-6: 喂，请问是王老师吗？ │ 工作还忙吗？ (Is work still busy?)' },
       { lesson: 'L5', hanzi: '"一"的变调 (Tone Sandhi of 一)', pinyin: 'yì xiē / yì yuán / yì běn vs. yí jiàn', meaning: 'yī -> yì (before 1/2/3) │ yī -> yí (before 4th)', structure: '一些 (yì xiē) • 一元 (yì yuán) • 一本 (yì běn) │ 一件 (yí jiàn) • 一个 (yí gè)' },
-      { lesson: 'L5', hanzi: '本 / 支 / 件 / 台 / 辆 / 瓶 / 位 / 个', pinyin: 'běn / zhī / jiàn / tái / liàng / píng / wèi / ge', meaning: '10 Blackboard Measure Words (量词)', structure: '一本书 • 一支笔 • 一件衣服 • 一台电脑 • 一辆汽车 • 一瓶水 • 一位老师 • 一个手机/面包' }
+      { lesson: 'L5', hanzi: '本 / 支 / 件 / 台 / 辆 / 瓶 / 位 / 个', pinyin: 'běn / zhī / jiàn / tái / liàng / píng / wèi / ge', meaning: '10 Blackboard Measure Words (量词)', structure: '一本书 • 一支笔 • 一件衣服 • 一台电脑 • 一辆汽车 • 一瓶水 • 一位老师 • 一个手机/面包' },
+      { lesson: 'L6', hanzi: '有 / 没有', pinyin: 'yǒu / méiyǒu', meaning: 'have / not have (Possession)', structure: '她有二十个学生。 • 我没有哥哥。(NEVER 不有!)' },
+      { lesson: 'L6', hanzi: '几 vs. 多少', pinyin: 'jǐ (几口人?) vs. duōshao (多少个学生?)', meaning: 'how many (< 10 + M.W.) vs. any # (optional M.W.)', structure: '你家有几口人？ │ 你们学校有多少(个)学生？' },
+      { lesson: 'L6', hanzi: '二 vs. 两', pinyin: 'èr (十二/二十) vs. liǎng (两个/两口/两百)', meaning: 'Numbers: counting/tens (èr) vs. before Measure Words (liǎng)', structure: '十二岁 / 二十个学生 vs. 两个孩子 / 两口人 / 两百' },
+      { lesson: 'L6', hanzi: '爸爸 / 妈妈 / 哥哥 / 妹妹 / 儿子 / 女儿', pinyin: 'bàba / māma / gēge / mèimei / érzi / nǚ’ér', meaning: 'Family Members (家人) + 和 (and)', structure: '我家有四口人: 爸爸、妈妈、哥哥和我。' },
+      { lesson: 'L6', hanzi: '几岁？ / 多大？ / 年纪？', pinyin: 'jǐ suì? / duō dà? / ……niánjì?', meaning: 'Asking Age (Children / General / Polite Elders)', structure: '儿子今年几岁？ • 姐姐今年多大？ • ……niánjì? (Blackboard)' },
+      { lesson: 'L6', hanzi: 'A……，B呢？ / ①吗? ✕和 ②QW', pinyin: 'ne (呢) & Blackboard Exclusion Law', meaning: 'Return topic with 呢; never combine 吗? + QW', structure: '我有两个哥哥，你呢？ │ 他有几个妹妹？(NO 吗!)' },
+      { lesson: 'L7', hanzi: '今天几号？ / 今天星期几？', pinyin: 'Jīntiān jǐ hào? / Jīntiān xīngqī jǐ?', meaning: 'Nominal Predicate (S + O — No verb 是!)', structure: '今天11月11号。 • 2026年11月11日 (Big ──► Small order)' },
+      { lesson: 'L7', hanzi: '会 (做饭 / 说中文)', pinyin: 'huì + Verb (mod. can via learning)', meaning: 'Acquired skill/ability vs. 不会', structure: '你会做饭吗？ ──► 我会做面条儿，不会做菜。' },
+      { lesson: 'L7', hanzi: '上课 / 说 / 喜欢 / 好吃', pinyin: 'shàngkè / shuō / xǐhuan / hǎochī', meaning: 'Class 7 Smartboard 4 Verbs/Adj', structure: '上课(attend class) • 说(speak) • 喜欢(like) • 好吃(delicious)' },
+      { lesson: 'L7', hanzi: '下班 / 新电脑 / 它', pinyin: 'xiàbān / xīn diànnǎo / tā', meaning: 'get off work / new computer / it (animals/things)', structure: '这台新电脑真好看！ • 它是一只漂亮的小狗。' },
+      { lesson: 'L7', hanzi: '你的手机号是多少？', pinyin: 'Nǐ de shǒujī hào shì duōshao?', meaning: 'What is your cell phone number?', structure: '手机 (cell phone) • 电话 (call) • 打电话 • 电话号码' },
+      { lesson: 'L7', hanzi: '连动句(1): 去超市买东西 / 坐出租车去', pinyin: 'Serial Verbs (Purpose & Manner) + 怎么 (how)', meaning: 'V1 + V2 (Purpose) / Transport V1 + Go V2', structure: '我想去超市买东西。 • 我们怎么去？坐出租车去西安饭店。' }
     ];
 
     let activeCardFilter = 'all';
@@ -4086,7 +5223,7 @@
       isFlipped = false;
       fcFront.classList.remove('hidden');
       fcBack.classList.add('hidden');
-      const lessonNameMap = { L1: 'Lesson 1', L2: 'Lesson 2', L3: 'Lesson 3', L4: 'Lesson 4', L5: 'Lesson 5' };
+      const lessonNameMap = { L1: 'Lesson 1', L2: 'Lesson 2', L3: 'Lesson 3', L4: 'Lesson 4', L5: 'Lesson 5', L6: 'Lesson 6', L7: 'Lesson 7' };
       const lessonName = lessonNameMap[card.lesson] || card.lesson;
       fcBadge.textContent = `${lessonName} • Card ${fcIndex + 1} of ${filteredCards.length} • Click to Flip`;
       fcHanzi.textContent = card.hanzi;
@@ -4257,6 +5394,38 @@
         options: [
           { label: '位 (wèi) ──► 一位老师 (yí wèi lǎoshī)', correct: true, speak: '一位老师' },
           { label: '辆 (liàng) or 台 (tái) ──► used only for cars and computers', correct: false, speak: '一辆汽车一台电脑' }
+        ]
+      },
+      {
+        category: 'Lesson 6: "二 (èr)" vs. "两 (liǎng)" Before Measure Words',
+        prompt: 'Which phrase correctly says "two children / two family members"?',
+        options: [
+          { label: '两个孩子 / 两口人 (Use 两 liǎng before measure words 个 / 口 / 岁)', correct: true, speak: '两个孩子两口人' },
+          { label: '二个孩子 / 二口人 (Wrong: èr is for counting/tens/digits)', correct: false, speak: '十二岁' }
+        ]
+      },
+      {
+        category: 'Lesson 6 Blackboard Law: Question Words ✕和 吗?',
+        prompt: 'Which sentence obeys Teacher Zhao’s rule "Question: ① ……吗? ✕和 ② QW"?',
+        options: [
+          { label: '你家有几口人？ / 你儿子多大？ (QW stays in sentence — NEVER add 吗!)', correct: true, speak: '你家有几口人' },
+          { label: '你家有几口人吗？ / 你儿子多大吗？ (Never put 吗 after QW)', correct: false, speak: '你家有四口人' }
+        ]
+      },
+      {
+        category: 'Lesson 7 Smartboard: Nominal Predicate Sentences (名词谓语句)',
+        prompt: 'Which sentence correctly omits "是 (shì)" for Date, Day of Week, or Age?',
+        options: [
+          { label: '今天十一号。 / 今天星期几？ / 我妹妹12岁。 (Direct S + O)', correct: true, speak: '今天十一号今天星期几' },
+          { label: '今天有十一号吗？ / 我妹妹做十二岁。', correct: false, speak: '今天几号' }
+        ]
+      },
+      {
+        category: 'Lesson 7 Grammar: Serial Verb Sentences (连动句 1)',
+        prompt: 'Which word order correctly expresses Manner/Transport + Destination ("go to Xi’an Restaurant by taxi")?',
+        options: [
+          { label: '我们坐出租车去西安饭店。(V1 Manner: 坐出租车 comes BEFORE V2: 去西安饭店)', correct: true, speak: '我们坐出租车去西安饭店' },
+          { label: '我们去西安饭店坐出租车在。(Destination cannot come before manner)', correct: false, speak: '去超市买东西' }
         ]
       }
     ];
@@ -4450,7 +5619,55 @@
       { lesson: 'L5', char: '位', pinyin: 'wèi', meaning: 'polite measure word for people', radical: 'Left: 亻(person) + Right: 立 (stand)', example: '一位老师 (yí wèi lǎoshī) / 一位同学', strokesOrder: ['撇 (left piě)', '竖 (left shù)', '点 (top diǎn)', '横 (upper héng)', '点 (mid-left diǎn)', '撇 (mid-right piě)', '横 (bottom base héng)'] },
       { lesson: 'L5', char: '支', pinyin: 'zhī', meaning: 'measure word for pens / stick-like objects', radical: 'Top: 十 (ten) + Bottom: 又 (hand holding a pen)', example: '一支笔 (yì zhī bǐ — one pen)', strokesOrder: ['横 (top héng)', '竖 (top center shù)', '横撇 (lower héngpiě)', '捺 (sweeping nà)'] },
       { lesson: 'L5', char: '件', pinyin: 'jiàn', meaning: 'measure word for clothes / matters', radical: 'Left: 亻(person) + Right: 牛 (ox/cow)', example: '一件衣服 (yí jiàn yīfu — one piece of clothing)', strokesOrder: ['撇 (left person piě)', '竖 (left person shù)', '撇 (right short piě)', '横 (right upper héng)', '横 (right long héng)', '竖 (right vertical shù)'] },
-      { lesson: 'L5', char: '台', pinyin: 'tái', meaning: 'measure word for computers & machines', radical: 'Top: 厶 (sī) + Bottom: 口 (mouth/platform)', example: '一台电脑 (yì tái diànnǎo — one computer)', strokesOrder: ['撇折 (top triangle piězhé)', '点 (top-right diǎn)', '竖 (bottom mouth left shù)', '横折 (mouth top-right héngzhé)', '横 (mouth bottom héng)'] }
+      { lesson: 'L5', char: '台', pinyin: 'tái', meaning: 'measure word for computers & machines', radical: 'Top: 厶 (sī) + Bottom: 口 (mouth/platform)', example: '一台电脑 (yì tái diànnǎo — one computer)', strokesOrder: ['撇折 (top triangle piězhé)', '点 (top-right diǎn)', '竖 (bottom mouth left shù)', '横折 (mouth top-right héngzhé)', '横 (mouth bottom héng)'] },
+      // LESSON 6 (09.11.2026)
+      { lesson: 'L6', char: '有', pinyin: 'yǒu', meaning: 'have / possess', radical: 'Top-left: 一+丿 + Bottom: 月 (moon)', example: '我家有四口人。 / 她有一个姐姐。', strokesOrder: ['横 (top héng)', '撇 (sweeping left piě)', '竖 (inner moon left shù)', '横折钩 (moon right héngzhégōu)', '横 (inner upper héng)', '横 (inner lower héng)'] },
+      { lesson: 'L6', char: '没', pinyin: 'méi', meaning: 'not (negates 有: 没有)', radical: 'Left: 氵(water) + Right: 殳 variant (几+又)', example: '我没有哥哥。 / 没关系', strokesOrder: ['点 (upper water diǎn)', '点 (mid water diǎn)', '提 (lower water tí)', '撇 (right-top piě)', '横折弯 (right curve héngzhéwān)', '横撇 (lower-right héngpiě)', '捺 (sweeping nà)'] },
+      { lesson: 'L6', char: '家', pinyin: 'jiā', meaning: 'family / home', radical: 'Top: 宀 (roof) + Bottom: 豕 (pig under roof = home!)', example: '你家有几口人？ / 我家在……', strokesOrder: ['点 (roof top diǎn)', '点 (roof left diǎn)', '横钩 (roof hénggōu)', '横 (inner top héng)', '撇 (pig head piě)', '弯钩 (spine wāngōu)', '撇 (upper left leg piě)', '撇 (lower left leg piě)', '撇 (upper right kick piě)', '捺 (right leg nà)'] },
+      { lesson: 'L6', char: '几', pinyin: 'jǐ', meaning: 'how many (expecting < 10)', radical: '2 strokes: 撇 + 横折弯钩', example: '你家有几口人？ / 你儿子几岁？', strokesOrder: ['撇 (left vertical-curve piě)', '横折弯钩 (right sweeping héngzhéwāngōu)'] },
+      { lesson: 'L6', char: '口', pinyin: 'kǒu', meaning: 'mouth / measure word for family members', radical: 'Single box radical (3 strokes)', example: '三口人 (sān kǒu rén — 3 family members)', strokesOrder: ['竖 (left shù)', '横折 (top-right héngzhé)', '横 (bottom close héng)'] },
+      { lesson: 'L6', char: '呢', pinyin: 'ne', meaning: 'question particle ("…and you?")', radical: 'Left: 口 (mouth) + Right: 尼 (ní)', example: '我叫白家月，你呢？ / 我有两个哥哥，你呢？', strokesOrder: ['竖 (mouth shù)', '横折 (mouth héngzhé)', '横 (mouth héng)', '横折 (top-right héngzhé)', '横 (mid-right héng)', '撇 (body sweeping piě)', '撇 (spoon top piě)', '竖弯钩 (spoon shùwāngōu)'] },
+      { lesson: 'L6', char: '哥', pinyin: 'gē', meaning: 'elder brother (in 哥哥)', radical: 'Top: 可 (kě) + Bottom: 可 (kě)', example: '哥哥 (gēge) / 我有两个哥哥。', strokesOrder: ['横 (top héng)', '竖 (top-left shù)', '横折 (top mouth héngzhé)', '横 (top mouth close héng)', '竖 (upper hook shù)', '横 (mid divider héng)', '竖 (bottom-left shù)', '横折 (bottom mouth héngzhé)', '横 (bottom mouth close héng)', '竖钩 (final trunk shùgōu)'] },
+      { lesson: 'L6', char: '妹', pinyin: 'mèi', meaning: 'younger sister (in 妹妹)', radical: 'Left: 女 (female) + Right: 未 (wèi)', example: '妹妹 (mèimei) / 他有一个妹妹。', strokesOrder: ['撇点 (left piědiǎn)', '撇 (left piě)', '提 (left tí)', '横 (right short héng)', '横 (right long héng)', '竖 (right center shù)', '撇 (right lower piě)', '捺 (right sweeping nà)'] },
+      { lesson: 'L6', char: '爸', pinyin: 'bà', meaning: 'father / dad (in 爸爸)', radical: 'Top: 父 (father) + Bottom: 巴 (bā sound)', example: '我爸爸的工作很忙。', strokesOrder: ['撇 (top-left piě)', '点 (top-right diǎn)', '撇 (lower-left piě)', '捺 (crossing nà)', '横折 (bottom frame héngzhé)', '竖 (inner center shù)', '横 (inner close héng)', '竖弯钩 (base shùwāngōu)'] },
+      { lesson: 'L6', char: '妈', pinyin: 'mā', meaning: 'mother / mom (in 妈妈)', radical: 'Left: 女 (female) + Right: 马 (mǎ phonetic)', example: '我很想妈妈。 / 他妈妈在法国。', strokesOrder: ['撇点 (left piědiǎn)', '撇 (left piě)', '提 (left tí)', '横折 (horse top héngzhé)', '竖折折钩 (horse body shùzhézhégōu)', '横 (bottom long héng)'] },
+      { lesson: 'L6', char: '和', pinyin: 'hé', meaning: 'and / with (conjunction)', radical: 'Left: 禾 (grain) + Right: 口 (mouth)', example: '哥哥和妹妹一起学中文。', strokesOrder: ['撇 (top-left flat piě)', '横 (grain héng)', '竖 (grain trunk shù)', '撇 (grain left piě)', '点 (grain right diǎn)', '竖 (mouth shù)', '横折 (mouth héngzhé)', '横 (mouth close héng)'] },
+      { lesson: 'L6', char: '岁', pinyin: 'suì', meaning: 'year (of age)', radical: 'Top: 山 (mountain) + Bottom: 夕 (xī)', example: '女儿今年十二岁。 / 你几岁了？', strokesOrder: ['竖 (mountain center shù)', '竖折 (mountain left-base shùzhé)', '竖 (mountain right shù)', '撇 (bottom piě)', '横撇 (bottom curve héngpiě)', '点 (inner diǎn)'] },
+      { lesson: 'L6', char: '儿', pinyin: 'ér', meaning: 'son / child (in 儿子 / 女儿)', radical: '2 strokes: 撇 + 竖弯钩', example: '儿子 (érzi) / 女儿 (nǚ’ér)', strokesOrder: ['撇 (left piě)', '竖弯钩 (right shùwāngōu)'] },
+      { lesson: 'L6', char: '孩', pinyin: 'hái', meaning: 'child / children (in 孩子)', radical: 'Left: 子 (child) + Right: 亥 (hài)', example: '我有两个孩子。', strokesOrder: ['横撇 (left top héngpiě)', '竖钩 (left spine shùgōu)', '提 (left cross tí)', '点 (right top diǎn)', '横 (right héng)', '撇折 (mid hook piězhé)', '撇 (upper left piě)', '撇 (lower long piě)', '点 (final diǎn)'] },
+      { lesson: 'L6', char: '年', pinyin: 'nián', meaning: 'year (in 今年)', radical: '6 strokes (note: top 撇+横 first)', example: '今年是2026年。 / 明年', strokesOrder: ['撇 (top-left piě)', '横 (top long héng)', '横 (mid short héng)', '竖 (left short shù)', '横 (bottom long héng)', '竖 (center final shù)'] },
+      { lesson: 'L6', char: '今', pinyin: 'jīn', meaning: 'now / this (in 今年 / 今天)', radical: 'Top: 人 (person roof) + Bottom: 丶+フ', example: '今年 (jīnnián) / 今天 (jīntiān)', strokesOrder: ['撇 (top-left roof piě)', '捺 (top-right roof nà)', '点 (inner diǎn)', '横撇 (bottom hook héngpiě)'] },
+      { lesson: 'L6', char: '百', pinyin: 'bǎi', meaning: 'hundred (100)', radical: 'Top: 一 + Bottom: 白 (bái)', example: '两百 (liǎng bǎi — 200)', strokesOrder: ['横 (top long héng)', '撇 (short drop piě)', '竖 (left shù)', '横折 (frame héngzhé)', '横 (inner héng)', '横 (bottom base héng)'] },
+      { lesson: 'L6', char: '千', pinyin: 'qiān', meaning: 'thousand (1,000)', radical: '3 strokes: 撇 + 十 (ten)', example: '两千 (liǎng qiān — 2,000)', strokesOrder: ['撇 (top flat piě)', '横 (long crossbar héng)', '竖 (center trunk shù)'] },
+      { lesson: 'L6', char: '万', pinyin: 'wàn', meaning: 'ten thousand (10,000)', radical: '3 strokes: 一 + 𠃌 + 丿', example: '一万 (yí wàn — 10,000)', strokesOrder: ['横 (top long héng)', '横折钩 (right curve héngzhégōu)', '撇 (left sweeping piě)'] },
+      // LESSON 7 (11.11.2026)
+      { lesson: 'L7', char: '天', pinyin: 'tiān', meaning: 'day / sky (in 今天 / 明天 / 星期天)', radical: '二 (two) + 人 (person) = 4 strokes', example: '今天我休息。 / 星期天', strokesOrder: ['横 (top short héng)', '横 (second long héng)', '撇 (left leg piě)', '捺 (right leg nà)'] },
+      { lesson: 'L7', char: '月', pinyin: 'yuè', meaning: 'month / moon', radical: 'Single pictograph (moon)', example: '今天十一月十一号。 / 三个月', strokesOrder: ['撇 (left curve piě)', '横折钩 (right frame héngzhégōu)', '横 (inner upper héng)', '横 (inner lower héng)'] },
+      { lesson: 'L7', char: '日', pinyin: 'rì', meaning: 'day / sun (written dates)', radical: 'Single box pictograph (4 strokes)', example: '2026年11月11日 / 星期日', strokesOrder: ['竖 (left shù)', '横折 (top-right héngzhé)', '横 (mid divider héng)', '横 (bottom close héng)'] },
+      { lesson: 'L7', char: '号', pinyin: 'hào', meaning: 'date / number (spoken dates & phone #)', radical: 'Top: 口 (mouth) + Bottom: 丂', example: '今天几号？今天11号。 / 手机号', strokesOrder: ['竖 (mouth shù)', '横折 (mouth héngzhé)', '横 (mouth close héng)', '横 (bottom crossbar héng)', '竖折折钩 (hook base shùzhézhégōu)'] },
+      { lesson: 'L7', char: '星', pinyin: 'xīng', meaning: 'star / week (in 星期)', radical: 'Top: 日 (sun) + Bottom: 生 (shēng)', example: '今天星期几？ / 星期日 / 星期天', strokesOrder: ['竖 (sun shù)', '横折 (sun héngzhé)', '横 (sun mid héng)', '横 (sun close héng)', '撇 (生 piě)', '横 (生 upper héng)', '横 (生 mid héng)', '竖 (生 center shù)', '横 (生 bottom base héng)'] },
+      { lesson: 'L7', char: '休', pinyin: 'xiū', meaning: 'rest (in 休息)', radical: 'Left: 亻(person) + Right: 木 (tree) — person leaning by tree!', example: '今天我休息。 / 休息一下', strokesOrder: ['撇 (person piě)', '竖 (person shù)', '横 (tree héng)', '竖 (tree trunk shù)', '撇 (tree left piě)', '捺 (tree right nà)'] },
+      { lesson: 'L7', char: '会', pinyin: 'huì', meaning: 'can / know how to (learned skill)', radical: 'Top: 人 (roof) + Bottom: 云 (cloud)', example: '你会做饭吗？ / 我会说中文。', strokesOrder: ['撇 (roof left piě)', '捺 (roof right nà)', '横 (upper cloud héng)', '横 (long cloud héng)', '撇折 (cloud loop piězhé)', '点 (cloud dot diǎn)'] },
+      { lesson: 'L7', char: '做', pinyin: 'zuò', meaning: 'do / make / cook (in 做饭 / 做菜)', radical: 'Left: 亻(person) + Middle: 古 + Right: 攵', example: '我会做面条儿。 / 我做了三个菜。', strokesOrder: ['撇 (left person piě)', '竖 (left person shù)', '横 (古 top héng)', '竖 (古 trunk shù)', '竖 (古 mouth shù)', '横折 (古 mouth héngzhé)', '横 (古 mouth close héng)', '撇 (右 upper piě)', '横 (右 short héng)', '撇 (右 sweeping piě)', '捺 (右 sweeping nà)'] },
+      { lesson: 'L7', char: '饭', pinyin: 'fàn', meaning: 'cooked rice / meal (晚饭 / 做饭 / 米饭)', radical: 'Left: 饣(food radical) + Right: 反 (fǎn phonetic)', example: '做饭 (cook) / 晚饭 (dinner) / 米饭 (rice)', strokesOrder: ['撇 (food top piě)', '横钩 (food hook hénggōu)', '竖提 (food spine shùtí)', '撇 (fǎn left-top piě)', '撇 (fǎn left sweep piě)', '横撇 (fǎn loop héngpiě)', '捺 (fǎn right leg nà)'] },
+      { lesson: 'L7', char: '菜', pinyin: 'cài', meaning: 'dish / vegetable / course', radical: 'Top: 艹(grass/plant) + Bottom: 采 (cǎi)', example: '做菜 / 法国菜很好吃。', strokesOrder: ['横 (grass héng)', '竖 (grass left shù)', '竖 (grass right shù)', '撇 (claw top piě)', '点 (claw left diǎn)', '点 (claw mid diǎn)', '撇 (claw right piě)', '横 (tree héng)', '竖 (tree trunk shù)', '撇 (tree left piě)', '捺 (tree right nà)'] },
+      { lesson: 'L7', char: '新', pinyin: 'xīn', meaning: 'new (新电脑 / 新手机)', radical: 'Left: 亲 variant (立+木) + Right: 斤 (axe)', example: '杨同乐有一个新电脑。 / 新衣服', strokesOrder: ['点 (top-left diǎn)', '横 (upper héng)', '点 (left dot diǎn)', '撇 (right dot piě)', '横 (mid crossbar héng)', '横 (lower héng)', '竖钩 (bottom hook shùgōu)', '撇 (left drop piě)', '点 (right drop diǎn)', '撇 (axe top piě)', '撇 (axe vertical piě)', '横 (axe crossbar héng)', '竖 (axe trunk shù)'] },
+      { lesson: 'L7', char: '电', pinyin: 'diàn', meaning: 'electricity (电脑 / 电话)', radical: '5 strokes: 日 + 乚', example: '电脑 (computer) / 电话 (telephone)', strokesOrder: ['竖 (left shù)', '横折 (top-right héngzhé)', '横 (mid héng)', '横 (bottom close héng)', '竖弯钩 (tail shùwāngōu)'] },
+      { lesson: 'L7', char: '脑', pinyin: 'nǎo', meaning: 'brain (in 电脑 = computer)', radical: 'Left: 月 (flesh/body) + Right: 亠 + 凶', example: '一台电脑 (one computer)', strokesOrder: ['撇 (moon piě)', '横折钩 (moon frame héngzhégōu)', '横 (inner upper héng)', '横 (inner lower héng)', '点 (top-right diǎn)', '横 (top-right héng)', '撇 (inner X piě)', '点 (inner X diǎn)', '竖折 (cup shùzhé)', '竖 (right close shù)'] },
+      { lesson: 'L7', char: '喜', pinyin: 'xǐ', meaning: 'like / happy (in 喜欢)', radical: 'Top: 士+口 + Bottom: 口 (joyful drum!)', example: '他很喜欢李老师。 / 我喜欢玩电脑。', strokesOrder: ['横 (top long héng)', '竖 (spine shù)', '横 (base héng)', '竖 (upper mouth shù)', '横折 (upper mouth héngzhé)', '横 (upper mouth close héng)', '点 (left diǎn)', '撇 (right piě)', '横 (wide divider héng)', '竖 (bottom mouth shù)', '横折 (bottom mouth héngzhé)', '横 (bottom close héng)'] },
+      { lesson: 'L7', char: '欢', pinyin: 'huān', meaning: 'joyous / like (in 喜欢)', radical: 'Left: 又 (hand) + Right: 欠 (breath)', example: '喜欢 (xǐhuan — like)', strokesOrder: ['横撇 (left héngpiě)', '点 (left dot diǎn)', '撇 (right top piě)', '横撇 (right hook héngpiě)', '撇 (right leg piě)', '捺 (right leg nà)'] },
+      { lesson: 'L7', char: '说', pinyin: 'shuō', meaning: 'speak / say (Smartboard Word #2)', radical: 'Left: 讠(speech) + Right: 兑 (duì)', example: '我会说中文。 / 我们在电话里说吧。', strokesOrder: ['点 (speech diǎn)', '横折提 (speech héngzhétí)', '点 (right-top diǎn)', '撇 (right-top piě)', '竖 (mouth shù)', '横折 (mouth héngzhé)', '横 (mouth close héng)', '撇 (left leg piě)', '竖弯钩 (right leg shùwāngōu)'] },
+      { lesson: 'L7', char: '手', pinyin: 'shǒu', meaning: 'hand (in 手机 = cell phone)', radical: '4 strokes: top flat 撇 + 2 横 + 竖钩', example: '我的手机号是多少？ / 新手机', strokesOrder: ['撇 (top flat piě)', '横 (upper short héng)', '横 (lower long héng)', '竖钩 (center curve shùgōu)'] },
+      { lesson: 'L7', char: '话', pinyin: 'huà', meaning: 'speech / phone call (in 电话)', radical: 'Left: 讠(speech) + Right: 舌 (tongue)', example: '他正在打电话呢。 / 电话号码', strokesOrder: ['点 (speech diǎn)', '横折提 (speech héngzhétí)', '撇 (top flat piě)', '横 (crossbar héng)', '竖 (trunk shù)', '竖 (mouth shù)', '横折 (mouth héngzhé)', '横 (mouth close héng)'] },
+      { lesson: 'L7', char: '明', pinyin: 'míng', meaning: 'tomorrow / bright (in 明天)', radical: 'Left: 日 (sun) + Right: 月 (moon)', example: '明天我休息，不工作。 / 明天见！', strokesOrder: ['竖 (sun shù)', '横折 (sun héngzhé)', '横 (sun inner héng)', '横 (sun close héng)', '撇 (moon piě)', '横折钩 (moon frame héngzhégōu)', '横 (moon inner upper héng)', '横 (moon inner lower héng)'] },
+      { lesson: 'L7', char: '去', pinyin: 'qù', meaning: 'go to', radical: 'Top: 土 (earth) + Bottom: 厶', example: '我想去超市买东西。 / 你明天去哪儿？', strokesOrder: ['横 (top short héng)', '竖 (center trunk shù)', '横 (mid long héng)', '撇折 (bottom loop piězhé)', '点 (final diǎn)'] },
+      { lesson: 'L7', char: '想', pinyin: 'xiǎng', meaning: 'want / would like / miss', radical: 'Top: 相 (xiāng) + Bottom: 心 (heart — thinking!)', example: '我想去超市。 / 我想你了。', strokesOrder: ['横 (tree héng)', '竖 (tree trunk shù)', '撇 (tree left piě)', '点 (tree right diǎn)', '竖 (eye shù)', '横折 (eye héngzhé)', '横 (eye upper héng)', '横 (eye mid héng)', '横 (eye close héng)', '点 (heart left diǎn)', '卧钩 (heart sweep wògōu)', '点 (heart mid diǎn)', '点 (heart right diǎn)'] },
+      { lesson: 'L7', char: '买', pinyin: 'mǎi', meaning: 'buy (买东西 / 买菜)', radical: 'Top: 乛+two dots + Bottom: 头 variant (6 strokes)', example: '去超市买牛奶 / 买东西', strokesOrder: ['横钩 (top hénggōu)', '点 (upper diǎn)', '点 (lower diǎn)', '横 (crossbar héng)', '撇 (sweeping left leg piě)', '点 (right leg diǎn)'] },
+      { lesson: 'L7', char: '吃', pinyin: 'chī', meaning: 'eat / have (吃饭 / 好吃)', radical: 'Left: 口 (mouth) + Right: 乞 (qǐ)', example: '包子很好吃！ / 吃晚饭', strokesOrder: ['竖 (mouth shù)', '横折 (mouth héngzhé)', '横 (mouth close héng)', '撇 (right-top piě)', '横 (right héng)', '横折弯钩 (curve tail héngzhéwāngōu)'] },
+      { lesson: 'L7', char: '米', pinyin: 'mǐ', meaning: 'rice (in 米饭)', radical: 'Single pictograph (6 strokes — rice grains)', example: '米饭 (mǐfàn — cooked rice)', strokesOrder: ['点 (top-left diǎn)', '撇 (top-right piě)', '横 (center crossbar héng)', '竖 (center trunk shù)', '撇 (bottom-left piě)', '捺 (bottom-right nà)'] },
+      { lesson: 'L7', char: '怎', pinyin: 'zěn', meaning: 'how (in 怎么)', radical: 'Top: 乍 (zhà) + Bottom: 心 (heart)', example: '我们怎么去？ / 这个菜怎么做？', strokesOrder: ['撇 (top piě)', '横 (top héng)', '竖 (spine shù)', '横 (upper inner héng)', '横 (lower inner héng)', '点 (heart left diǎn)', '卧钩 (heart sweep wògōu)', '点 (heart mid diǎn)', '点 (heart right diǎn)'] },
+      { lesson: 'L7', char: '坐', pinyin: 'zuò', meaning: 'take (transport) / sit', radical: 'Two 人 (people) sitting on 土 (earth)!', example: '我们坐出租车去西安饭店。 / 请坐！', strokesOrder: ['撇 (left person piě)', '点 (left person diǎn)', '撇 (right person piě)', '点 (right person diǎn)', '横 (upper earth héng)', '竖 (earth center shù)', '横 (bottom ground héng)'] },
+      { lesson: 'L7', char: '车', pinyin: 'chē', meaning: 'vehicle / car (出租车)', radical: 'Single pictograph (4 strokes)', example: '出租车 (chūzūchē — taxi) / 坐车', strokesOrder: ['横 (top héng)', '撇折 (body curve piězhé)', '横 (bottom axle héng)', '竖 (center axis shù)'] }
     ];
 
     const hanziLessonSelect = document.getElementById('hanzi-lesson-select');
@@ -4471,8 +5688,8 @@
     const hanziStrokeStepsListEl = document.getElementById('hanzi-stroke-steps-list');
     const hanziCheckFeedbackEl = document.getElementById('hanzi-check-feedback');
 
-    let hanziFilter = 'L5';
-    let filteredHanziList = hanziWritingPool.filter((h) => h.lesson === 'L5');
+    let hanziFilter = 'L7';
+    let filteredHanziList = hanziWritingPool.filter((h) => h.lesson === 'L7');
     let hanziCurrentIdx = 0;
     let showTraceGuide = true;
     let brushColor = '#0f172a';
@@ -4488,6 +5705,12 @@
     let animFrameId = null;
     let isAnimatingStrokes = false;
     let showCheckOverlay = false;
+    let showNextStrokeHint = true; // Highlights the exact next stroke on the Mǐzìgé canvas so student never feels lost
+    let lastViewedLessonMode = 'lesson7';
+    const hanziNextStrokeTextEl = document.getElementById('hanzi-next-stroke-text');
+    const hanziLiveHintBtn = document.getElementById('hanzi-live-hint-btn');
+    const hanziLessonProgressTextEl = document.getElementById('hanzi-lesson-progress-text');
+    const hanziBackLessonBtn = document.getElementById('hanzi-back-lesson-btn');
 
     const canvasSize = 300;
     const dpr = window.devicePixelRatio || 1;
@@ -4692,6 +5915,15 @@
           ctx.fillText(`Step ${activeStepIndex}/${item.strokesOrder.length}: ${stepDesc}`, canvasSize / 2, 31);
           ctx.restore();
         }
+      } else if (showNextStrokeHint && !showCheckOverlay && !isAnimatingStrokes && hwData && hwData.strokes && hwData.strokes.length) {
+        // Live Next-Stroke Guide while student is writing: highlights the exact stroke to write next (hanziStrokes.length)
+        const nextStrokeIdx = hanziStrokes.length;
+        if (nextStrokeIdx < hwData.strokes.length) {
+          drawSingleSvgStroke(ctx, hwData.strokes[nextStrokeIdx], 'rgba(2, 132, 199, 0.35)');
+          if (hwData.medians && hwData.medians[nextStrokeIdx]) {
+            drawMedianDirectionArrow(ctx, hwData.medians[nextStrokeIdx], nextStrokeIdx + 1, 1);
+          }
+        }
       }
     }
 
@@ -4817,6 +6049,22 @@
       } else {
         hanziStrokeCountEl.className = 'font-bold text-slate-600';
         hanziStrokeCountEl.textContent = `Strokes: ${drawnCount} / ${expectedStrokes}`;
+      }
+
+      // Update Live Next-Stroke Guide Banner text
+      if (hanziNextStrokeTextEl && item) {
+        if (drawnCount > expectedStrokes) {
+          hanziNextStrokeTextEl.className = 'text-red-400 truncate';
+          hanziNextStrokeTextEl.textContent = `⚠️ +${drawnCount - expectedStrokes} extra stroke(s)! Click Undo ↩️`;
+        } else if (drawnCount === expectedStrokes && expectedStrokes > 0) {
+          hanziNextStrokeTextEl.className = 'text-emerald-300 truncate';
+          hanziNextStrokeTextEl.textContent = `✅ All ${expectedStrokes}/${expectedStrokes} strokes drawn! Click Check ✓`;
+        } else {
+          const nextIdx = drawnCount;
+          const nextName = (item.strokesOrder && item.strokesOrder[nextIdx]) ? item.strokesOrder[nextIdx] : `Stroke ${nextIdx + 1}`;
+          hanziNextStrokeTextEl.className = 'text-amber-300 truncate';
+          hanziNextStrokeTextEl.textContent = `👉 Next (#${nextIdx + 1}/${expectedStrokes}): ${nextName}`;
+        }
       }
     }
 
@@ -5127,7 +6375,9 @@
         L2: 'Lesson 2 (22.10.2026)',
         L3: 'Lesson 3 (26.10.2026)',
         L4: 'Lesson 4 (28.10.2026)',
-        L5: 'Lesson 5 (05.11.2026)'
+        L5: 'Lesson 5 (05.11.2026)',
+        L6: 'Lesson 6 (09.11.2026)',
+        L7: 'Lesson 7 (11.11.2026)'
       };
 
       hanziCounterBadge.textContent = `Char ${hanziCurrentIdx + 1} / ${filteredHanziList.length}`;
@@ -5138,19 +6388,21 @@
       hanziTargetRadicalEl.textContent = item.radical;
       hanziTargetExampleEl.textContent = item.example;
 
-      // Render character selector strip
+      // Render numbered character selector strip + lesson completion count
       hanziCharStrip.innerHTML = '';
+      let completedInLesson = 0;
       filteredHanziList.forEach((h, idx) => {
-        const chip = document.createElement('button');
-        chip.type = 'button';
         const isActive = idx === hanziCurrentIdx;
         const isChecked = checkedHanziSet.has(h.char);
+        if (isChecked) completedInLesson++;
+        const chip = document.createElement('button');
+        chip.type = 'button';
         chip.className = isActive
           ? 'px-3 py-1.5 rounded-xl bg-red-600 text-white font-black text-sm shadow-sm border-2 border-red-700 transition flex items-center gap-1.5'
           : isChecked
           ? 'px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-950 font-bold text-sm border-2 border-emerald-400 transition flex items-center gap-1.5'
           : 'px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-800 font-bold text-sm border border-slate-300 transition flex items-center gap-1.5';
-        chip.innerHTML = `<span>${h.char}</span><span class="text-[10px] font-mono ${isActive ? 'text-red-100' : 'text-slate-500'}">${h.pinyin}</span>${isChecked ? '<span class="text-xs text-emerald-500 font-black">✓</span>' : ''}`;
+        chip.innerHTML = `<span class="text-[10px] font-mono ${isActive ? 'text-red-200' : 'text-slate-400'}">#${idx + 1}</span><span>${h.char}</span><span class="text-[10px] font-mono ${isActive ? 'text-red-100' : 'text-slate-500'}">${h.pinyin}</span>${isChecked ? '<span class="text-xs text-emerald-500 font-black">✓</span>' : ''}`;
         chip.addEventListener('click', () => {
           hanziCurrentIdx = idx;
           hanziStrokes = [];
@@ -5159,6 +6411,9 @@
         });
         hanziCharStrip.appendChild(chip);
       });
+      if (hanziLessonProgressTextEl) {
+        hanziLessonProgressTextEl.textContent = `Lesson Progress: ${completedInLesson} / ${filteredHanziList.length} Completed ✓`;
+      }
 
       renderStrokeStepPills();
       redrawHanziCanvas();
@@ -5280,7 +6535,522 @@
       });
     });
 
+    if (hanziLiveHintBtn) {
+      hanziLiveHintBtn.addEventListener('click', () => {
+        showNextStrokeHint = !showNextStrokeHint;
+        hanziLiveHintBtn.textContent = showNextStrokeHint ? '🎯 Guide: ON' : '🎯 Guide: OFF';
+        hanziLiveHintBtn.className = showNextStrokeHint
+          ? 'shrink-0 px-2 py-0.5 rounded bg-sky-600 hover:bg-sky-500 text-[10px] font-extrabold text-white transition'
+          : 'shrink-0 px-2 py-0.5 rounded bg-slate-700 hover:bg-slate-600 text-[10px] font-extrabold text-slate-300 transition';
+        redrawHanziCanvas();
+      });
+    }
+
+    if (hanziBackLessonBtn) {
+      hanziBackLessonBtn.addEventListener('click', () => {
+        setViewMode(lastViewedLessonMode || 'lesson7');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
     renderHanziStation();
+
+    // =========================================================================
+    // 12. ORGANIZED NOTEBOOK COPY SHEET & STEP-BY-STEP SECTION NAVIGATOR
+    // =========================================================================
+    const lessonNotebookData = {
+      lesson1: {
+        title: 'Lesson 1 (19.10.2026) — Pinyin, Tones, Numbers & Survival Chinese',
+        vocab: [
+          { hanzi: '赵老师', pinyin: 'Zhào Lǎoshī', meaning: 'Teacher Zhao (Surname first + Title)' },
+          { hanzi: '到！', pinyin: 'Dào!', meaning: 'Here! / Present! (Roll call response)' },
+          { hanzi: '水', pinyin: 'shuǐ', meaning: 'n. water (sh + ui [uei] + 3rd tone)' },
+          { hanzi: '山 / 人 / 古', pinyin: 'shān / rén / gǔ', meaning: 'mountain / person / ancient (十 + 口)' },
+          { hanzi: '零，一～十', pinyin: 'líng, yī – shí', meaning: 'Numbers 0 to 10' },
+          { hanzi: '两 vs. 二', pinyin: 'liǎng vs. èr', meaning: 'liǎng (before measure words/money) vs. èr (counting)' },
+          { hanzi: '块 / 毛 / 钱', pinyin: 'kuài / máo / qián', meaning: '1 RMB unit / 0.1 RMB unit / money' },
+          { hanzi: '多少钱？', pinyin: 'Duōshǎo qián?', meaning: 'How much money?' },
+          { hanzi: '要 / 不要', pinyin: 'yào / bú yào', meaning: 'want / do not want' },
+          { hanzi: '厕所 / 杯子', pinyin: 'cèsuǒ / bēizi', meaning: 'washroom / cup' }
+        ],
+        formulas: [
+          { tag: 'Rule ①', formula: 'Syllable = [Initial Consonant] + [Final Vowel] + [Tone]', note: 'e.g. sh + ui (uei) + 3rd ──► shuǐ (水)' },
+          { tag: 'Rule ②', formula: 'Hidden Middle Vowels: iu ──► iou │ ui ──► uei │ un ──► uen', note: 'Never drop the middle glide when speaking!' },
+          { tag: 'Rule ③', formula: 'j / q / x + ü ──► written ju / qu / xu (two dots dropped)', note: 'Still pronounced with rounded lips ü!' },
+          { tag: 'Rule ④', formula: 'Numbers 11–99: [Tens] + shí (十) + [Units]', note: '15 = shíwǔ (十五) │ 20 = èrshí (二十) │ 25 = èrshíwǔ (二十五)' },
+          { tag: 'Rule ⑤', formula: 'Spoken Money: [Num + kuài 块] + [Num + máo 毛]', note: '3.5 RMB = sān kuài wǔ máo (三块五毛) │ 2 RMB = liǎng kuài (两块)' }
+        ],
+        sentences: [
+          { hanzi: '这个多少钱？', pinyin: 'Zhège duōshǎo qián?', en: 'How much is this one?' },
+          { hanzi: '三块五毛。 / 两块。', pinyin: 'Sān kuài wǔ máo. / Liǎng kuài.', en: '3.5 RMB. / 2 RMB.' },
+          { hanzi: '我要一瓶水。', pinyin: 'Wǒ yào yì píng shuǐ.', en: 'I want one bottle of water.' },
+          { hanzi: '厕所在哪里？', pinyin: 'Cèsuǒ zài nǎlǐ?', en: 'Where is the washroom?' }
+        ]
+      },
+      lesson2: {
+        title: 'Lesson 2 (22.10.2026) — Greetings, Meats, Tone Sandhi & PPT 第1课',
+        vocab: [
+          { hanzi: '你好 / 您好', pinyin: 'nǐ hǎo / nín hǎo', meaning: 'Hello (singular) / Hello (respectful: 你+心)' },
+          { hanzi: '大家 / 你们 / 我们', pinyin: 'dàjiā / nǐmen / wǒmen', meaning: 'everybody / you (plural) / we (plural suffix -们)' },
+          { hanzi: '学生 / 老师 / 同学', pinyin: 'xuéshēng / lǎoshī / tóngxué', meaning: 'student (小/中/大学生) / teacher / classmate' },
+          { hanzi: '谢谢 / 不客气 / 再见', pinyin: 'xièxie / bú kèqi / zàijiàn', meaning: 'Thank you / You’re welcome / Goodbye (明天见)' },
+          { hanzi: '猪肉 / 牛肉 / 羊肉 / 鸡肉', pinyin: 'zhūròu / niúròu / yángròu / jīròu', meaning: 'Pork / Beef / Lamb / Chicken ([Animal] + 肉)' },
+          { hanzi: '窗 (chuāng) vs. 床 (chuáng)', pinyin: '1st Tone vs. 2nd Tone', meaning: 'Window (1st) vs. Bed (2nd)' },
+          { hanzi: '左 (zuǒ) vs. 坐 (zuò)', pinyin: '3rd Tone vs. 4th Tone', meaning: 'Left (3rd) vs. Sit (4th)' },
+          { hanzi: '手机 / 出租车', pinyin: 'shǒujī / chūzūchē', meaning: 'Mobile phone / Taxi' },
+          { hanzi: '星期一 ～ 星期日', pinyin: 'xīngqī yī – xīngqī rì', meaning: 'Monday to Sunday (星期 + Number)' },
+          { hanzi: '绕口令 1-7: 妈/麻/马/骂', pinyin: 'Mā zhòng má, wǒ fàng mǎ…', meaning: 'Mom plants flax, I tend the horse; horse eats flax, Mom scolds horse' }
+        ],
+        formulas: [
+          { tag: 'Rule ①', formula: '3rd Tone Sandhi: [3rd ↘↗] + [3rd ↘↗] ──► [2nd ↗] + [3rd ↘↗]', note: 'nǐ + hǎo ──► pronounced ní hǎo (你好)' },
+          { tag: 'Rule ②', formula: 'Plural People Suffix: [Pronoun / Person Noun] + men (们)', note: '你 ──► 你们 │ 他 ──► 他们 │ 同学 ──► 同学们' },
+          { tag: 'Rule ③', formula: 'Meat Compound Hub: [Animal Name] + ròu (肉 = meat)', note: '猪(pig)+肉=猪肉 │ 牛(cow)+肉=牛肉 │ 羊(sheep)+肉=羊肉' },
+          { tag: 'Rule ④', formula: 'Action + Object: hē (喝 drink) + [Liquid] │ kàn (看 read) + shū (书)', note: '喝水 (drink water) │ 他们正在上课 (They are having class)' }
+        ],
+        sentences: [
+          { hanzi: '我不要猪肉，我要牛肉。', pinyin: 'Wǒ bú yào zhūròu, wǒ yào niúròu.', en: 'I don’t want pork, I want beef.' },
+          { hanzi: '她是我的中文老师。 / 你们学校有多少学生？', pinyin: 'Tā shì wǒ de Zhōngwén lǎoshī.', en: 'She is my Chinese teacher. / How many students does your school have?' },
+          { hanzi: '妈种麻，我放马。马吃麻，妈骂马。', pinyin: 'Mā zhòng má, wǒ fàng mǎ. Mǎ chī má, mā mà mǎ.', en: 'PPT 1-7 Tongue Twister (4 tones of "ma")' },
+          { hanzi: '再见，明天见！ / 我下班了，再见。', pinyin: 'Zàijiàn, míngtiān jiàn! / Wǒ xiàbān le, zàijiàn.', en: 'Goodbye, see you tomorrow! / I’m off work, bye.' }
+        ]
+      },
+      lesson3: {
+        title: 'Lesson 3 (26.10.2026) — Independent Finals, Retroflex "er", Tone Priority & Ex ①',
+        vocab: [
+          { hanzi: '儿 / 二 / 耳', pinyin: 'ér (2nd) / èr (4th) / ěr (3rd)', meaning: 'Retroflex 7th final "er" (son / two / ear)' },
+          { hanzi: '鱼 / 去 / 学 / 居', pinyin: 'yú / qù / xué / jū', meaning: 'j, q, x, y + ü drops two dots in writing' },
+          { hanzi: '请 / 听 / 明', pinyin: 'qǐng / tīng / míng', meaning: '-ing final (pronounced with subtle "yieng" glide)' },
+          { hanzi: '趴 (1) • 字 (2) • 狼 (3) • 居 (4)', pinyin: 'pā • zì • láng • jū', meaning: 'Graded Exercise ① (#1–#4)' },
+          { hanzi: '门 (5) • 入 (6) • 课 (7) • 请 (8)', pinyin: 'mén • rù • kè • qǐng', meaning: 'Graded Exercise ① (#5–#8 — 8/8 ✓)' },
+          { hanzi: '两块五', pinyin: 'liǎng kuài wǔ', meaning: '2.5 RMB (Spoken price shorthand — máo dropped)' }
+        ],
+        formulas: [
+          { tag: 'Rule ①', formula: 'Independent Finals (a, o, e) vs. Assisted Finals (i ──► yi, u ──► wu, ü ──► yu)', note: 'i, u, ü cannot stand alone without y or w!' },
+          { tag: 'Rule ②', formula: 'Initials (1) Aspiration: Unaspirated b[p], d[t], g[k] vs. Aspirated p[p\'], t[t\'], k[k\'] 💨', note: 'Hold paper in front of mouth: p, t, k puff air!' },
+          { tag: 'Rule ③', formula: 'Tone-Mark Priority: a ◄── o ◄── e ◄── i, u, ü', note: 'For "iu" and "ui", the tone mark ALWAYS goes on the LAST vowel (liù, shuǐ)!' },
+          { tag: 'Rule ④', formula: 'Spoken Money Shorthand: [Num] + kuài (块) + [Sub-unit Num]', note: '2.5 RMB = liǎng kuài wǔ (两块五, drop máo)' }
+        ],
+        sentences: [
+          { hanzi: '两块五 (2.5 RMB)', pinyin: 'liǎng kuài wǔ', en: 'Two kuai five (2.5 RMB spoken shorthand)' },
+          { hanzi: '请进 / 上课 / 听写', pinyin: 'qǐng jìn / shàngkè / tīngxiě', en: 'Please come in / Class begins / Dictation' }
+        ]
+      },
+      lesson4: {
+        title: 'Lesson 4 (28.10.2026) — Asking Names, S+V+O, Question Rules & PPT 第2课',
+        vocab: [
+          { hanzi: '请问', pinyin: 'qǐngwèn', meaning: 'v. Excuse me (please + ask)' },
+          { hanzi: '叫 / 什么 / 名字', pinyin: 'jiào / shénme / míngzi', meaning: 'v. be called / pron. what / n. name' },
+          { hanzi: '是 / 不是 / 谁', pinyin: 'shì / bú shì / shéi (shuí)', meaning: 'v. to be / is not / pron. who' },
+          { hanzi: '很 / 高兴 / 认识 / 也', pinyin: 'hěn / gāoxìng / rènshi / yě', meaning: 'adv. very / adj. happy / v. know, meet / adv. also' },
+          { hanzi: '对不起 ──► 没关系 / 没事', pinyin: 'duìbuqǐ ──► méi guānxi / méishì', meaning: 'Sorry ──► That’s all right / It doesn’t matter' },
+          { hanzi: '超市 / 哪里 = 哪儿', pinyin: 'chāoshì / nǎlǐ = nǎr', meaning: 'supermarket / where (retroflex erhua equivalence)' },
+          { hanzi: '李文 / 白家月 / 陈天中', pinyin: 'Lǐ Wén / Bái Jiāyuè / Chén Tiānzhōng', meaning: 'Proper names in PPT Lesson 2 dialogues (P6–P8)' }
+        ],
+        formulas: [
+          { tag: 'Formula ①', formula: 'S + [adv: yě 也 / bù 不] + V (jiào / shì / rènshi) + O + [ma 吗?]', note: 'Basic Word Order (主语 + 谓语 + 宾语) — adverbs ALWAYS go before V!' },
+          { tag: 'Formula ②', formula: 'S + [adv: hěn 很 / bù 不] + Adj (hǎo 好 / gāoxìng 高兴)', note: 'In a Yes/No question with 吗 (ma?), drop 很: 你高兴吗？ (Nǐ gāoxìng ma?)' },
+          { tag: 'Rule ③', formula: 'Question Word In-Situ Rule: QW (什么 / 谁 / 哪儿) stays in the Object slot!', note: 'NEVER add 吗 (ma) when a Question Word is already in the sentence!' },
+          { tag: 'Rule ④', formula: '"bù (不)" Tone Sandhi: bù + {1st, 2nd, 3rd} = bù (4th) │ bù + {4th ╲} ──► bú (2nd ↗)', note: 'bú shì (不是), bú jiào (不叫), bú rènshi (不认识)' }
+        ],
+        sentences: [
+          { hanzi: '请问，你叫什么名字？ ──► 我叫李文。', pinyin: 'Qǐngwèn, nǐ jiào shénme míngzi? ──► Wǒ jiào Lǐ Wén.', en: 'Excuse me, what is your name? ──► My name is Li Wen.' },
+          { hanzi: '很高兴认识你。 ──► 认识你我也很高兴。', pinyin: 'Hěn gāoxìng rènshi nǐ. ──► Rènshi nǐ wǒ yě hěn gāoxìng.', en: 'Nice to meet you. ──► Nice to meet you too.' },
+          { hanzi: '请问，您是王老师吗？ ──► 我不是王老师。', pinyin: 'Qǐngwèn, nín shì Wáng lǎoshī ma? ──► Wǒ bú shì Wáng lǎoshī.', en: 'Excuse me, are you Teacher Wang? ──► I am not Teacher Wang.' },
+          { hanzi: '七加一，再减一，加完减完等于几？加完减完还是七。', pinyin: 'Qī jiā yī, zài jiǎn yī, jiāwán jiǎnwán děngyú jǐ? Jiāwán jiǎnwán háishì qī.', en: 'PPT 2-7 Tongue Twister: 7 + 1 - 1 still equals 7!' }
+        ]
+      },
+      lesson5: {
+        title: 'Lesson 5 (05.11.2026) — Nationalities, Particle "的", Measure Words & PPT 第3课',
+        vocab: [
+          { hanzi: '人 / 人们 / 一个人', pinyin: 'rén / rénmen / yí gè rén', meaning: 'n. human; person / people / one person (生词 3-2)' },
+          { hanzi: '的', pinyin: 'de', meaning: 'part. used after an attributive (possessive, 生词 3-2)' },
+          { hanzi: '中国 / 法国 / 泰国 / 中文', pinyin: 'Zhōngguó / Fǎguó / Tàiguó / Zhōngwén', meaning: 'Proper Nouns: China / France / Thailand / Chinese language' },
+          { hanzi: '这 / 那 / 哪 / 谁', pinyin: 'zhè / nà / nǎ / shéi', meaning: 'pron. this / that / which? / who (生词 3-4)' },
+          { hanzi: '女朋友 / 国 / 她', pinyin: 'nǚpéngyou / guó / tā', meaning: 'girlfriend / country / she, her (生词 3-4)' },
+          { hanzi: '喂 / 姐姐 / 工作 / 还 / 忙', pinyin: 'wèi / jiějie / gōngzuò / hái / máng', meaning: 'hello (phone) / elder sister / job / still / busy (生词 3-6)' },
+          { hanzi: '吗 / 对 / 太 / 我们 / 想', pinyin: 'ma / duì / tài / wǒmen / xiǎng', meaning: 'question particle / right / too / we, us / miss (生词 3-6)' },
+          { hanzi: '本 / 支 / 件 / 台 / 辆 / 瓶 / 位 / 个', pinyin: 'běn / zhī / jiàn / tái / liàng / píng / wèi / ge', meaning: '10 Blackboard Measure Words (量词) + Nouns' }
+        ],
+        formulas: [
+          { tag: 'Formula ①', formula: 'QW? │ S. + [yě / bú] + V. + [那 / 这 / 哪? / num.+m.w.+n.] + O. + [ma 吗?]', note: 'Master Blackboard Formula ① for Verbal & "是" Sentences (Negative: 不是 bú shì)' },
+          { tag: 'Formula ②', formula: 'S. + [yě 也] + adv. [hěn 很 / bù 不 / bú tài 不太] + adj. (好 / 高兴 / 忙)', note: 'Master Blackboard Formula ② for Adjective Predicates' },
+          { tag: 'Grammar ③', formula: 'Particle "的": [定语] + 的 + [中心语] │ Omission: Pronoun + (的 omitted) + Kinship / Person Noun', note: '白家月的中文老师 vs. Omitted: 我老师, 我学生, 你同学, 我妈妈' },
+          { tag: 'Grammar ④', formula: '用“吗”的是非问句: Statement + 吗？ (……吗？)', note: '你也很忙吗？ • 你是他的中文老师吗？ • 你有姐姐吗？' },
+          { tag: 'Rule ⑤', formula: 'Tone Sandhi of "一 (yī)": yī + {1/2/3} ──► yì (4th) │ yī + {4th} ──► yí (2nd)', note: '一些(yì xiē) • 一元(yì yuán) • 一本(yì běn) vs. 一件(yí jiàn) • 一个(yí gè)' }
+        ],
+        sentences: [
+          { hanzi: '他是一个好人。 / 我老师不是法国人。', pinyin: 'Tā shì yí gè hǎo rén. / Wǒ lǎoshī bú shì Fǎguórén.', en: 'He is a good person. / My teacher is not French.' },
+          { hanzi: '他是哪国人？ / 哪个人是你女朋友？', pinyin: 'Tā shì nǎ guó rén? / Nǎge rén shì nǐ nǚpéngyou?', en: 'Which country is he from? / Which person is your girlfriend?' },
+          { hanzi: '对，他是中国人。 / 他太忙了。 / 我想你了。', pinyin: 'Duì, tā shì Zhōngguórén. / Tā tài máng le. / Wǒ xiǎng nǐ le.', en: 'Right, he is Chinese. / He is too busy. / I miss you.' },
+          { hanzi: '喂，请问是王老师吗？ / 你也很忙吗？', pinyin: 'Wèi, qǐngwèn shì Wáng lǎoshī ma? / Nǐ yě hěn máng ma?', en: 'Hello, is this Teacher Wang? / Are you also busy?' },
+          { hanzi: '四是四，十是十。十四是十四，四十是四十。', pinyin: 'Sì shì sì, shí shì shí. Shísì shì shísì, sìshí shì sìshí.', en: 'PPT 3-7 Tongue Twister: 4 vs. 10 vs. 14 vs. 40' }
+        ]
+      },
+      lesson6: {
+        title: 'Lesson 6 (09.11.2026) — Family, Age, Numbers & Blackboard Formulas (PPT 第4课)',
+        vocab: [
+          { hanzi: '有 / 没有', pinyin: 'yǒu / méiyǒu', meaning: 'v. have / v. not have (生词 4-2, 4-4; never 不有!)' },
+          { hanzi: '多少 / 几', pinyin: 'duōshao / jǐ', meaning: 'how many/much (any #) vs. how many (< 10 + M.W.)' },
+          { hanzi: '个 / 口', pinyin: 'gè / kǒu', meaning: 'general M.W. (两个孩子) / family M.W. (四口人)' },
+          { hanzi: '家 / 哥哥 / 妹妹', pinyin: 'jiā / gēge / mèimei', meaning: 'family / elder brother / younger sister (生词 4-4)' },
+          { hanzi: '爸爸 / 妈妈 / 和 / 呢', pinyin: 'bàba / māma / hé / ne', meaning: 'father / mother / conj. and / question particle 呢' },
+          { hanzi: '儿子 / 孩子 / 女儿', pinyin: 'érzi / háizi / nǚ’ér', meaning: 'son / children / daughter (生词 4-6)' },
+          { hanzi: '岁 / 今年 / 他', pinyin: 'suì / jīnnián / tā', meaning: 'year (of age) / this year / he, him' },
+          { hanzi: '多 / 大 / ……年纪？', pinyin: 'duō / dà / niánjì?', meaning: 'how (multi-extent) / old (age) / polite elder age (Blackboard)' },
+          { hanzi: '百 / 千 / 万', pinyin: 'bǎi / qiān / wàn', meaning: '100 / 1,000 / 10,000 (PPT Numbers P20–21)' },
+          { hanzi: '二 vs. 两', pinyin: 'èr vs. liǎng', meaning: 'counting/tens (十二/二十) vs. before M.W. (两个/两口/两百)' }
+        ],
+        formulas: [
+          { tag: 'Chalk ①', formula: '[time] + S (你家/我) + [time] + [也] + [没有/不/很] + V (有/是/想) + O (num.+m.w.+n. / 几口人? / 多少+(个)学生?)', note: 'Teacher Zhao Blackboard Formula ① — 几 requires M.W.; 多少 allows optional (个)' },
+          { tag: 'Chalk ②', formula: 'S + hái (还) + [adv: bù 不 / hěn 很 / bú tài 不太] + adj. ──► Question: S + hái + adj + 吗？', note: 'Teacher Zhao Blackboard Formula ②' },
+          { tag: 'Question Law', formula: 'Question: ① ……吗？ ✕和 ② QW (几 / 多少 / 多大 / 谁 / 什么)', note: 'Mutually Exclusive! NEVER put 吗 at the end if a Question Word is present!' },
+          { tag: 'Grammar 4', formula: '“有”字句 (Neg: 没/没有) │ “呢” (A……，B呢？) │ 名量结构 [Num + M.W. + (N)]', note: '我没有姐姐。 • 我有两个哥哥，你呢？ • 四口人 / 两个学生' }
+        ],
+        sentences: [
+          { hanzi: '你家有几口人？ ──► 我家有四口人。', pinyin: 'Nǐ jiā yǒu jǐ kǒu rén? ──► Wǒ jiā yǒu sì kǒu rén.', en: 'How many people are in your family? ──► Four.' },
+          { hanzi: '我有两个孩子，女儿今年十二岁。', pinyin: 'Wǒ yǒu liǎng gè háizi, nǚ’ér jīnnián shí’èr suì.', en: 'I have two children; my daughter is 12 this year.' },
+          { hanzi: '他有二十个学生。 / 我没（有）姐姐。', pinyin: 'Tā yǒu èrshí gè xuésheng. / Wǒ méi (yǒu) jiějie.', en: 'She has 20 students. / I don’t have an elder sister.' },
+          { hanzi: '你儿子几岁？ / 他姐姐今年多大？ / 多大年纪？', pinyin: 'Nǐ érzi jǐ suì? / Tā jiějie jīnnián duō dà? / Duō dà niánjì?', en: 'Age questions: Child (几岁) vs. Teen/Adult (多大) vs. Elder (年纪)' }
+        ]
+      },
+      lesson7: {
+        title: 'Lesson 7 (11.11.2026) — Dates, Cooking, Hobbies & Serial Verbs (PPT 第5–6课 + Smartboard)',
+        vocab: [
+          { hanzi: '今天 / 月 / 号 / 日 / 星期', pinyin: 'jīntiān / yuè / hào / rì / xīngqī', meaning: 'today / month / spoken date / written day / week (生词 5-2)' },
+          { hanzi: '星期日 / 星期天 / 休息', pinyin: 'Xīngqīrì / Xīngqītiān / xiūxi', meaning: 'Sunday / v. have a rest (生词 5-2)' },
+          { hanzi: '上课 / 说 / 喜欢 / 好吃', pinyin: 'shàngkè / shuō / xǐhuan / hǎochī', meaning: 'Smartboard 4 Words: attend class / speak / like / delicious' },
+          { hanzi: '会 / 做饭 / 做 / 面条儿 / 饺子 / 一些 / 菜', pinyin: 'huì / zuò fàn / zuò / miàntiáor / jiǎozi / yìxiē / cài', meaning: 'can (learned) / cook / noodles / jiaozi / some / dish (生词 5-4)' },
+          { hanzi: '下班 / 新 / 电脑 / 真 / 好看 / 它', pinyin: 'xiàbān / xīn / diànnǎo / zhēn / hǎokàn / tā', meaning: 'get off work / new / computer / really / nice / it (生词 5-6)' },
+          { hanzi: '手机 / 电话 / 号', pinyin: 'shǒujī / diànhuà / hào', meaning: 'cell phone / telephone / number (生词 6-2)' },
+          { hanzi: '明天 / 去 / 哪儿 / 想', pinyin: 'míngtiān / qù / nǎr / xiǎng', meaning: 'tomorrow / go to / where / want, would like (生词 6-4)' },
+          { hanzi: '超市 / 买 / 东西 / 些 / 牛奶', pinyin: 'chāoshì / mǎi / dōngxi / xiē / niúnǎi', meaning: 'supermarket / buy / thing / some / milk (生词 6-4)' },
+          { hanzi: '吃 / 晚饭 / 那边 / 包子 / 非常 / 米饭', pinyin: 'chī / wǎnfàn / nàbiān / bāozi / fēicháng / mǐfàn', meaning: 'eat / dinner / there / steamed bun / extremely / cooked rice (生词 6-6)' },
+          { hanzi: '怎么 / 坐 / 出租车 / 西安饭店', pinyin: 'zěnme / zuò / chūzūchē / Xī’ān Fàndiàn', meaning: 'how / take (transport) / taxi / Xi’an Restaurant (生词 6-6)' }
+        ],
+        formulas: [
+          { tag: 'Smartboard 11.11', formula: 'Nominal Predicate (S + O — NO 是!): 今天十一号 ──► 今天几号？ / 今天星期几？ / 我妹妹12岁', note: 'Time Order (Big ──► Small): 年 → 月 → 日/号 → 星期' },
+          { tag: 'Modals', formula: '会 + Verb (learned skill) vs. 想 + Verb (desire/intention)', note: '我会做面条儿 (I can cook noodles) vs. 我想去超市 (I want to go)' },
+          { tag: '连动句 (1)', formula: 'Purpose: S + V1(go) + Place + V2(purpose) │ Manner: S + V1(transport) + V2(go+Place)', note: '我想去超市买东西 (Purpose) • 我们坐出租车去西安饭店 (Manner before destination!)' },
+          { tag: 'How (怎么)', formula: '疑问代词 “怎么 + Verb?” (Asking manner/method — NO 吗!)', note: '我们怎么去？ • 她怎么去超市？ • 这个菜怎么做？' }
+        ],
+        sentences: [
+          { hanzi: '今天11月11号，今天星期几？', pinyin: 'Jīntiān shíyī yuè shíyī hào, jīntiān xīngqī jǐ?', en: 'Today is Nov 11th; what day of the week is today?' },
+          { hanzi: '你会做饭吗？ ──► 我会做面条儿，不会做菜。', pinyin: 'Nǐ huì zuò fàn ma? ──► Wǒ huì zuò miàntiáor, bú huì zuò cài.', en: 'Can you cook? ──► I can make noodles, not dishes.' },
+          { hanzi: '你的手机号是多少？ ──► +86 135 XXXX 1160', pinyin: 'Nǐ de shǒujī hào shì duōshao?', en: 'What is your cell phone number?' },
+          { hanzi: '我想去超市买东西。 / 我们坐出租车去西安饭店。', pinyin: 'Wǒ xiǎng qù chāoshì mǎi dōngxi. / Wǒmen zuò chūzūchē qù Xī’ān Fàndiàn.', en: 'I want to go buy things at the supermarket. / We take a taxi to Xi’an Restaurant.' }
+        ]
+      }
+    };
+
+    let currentNoteLayout = 'both'; // 'both' | 'sheet' | 'step'
+    let currentFocusedStepIdx = 0;
+    const writtenSectionsSet = new Set(JSON.parse(localStorage.getItem('chinese_notes_written_sections') || '[]'));
+
+    function saveWrittenSections() {
+      try {
+        localStorage.setItem('chinese_notes_written_sections', JSON.stringify([...writtenSectionsSet]));
+      } catch (e) {
+        // Ignore storage errors
+      }
+    }
+
+    // Build and inject the structured Notebook Copy Sheet + Step Headers into each lesson section once
+    function initStructuredLessonNotes() {
+      ['lesson1', 'lesson2', 'lesson3', 'lesson4', 'lesson5', 'lesson6', 'lesson7'].forEach((lessonKey) => {
+        const secEl = document.getElementById(`view-${lessonKey}`);
+        const data = lessonNotebookData[lessonKey];
+        if (!secEl || !data) return;
+
+        // Collect all existing diagram cards (children after the header banner)
+        const children = Array.from(secEl.children);
+        const headerBanner = children[0];
+        const diagramCards = children.slice(1);
+
+        // Create the Structured 1-2-3 Notebook Copy Sheet Card
+        const sheetCard = document.createElement('div');
+        sheetCard.id = `${lessonKey}-copy-sheet`;
+        sheetCard.className = 'lesson-step-unit notebook-copy-sheet bg-amber-50/90 rounded-2xl border-2 border-amber-400 p-5 sm:p-6 shadow-sm space-y-5';
+        sheetCard.setAttribute('data-step-title', '📋 Notebook Copy Sheet (1-2-3 Summary)');
+        sheetCard.setAttribute('data-step-id', `${lessonKey}-sheet`);
+
+        const vocabRowsHtml = data.vocab.map((v, i) => `
+          <button type="button" data-speak="${v.hanzi.split(' ')[0]}" data-label="${v.hanzi} (${v.pinyin}) — ${v.meaning}" class="speak-btn w-full p-2 rounded-lg bg-white hover:bg-amber-100/70 border border-amber-200 text-left flex items-baseline justify-between gap-2 transition">
+            <div class="text-xs">
+              <span class="font-mono font-bold text-slate-400 mr-1">${i + 1}.</span>
+              <strong class="text-sm text-slate-900">${v.hanzi}</strong>
+              <span class="font-mono font-bold text-red-700 ml-1.5">[${v.pinyin}]</span>
+              <div class="text-[11px] text-slate-600 mt-0.5 pl-4">${v.meaning}</div>
+            </div>
+            <span class="text-xs shrink-0">🔊</span>
+          </button>
+        `).join('');
+
+        const formulaRowsHtml = data.formulas.map((f) => `
+          <div class="p-2.5 rounded-xl bg-white border border-indigo-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-900 font-mono text-[10px] font-extrabold uppercase">${f.tag}</span>
+            </div>
+            <div class="font-mono text-xs font-black text-slate-900">${f.formula}</div>
+            <div class="text-[11px] text-slate-600">${f.note}</div>
+          </div>
+        `).join('');
+
+        const sentenceRowsHtml = data.sentences.map((s, i) => `
+          <button type="button" data-speak="${s.hanzi.replace(/[^\u4e00-\u9fa5]/g, '')}" data-label="${s.pinyin} — ${s.en}" class="speak-btn w-full p-2.5 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-200 text-left space-y-0.5 transition">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-slate-900"><span class="font-mono text-emerald-700 mr-1">#${i + 1}</span>${s.hanzi}</span>
+              <span class="text-xs">🔊</span>
+            </div>
+            <div class="font-mono text-[11px] font-bold text-emerald-800">${s.pinyin}</div>
+            <div class="text-[11px] text-slate-600">${s.en}</div>
+          </button>
+        `).join('');
+
+        sheetCard.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-300 pb-3">
+            <div>
+              <span class="text-[11px] font-mono font-extrabold uppercase text-amber-900 bg-amber-200 px-2.5 py-0.5 rounded">Step 0 • Ordered Notebook Copy Sheet (笔记本抄写清单)</span>
+              <h3 class="text-base sm:text-lg font-black text-slate-900 mt-1">✍️ Write Your Paper Notes in This Exact 1 ──► 2 ──► 3 Order (No Getting Lost!)</h3>
+            </div>
+            <button type="button" data-mark-id="${lessonKey}-sheet" class="mark-written-btn px-3 py-1.5 rounded-xl border-2 text-xs font-extrabold transition"></button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            <!-- Column 1: Vocabulary List -->
+            <div class="lg:col-span-4 space-y-2">
+              <div class="p-2.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-extrabold flex items-center justify-between">
+                <span>1️⃣ FIRST: Write New Words (生词表)</span>
+                <span class="text-amber-300">${data.vocab.length} items</span>
+              </div>
+              <div class="space-y-1.5 max-h-[420px] overflow-y-auto pr-1">
+                ${vocabRowsHtml}
+              </div>
+            </div>
+
+            <!-- Column 2: Blackboard Formulas & Rules -->
+            <div class="lg:col-span-4 space-y-2">
+              <div class="p-2.5 rounded-xl bg-indigo-950 text-white text-xs font-mono font-extrabold flex items-center justify-between">
+                <span>2️⃣ SECOND: Write Blackboard Rules</span>
+                <span class="text-indigo-300">${data.formulas.length} rules</span>
+              </div>
+              <div class="space-y-2">
+                ${formulaRowsHtml}
+              </div>
+            </div>
+
+            <!-- Column 3: Key Sentences & Dialogues -->
+            <div class="lg:col-span-4 space-y-2">
+              <div class="p-2.5 rounded-xl bg-emerald-950 text-white text-xs font-mono font-extrabold flex items-center justify-between">
+                <span>3️⃣ THIRD: Write Key Sentences</span>
+                <span class="text-emerald-300">${data.sentences.length} lines</span>
+              </div>
+              <div class="space-y-2">
+                ${sentenceRowsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Insert the copy sheet right after the lesson header banner
+        if (headerBanner && headerBanner.nextSibling) {
+          secEl.insertBefore(sheetCard, headerBanner.nextSibling);
+        } else {
+          secEl.appendChild(sheetCard);
+        }
+
+        // Bind speak buttons inside the newly created copy sheet
+        sheetCard.querySelectorAll('.speak-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            speakChinese(btn.getAttribute('data-speak'), btn.getAttribute('data-label'));
+          });
+        });
+
+        // Tag and add a clean Step Header bar with "Mark Written in Notebook" to each Diagram card
+        diagramCards.forEach((card, dIdx) => {
+          const stepNum = dIdx + 1;
+          const stepId = `${lessonKey}-diag-${stepNum}`;
+          card.classList.add('lesson-step-unit', 'lesson-diagram-card');
+          card.setAttribute('data-step-id', stepId);
+          card.setAttribute('data-step-title', `Diagram ${lessonKey.replace('lesson', '')}.${stepNum}`);
+
+          const topBar = document.createElement('div');
+          topBar.className = 'flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-200';
+          topBar.innerHTML = `
+            <span class="px-2.5 py-0.5 rounded-lg bg-slate-900 text-amber-300 font-mono text-[11px] font-extrabold">
+              📍 Diagram Section ${stepNum} of ${diagramCards.length} • Visual Mind-Map Breakdown
+            </span>
+            <button type="button" data-mark-id="${stepId}" class="mark-written-btn px-3 py-1 rounded-xl border-2 text-xs font-extrabold transition"></button>
+          `;
+          card.insertBefore(topBar, card.firstChild);
+        });
+      });
+
+      // Bind all "Mark Written in Notebook" buttons
+      document.querySelectorAll('.mark-written-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-mark-id');
+          if (writtenSectionsSet.has(id)) {
+            writtenSectionsSet.delete(id);
+          } else {
+            writtenSectionsSet.add(id);
+          }
+          saveWrittenSections();
+          updateStudyNavigator(lessonSelect.value);
+        });
+      });
+    }
+
+    function updateStudyNavigator(mode) {
+      const activeMode = (mode && mode.startsWith('lesson')) ? mode : (lastViewedLessonMode || 'lesson7');
+      const secEl = document.getElementById(`view-${activeMode}`);
+      if (!secEl) return;
+
+      const data = lessonNotebookData[activeMode];
+      const titleEl = document.getElementById('nav-current-lesson-title');
+      const progressEl = document.getElementById('nav-progress-text');
+      const pillsContainer = document.getElementById('nav-section-pills');
+      const stepControls = document.getElementById('nav-step-controls');
+      const stepCounter = document.getElementById('nav-step-counter');
+
+      if (titleEl && data) {
+        titleEl.textContent = mode === 'all' ? 'All Lessons (L1–L7 Stretched)' : data.title;
+      }
+
+      const units = Array.from(secEl.querySelectorAll('.lesson-step-unit'));
+      if (currentFocusedStepIdx >= units.length) {
+        currentFocusedStepIdx = 0;
+      }
+
+      // Update Mark Written button appearances & count
+      let writtenCount = 0;
+      units.forEach((u) => {
+        const id = u.getAttribute('data-step-id');
+        const isDone = writtenSectionsSet.has(id);
+        if (isDone) writtenCount++;
+        const btn = u.querySelector('.mark-written-btn');
+        if (btn) {
+          btn.textContent = isDone ? '✅ Written in Notebook' : '☐ Mark Written in Notebook';
+          btn.className = isDone
+            ? 'mark-written-btn px-3 py-1 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 text-xs font-extrabold transition'
+            : 'mark-written-btn px-3 py-1 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-100 text-slate-700 text-xs font-extrabold transition';
+        }
+      });
+
+      if (progressEl) {
+        progressEl.textContent = `Notebook Progress: ${writtenCount} / ${units.length} Sections Written ✓`;
+      }
+
+      // Apply Note-Taking View Layout ('both' | 'sheet' | 'step')
+      document.querySelectorAll('.note-layout-btn').forEach((b) => {
+        const isSelected = b.getAttribute('data-note-layout') === currentNoteLayout;
+        b.className = isSelected
+          ? 'note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-900 text-white shadow-sm transition'
+          : 'note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition';
+      });
+
+      if (mode === 'all') {
+        document.querySelectorAll('.lesson-step-unit').forEach((u) => u.classList.remove('hidden'));
+        if (stepControls) stepControls.classList.add('hidden');
+      } else if (currentNoteLayout === 'both') {
+        units.forEach((u) => u.classList.remove('hidden'));
+        if (stepControls) stepControls.classList.add('hidden');
+      } else if (currentNoteLayout === 'sheet') {
+        units.forEach((u, idx) => {
+          if (idx === 0) u.classList.remove('hidden');
+          else u.classList.add('hidden');
+        });
+        if (stepControls) stepControls.classList.add('hidden');
+      } else if (currentNoteLayout === 'step') {
+        units.forEach((u, idx) => {
+          if (idx === currentFocusedStepIdx) u.classList.remove('hidden');
+          else u.classList.add('hidden');
+        });
+        if (stepControls) stepControls.classList.remove('hidden');
+        if (stepCounter) stepCounter.textContent = `Section ${currentFocusedStepIdx + 1} / ${units.length}`;
+      }
+
+      // Render Quick Jump Section Pills
+      if (pillsContainer) {
+        pillsContainer.innerHTML = '';
+        units.forEach((u, idx) => {
+          const id = u.getAttribute('data-step-id');
+          const label = u.getAttribute('data-step-title') || `Section ${idx + 1}`;
+          const isDone = writtenSectionsSet.has(id);
+          const isFocused = currentNoteLayout === 'step' && idx === currentFocusedStepIdx;
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = isFocused
+            ? 'px-3 py-1 rounded-xl bg-red-600 text-white font-mono text-xs font-extrabold shadow-sm transition'
+            : isDone
+            ? 'px-3 py-1 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-400 font-mono text-xs font-bold transition'
+            : 'px-3 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-mono text-xs font-bold transition';
+          pill.textContent = `${isDone ? '✓ ' : ''}${label}`;
+          pill.addEventListener('click', () => {
+            if (currentNoteLayout === 'step') {
+              currentFocusedStepIdx = idx;
+              updateStudyNavigator(activeMode);
+            } else {
+              if (currentNoteLayout === 'sheet' && idx > 0) {
+                currentNoteLayout = 'both';
+                updateStudyNavigator(activeMode);
+              }
+              u.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          });
+          pillsContainer.appendChild(pill);
+        });
+      }
+    }
+
+    document.querySelectorAll('.note-layout-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentNoteLayout = btn.getAttribute('data-note-layout');
+        currentFocusedStepIdx = 0;
+        updateStudyNavigator(lessonSelect.value);
+      });
+    });
+
+    const navPrevStepBtn = document.getElementById('nav-prev-step-btn');
+    const navNextStepBtn = document.getElementById('nav-next-step-btn');
+    if (navPrevStepBtn) {
+      navPrevStepBtn.addEventListener('click', () => {
+        const secEl = document.getElementById(`view-${lastViewedLessonMode}`);
+        if (!secEl) return;
+        const total = secEl.querySelectorAll('.lesson-step-unit').length;
+        currentFocusedStepIdx = (currentFocusedStepIdx - 1 + total) % total;
+        updateStudyNavigator(lastViewedLessonMode);
+      });
+    }
+    if (navNextStepBtn) {
+      navNextStepBtn.addEventListener('click', () => {
+        const secEl = document.getElementById(`view-${lastViewedLessonMode}`);
+        if (!secEl) return;
+        const total = secEl.querySelectorAll('.lesson-step-unit').length;
+        currentFocusedStepIdx = (currentFocusedStepIdx + 1) % total;
+        updateStudyNavigator(lastViewedLessonMode);
+      });
+    }
+
+    const navJumpHanziBtn = document.getElementById('nav-jump-hanzi-btn');
+    if (navJumpHanziBtn) {
+      navJumpHanziBtn.addEventListener('click', () => {
+        const lessonMap = { lesson1: 'L1', lesson2: 'L2', lesson3: 'L3', lesson4: 'L4', lesson5: 'L5', lesson6: 'L6', lesson7: 'L7' };
+        const targetL = lessonMap[lastViewedLessonMode] || 'L7';
+        setViewMode('drills');
+        if (hanziLessonSelect) {
+          hanziLessonSelect.value = targetL;
+          hanziLessonSelect.dispatchEvent(new Event('change'));
+        }
+        const hanziPadEl = document.getElementById('view-hanzi-writing');
+        if (hanziPadEl) {
+          setTimeout(() => hanziPadEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+        }
+      });
+    }
+
+    initStructuredLessonNotes();
+    // Default to Class 7 (latest lesson, 11.11.2026) so student immediately sees the organized layout
+    setViewMode('lesson7');
   </script>
 </body>
 </html>
