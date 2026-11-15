@@ -97,61 +97,107 @@
       transform-origin: top left;
       transition: transform 0.15s ease;
     }
+    /* Self-Test Memory Blur Toggles */
+    body.hide-pinyin .study-pinyin,
+    body.hide-meaning .study-meaning,
+    body.hide-hanzi .study-hanzi {
+      filter: blur(6px);
+      user-select: none;
+      transition: filter 0.15s ease;
+      cursor: pointer;
+    }
+    body.hide-pinyin .study-pinyin:hover,
+    body.hide-meaning .study-meaning:hover,
+    body.hide-hanzi .study-hanzi:hover,
+    .study-revealed {
+      filter: blur(0) !important;
+      user-select: text !important;
+    }
+    /* Clean Side-by-Side Split Hanzi Dock Layout */
+    #split-hanzi-dock #view-hanzi-writing {
+      border: none;
+      box-shadow: none;
+      padding: 1rem;
+    }
+    #split-hanzi-dock #view-hanzi-writing .hanzi-desk-grid {
+      grid-template-columns: 1fr !important;
+    }
+    #split-hanzi-dock #hanzi-char-strip {
+      max-height: 112px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
   </style>
 </head>
 <body class="pad-canvas text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Sticky Control Header for the Digital Diagram Pad -->
+  <!-- Sticky Control Header for the Practical Study Desk -->
   <header class="bg-white/95 backdrop-blur border-b border-slate-300 sticky top-0 z-40 shadow-sm">
     <div class="max-w-[1600px] mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
       <!-- Title & Subtitle -->
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-lg shadow-sm border-2 border-red-500">
-          支
+          文
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">Comprehensive Chinese — Structural Diagram Pad</h1>
-            <span class="hidden md:inline-block px-2 py-0.5 text-[11px] font-bold rounded-md bg-red-100 text-red-700">Branching Mind-Map Mode</span>
+            <h1 class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight">Comprehensive Chinese — Practical Class Notebook</h1>
+            <span class="hidden md:inline-block px-2 py-0.5 text-[11px] font-bold rounded-md bg-emerald-100 text-emerald-800">HSK 1 • 7 Classes</span>
           </div>
-          <p class="text-xs text-slate-500">No pictures • Pure connected structure trees stretching across your pad • Click any node to hear audio 🔊</p>
+          <p class="text-xs text-slate-500">Day-by-day class notes • Click any word to hear 🔊 or write ✍️ side-by-side • Blur Pinyin/English to self-test</p>
         </div>
       </div>
 
-      <!-- Main View Switcher + Pad Zoom Controls -->
-      <div class="flex flex-wrap items-center gap-2">
+      <!-- Global Instant Search Bar + Main View Switcher + Zoom -->
+      <div class="flex flex-wrap items-center gap-2 flex-1 justify-end">
+        <!-- Global Search Across All 7 Classes -->
+        <div class="relative w-full sm:w-64 lg:w-72">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none">🔍</span>
+          <input id="global-search-input" type="search" placeholder="Search Hanzi, pinyin (e.g. xihuan), English..." class="w-full pl-8 pr-8 py-1.5 rounded-xl bg-slate-100 hover:bg-white focus:bg-white border border-slate-300 focus:border-red-500 focus:outline-none text-xs font-semibold text-slate-800 transition" />
+          <button id="global-search-clear" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 hover:text-slate-700" title="Clear search">✕</button>
+        </div>
+
         <nav id="lesson-tabs-nav" class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200" aria-label="Pad Views">
-          <!-- Clean Sticker-Free Lesson Dropdown -->
+          <!-- Class Dropdown (Kept synced with Timeline Strip) -->
           <div id="lesson-select-wrapper" class="flex items-center rounded-lg bg-slate-900 text-white shadow-sm transition px-2.5 py-1">
-            <label for="lesson-select" class="text-[11px] font-mono uppercase tracking-wider text-slate-300 mr-2 select-none">Lesson:</label>
+            <label for="lesson-select" class="text-[11px] font-mono uppercase tracking-wider text-slate-300 mr-2 select-none">Class:</label>
             <select id="lesson-select" class="bg-transparent text-xs font-extrabold focus:outline-none cursor-pointer pr-1">
-              <option value="lesson1" class="text-slate-900 bg-white">Lesson 1 Pad (19.10 2026)</option>
-              <option value="lesson2" class="text-slate-900 bg-white">Lesson 2 Pad (22.10.2026)</option>
-              <option value="lesson3" class="text-slate-900 bg-white">Lesson 3 Pad (26.10.2026)</option>
-              <option value="lesson4" class="text-slate-900 bg-white">Lesson 4 Pad (28.10.2026)</option>
-              <option value="lesson5" class="text-slate-900 bg-white">Lesson 5 Pad (05.11.2026)</option>
-              <option value="lesson6" class="text-slate-900 bg-white">Lesson 6 Pad (09.11.2026)</option>
-              <option value="lesson7" class="text-slate-900 bg-white" selected>Lesson 7 Pad (11.11.2026)</option>
-              <option value="all" class="text-slate-900 bg-white">Stretch All Lessons</option>
+              <option value="lesson1" class="text-slate-900 bg-white">Class 1 (19.10 2026) — Intro &amp; Numbers</option>
+              <option value="lesson2" class="text-slate-900 bg-white">Class 2 (22.10.2026) — PPT L1 &amp; Greetings</option>
+              <option value="lesson3" class="text-slate-900 bg-white">Class 3 (26.10.2026) — Finals &amp; Ex ①</option>
+              <option value="lesson4" class="text-slate-900 bg-white">Class 4 (28.10.2026) — PPT L2 &amp; Names</option>
+              <option value="lesson5" class="text-slate-900 bg-white">Class 5 (05.11.2026) — PPT L3 &amp; Measure Words</option>
+              <option value="lesson6" class="text-slate-900 bg-white">Class 6 (09.11.2026) — PPT L4 &amp; Family</option>
+              <option value="lesson7" class="text-slate-900 bg-white" selected>Class 7 (11.11.2026) — PPT L5–6 &amp; Hobbies</option>
+              <option value="all" class="text-slate-900 bg-white">All 7 Classes Combined</option>
             </select>
           </div>
 
           <button id="tab-practice" type="button" data-mode="practice" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
-            Bingo, Quiz &amp; Dictation
+            🎯 Quiz, Bingo &amp; Dictation
           </button>
           <button id="tab-drills" type="button" data-mode="drills" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
-            Sentence Builder &amp; Cards
+            🧩 Sentences, Cards &amp; Full Hanzi
           </button>
         </nav>
 
         <!-- Pad Zoom & Stretch Bar -->
-        <div class="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-xl border border-slate-200 text-xs font-bold text-slate-700">
+        <div class="hidden sm:flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-xl border border-slate-200 text-xs font-bold text-slate-700">
           <button id="zoom-out" type="button" class="px-2 py-1 rounded hover:bg-white" title="Zoom Out Pad">−</button>
           <span id="zoom-label" class="min-w-[44px] text-center font-mono">100%</span>
           <button id="zoom-in" type="button" class="px-2 py-1 rounded hover:bg-white" title="Zoom In Pad">+</button>
           <button id="zoom-reset" type="button" class="px-2 py-1 rounded bg-white border border-slate-200 hover:bg-slate-50 ml-1" title="Fit to Pad">Fit</button>
         </div>
       </div>
+    </div>
+
+    <!-- Collapsible Global Search Results Drawer -->
+    <div id="global-search-results" class="hidden max-w-[1600px] mx-auto px-4 pb-3 border-t border-slate-200 bg-slate-50/95">
+      <div class="flex items-center justify-between py-2">
+        <span id="global-search-count" class="text-xs font-mono font-extrabold text-slate-700">0 matches</span>
+        <button id="global-search-close" type="button" class="text-xs font-bold text-slate-500 hover:text-slate-900 px-2 py-0.5 rounded bg-white border border-slate-200">Close Results</button>
+      </div>
+      <div id="global-search-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1"></div>
     </div>
   </header>
 
@@ -161,46 +207,93 @@
     <span id="audio-toast-text">Speaking...</span>
   </div>
 
-  <!-- Pad Workspace Container (Stretches full width across screen/tablet pad) -->
-  <main class="w-full max-w-[1600px] mx-auto px-3 sm:px-6 py-5 flex-1 overflow-x-auto space-y-5">
+  <!-- Study Desk Workspace Container -->
+  <main class="w-full max-w-[1600px] mx-auto px-3 sm:px-6 py-4 flex-1 space-y-4">
 
     <!-- ========================================================================= -->
-    <!-- ORGANIZED STUDY & NOTE-WRITING NAVIGATOR BAR (Prevents Feeling Lost)      -->
+    <!-- DAY-BY-DAY 7-CLASS CURRICULUM STRIP (1-Click Switching Across Classes)    -->
     <!-- ========================================================================= -->
-    <div id="study-navigator-bar" class="bg-white rounded-2xl border-2 border-slate-300 p-4 shadow-sm space-y-3">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <!-- Left: Current Lesson Status & Note-Writing Progress -->
-        <div class="flex flex-wrap items-center gap-3">
+    <div id="class-timeline-strip" class="flex items-stretch gap-2 overflow-x-auto pb-1">
+      <button type="button" data-class-mode="lesson1" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-400 text-left transition min-w-[140px]">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-slate-500"><span>Class 1</span><span>19.10</span></div>
+        <div class="text-xs font-black text-slate-900 truncate mt-0.5">Pinyin &amp; Money</div>
+      </button>
+      <button type="button" data-class-mode="lesson2" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-400 text-left transition min-w-[140px]">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-slate-500"><span>Class 2 • PPT L1</span><span>22.10</span></div>
+        <div class="text-xs font-black text-slate-900 truncate mt-0.5">你好 &amp; Meats</div>
+      </button>
+      <button type="button" data-class-mode="lesson3" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-400 text-left transition min-w-[140px]">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-slate-500"><span>Class 3</span><span>26.10</span></div>
+        <div class="text-xs font-black text-slate-900 truncate mt-0.5">Finals &amp; Ex ①</div>
+      </button>
+      <button type="button" data-class-mode="lesson4" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-400 text-left transition min-w-[140px]">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-slate-500"><span>Class 4 • PPT L2</span><span>28.10</span></div>
+        <div class="text-xs font-black text-slate-900 truncate mt-0.5">叫什么名字 &amp; SVO</div>
+      </button>
+      <button type="button" data-class-mode="lesson5" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-400 text-left transition min-w-[145px]">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-slate-500"><span>Class 5 • PPT L3</span><span>05.11</span></div>
+        <div class="text-xs font-black text-slate-900 truncate mt-0.5">哪国人 &amp; Particle 的</div>
+      </button>
+      <button type="button" data-class-mode="lesson6" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-white hover:border-slate-400 text-left transition min-w-[145px]">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-slate-500"><span>Class 6 • PPT L4</span><span>09.11</span></div>
+        <div class="text-xs font-black text-slate-900 truncate mt-0.5">几口人 &amp; 有/没有</div>
+      </button>
+      <button type="button" data-class-mode="lesson7" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-red-500 bg-slate-900 text-white text-left transition min-w-[155px] shadow-sm">
+        <div class="flex items-center justify-between gap-2 text-[10px] font-mono font-bold text-amber-300"><span>Class 7 • PPT L5–6</span><span>11.11</span></div>
+        <div class="text-xs font-black text-white truncate mt-0.5">Dates, Cooking &amp; Hobbies</div>
+      </button>
+      <button type="button" data-class-mode="all" class="class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 bg-slate-100 hover:bg-white text-left transition min-w-[100px]">
+        <div class="text-[10px] font-mono font-bold text-slate-500">Overview</div>
+        <div class="text-xs font-black text-slate-900 mt-0.5">All 7 Classes</div>
+      </button>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- ORGANIZED STUDY & NOTE-WRITING TOOLBAR (Practical Controls)               -->
+    <!-- ========================================================================= -->
+    <div id="study-navigator-bar" class="bg-white rounded-2xl border border-slate-300 p-3.5 shadow-sm space-y-2.5">
+      <div class="flex flex-wrap items-center justify-between gap-2.5">
+        <!-- Left: Current Lesson + Clean Practical View Switcher -->
+        <div class="flex flex-wrap items-center gap-2">
           <div class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-extrabold flex items-center gap-2">
-            <span id="nav-current-lesson-title">Lesson 7 (11.11.2026)</span>
+            <span id="nav-current-lesson-title">Class 7 (11.11.2026)</span>
             <span class="text-slate-400">│</span>
-            <span id="nav-progress-text" class="text-emerald-300">Notebook Progress: 0 / 5 Written</span>
+            <span id="nav-progress-text" class="text-emerald-300">0 / 5 Sections Written</span>
           </div>
 
-          <!-- View Layout Switcher for Note-Taking -->
+          <!-- View Layout Switcher: Notebook Sheet Default! -->
           <div class="inline-flex flex-wrap items-center bg-slate-100 p-1 rounded-xl border border-slate-200 gap-1" role="group" aria-label="Note-Taking Layout">
-            <button type="button" data-note-layout="both" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-900 text-white shadow-sm transition">
-              📋 Copy Sheet + Diagrams
-            </button>
-            <button type="button" data-note-layout="sheet" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
-              📝 Clean Notebook Copy Sheet Only
+            <button type="button" data-note-layout="sheet" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-900 text-white shadow-sm transition">
+              📓 Study Notebook
             </button>
             <button type="button" data-note-layout="step" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
-              🎯 Step-by-Step Focus (1 at a Time)
+              🗺️ Mind-Maps (1 at a Time)
+            </button>
+            <button type="button" data-note-layout="both" class="note-layout-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">
+              📐 Full Wall (All Diagrams)
             </button>
           </div>
         </div>
 
-        <!-- Right: Quick Jump to Character Writing Pad for This Lesson -->
-        <div class="flex flex-wrap items-center gap-2">
-          <button id="nav-jump-hanzi-btn" type="button" class="px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold shadow-sm transition flex items-center gap-1.5">
-            <span>✍️ Write This Lesson's Hanzi Characters</span>
-            <span>➔</span>
+        <!-- Right: Self-Test Blur Toggles + Split-Screen Hanzi Pad Toggle -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button id="toggle-hide-pinyin" type="button" class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 border border-slate-300 text-xs font-bold text-slate-800 transition" title="Blur Pinyin to test character reading (hover/tap to reveal)">
+            🙈 Hide Pinyin
+          </button>
+          <button id="toggle-hide-meaning" type="button" class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 border border-slate-300 text-xs font-bold text-slate-800 transition" title="Blur English meanings to test recall">
+            🙈 Hide English
+          </button>
+          <button id="toggle-hide-hanzi" type="button" class="px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 border border-slate-300 text-xs font-bold text-slate-800 transition" title="Blur Hanzi characters for writing/recognition recall">
+            🙈 Hide Hanzi
+          </button>
+
+          <button id="nav-jump-hanzi-btn" type="button" class="px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold shadow-sm transition flex items-center gap-1.5">
+            <span>🪟 Split-Screen Hanzi Pad</span>
           </button>
         </div>
       </div>
 
-      <!-- Bottom Row: Numbered Section Jump Pills + Step-by-Step Prev/Next Controls -->
+      <!-- Bottom Row: Section Jump Pills + Step-by-Step Prev/Next Controls -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200">
         <div class="flex flex-wrap items-center gap-1.5" id="nav-section-pills">
           <!-- Populated dynamically per lesson -->
@@ -217,7 +310,10 @@
       </div>
     </div>
 
-    <div id="zoom-stage" class="space-y-10 min-w-[320px]">
+    <!-- Split-Screen Desk Wrapper (Left: Notes / Study Sheet | Right: Sticky Mǐzìgé Writing Pad) -->
+    <div id="workspace-split-wrapper" class="flex flex-col xl:flex-row items-start gap-5">
+    <div class="w-full flex-1 min-w-0 overflow-x-auto">
+    <div id="zoom-stage" class="space-y-8 min-w-[320px]">
 
       <!-- ========================================================================= -->
       <!-- LESSON 1 STRUCTURAL PAD (19.10 2026)                                      -->
@@ -3930,17 +4026,21 @@
 
         </div>
 
-        <!-- 7. HANZI CHARACTER WRITING PAD (汉字书写练习 • 米字格) — Inside Sentence Builder & Cards -->
+        <!-- 7. HANZI CHARACTER WRITING PAD (汉字书写练习 • 米字格) — Inside Sentence Builder & Cards OR Side-by-Side Split Dock -->
+        <div id="hanzi-home-anchor"></div>
         <div id="view-hanzi-writing" class="bg-white rounded-2xl border-2 border-red-400 p-6 shadow-sm space-y-5">
           <!-- Header & Lesson Selector -->
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
-              <span class="text-xs font-mono font-bold uppercase text-red-600">Practice 7 • Lesson-Based Mǐzìgé (米字格) Character Writing Pad</span>
+              <span class="text-xs font-mono font-bold uppercase text-red-600">Practice 7 • Mǐzìgé (米字格) Character Writing Pad</span>
               <h3 class="text-xl font-extrabold text-slate-900">✍️ Hanzi Character Writing Practice (汉字书写练习)</h3>
               <p class="text-xs text-slate-500 mt-0.5">Watch the stroke order animation or step through each stroke, write the Hanzi in the Mǐzìgé grid, and click <strong>"✅ Check Writing"</strong> when finished!</p>
             </div>
 
             <div class="flex flex-wrap items-center gap-2">
+              <button id="close-split-hanzi-btn" type="button" class="hidden px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold shadow-sm transition">
+                ✕ Close Split Pad
+              </button>
               <button id="hanzi-back-lesson-btn" type="button" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-xs font-extrabold text-slate-800 transition">
                 ← Back to Lesson Notes
               </button>
@@ -3977,7 +4077,7 @@
           </div>
 
           <!-- Main Writing Desk Grid -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="hanzi-desk-grid grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
             <!-- Left Column: Mǐzìgé Drawing Canvas + Live Next-Stroke Guide + Animation / Step / Check Controls -->
             <div class="lg:col-span-5 flex flex-col items-center space-y-3 bg-slate-50 p-5 rounded-2xl border border-slate-200">
@@ -4122,6 +4222,10 @@
       </section>
 
     </div>
+    </div><!-- /scroll wrapper -->
+    <!-- Side-by-Side Split-Screen Mǐzìgé Writing Dock -->
+    <aside id="split-hanzi-dock" class="hidden w-full xl:w-[530px] shrink-0 xl:sticky xl:top-20 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl shadow-xl border-2 border-red-500 bg-white z-30"></aside>
+    </div><!-- /#workspace-split-wrapper -->
   </main>
 
   <script>
@@ -4179,6 +4283,7 @@
       const isPracticeOrDrills = mode === 'practice' || mode === 'drills';
 
       if (isPracticeOrDrills) {
+        if (typeof dockHanziPad === 'function') dockHanziPad(false);
         lessonSelectWrapper.className = 'flex items-center rounded-lg text-slate-700 hover:bg-white transition px-2.5 py-1 cursor-pointer';
         if (lessonSelectLabel) lessonSelectLabel.className = 'text-[11px] font-mono uppercase tracking-wider text-slate-500 mr-2 select-none cursor-pointer';
       } else {
@@ -4188,6 +4293,23 @@
           lessonSelect.value = mode;
         }
       }
+
+      // Highlight active button in the 7-Class Day-by-Day Timeline Strip
+      document.querySelectorAll('.class-timeline-btn').forEach((btn) => {
+        const cMode = btn.getAttribute('data-class-mode');
+        const isCurrent = !isPracticeOrDrills && cMode === mode;
+        const metaEl = btn.querySelector('div:first-child');
+        const titleEl = btn.querySelector('div:last-child');
+        if (isCurrent) {
+          btn.className = 'class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-red-500 bg-slate-900 text-white text-left transition min-w-[140px] shadow-sm';
+          if (metaEl) metaEl.className = metaEl.className.replace(/text-slate-500/g, 'text-amber-300');
+          if (titleEl) titleEl.className = titleEl.className.replace(/text-slate-900/g, 'text-white');
+        } else {
+          btn.className = `class-timeline-btn shrink-0 px-3 py-2 rounded-xl border-2 border-slate-200 ${cMode === 'all' ? 'bg-slate-100 min-w-[100px]' : 'bg-white min-w-[140px]'} hover:border-slate-400 text-left transition`;
+          if (metaEl) metaEl.className = metaEl.className.replace(/text-amber-300/g, 'text-slate-500');
+          if (titleEl) titleEl.className = titleEl.className.replace(/text-white/g, 'text-slate-900');
+        }
+      });
 
       tabButtons.forEach((btn) => {
         if (btn.getAttribute('data-mode') === mode) {
@@ -6742,126 +6864,360 @@
       }
     };
 
-    let currentNoteLayout = 'both'; // 'both' | 'sheet' | 'step'
+    let currentNoteLayout = 'sheet'; // Default to clean, practical Study Notebook! ('sheet' | 'step' | 'both')
     let currentFocusedStepIdx = 0;
+    let isHanziDocked = false;
     const writtenSectionsSet = new Set(JSON.parse(localStorage.getItem('chinese_notes_written_sections') || '[]'));
+    const writtenItemsSet = new Set(JSON.parse(localStorage.getItem('chinese_notes_written_items_v2') || '[]'));
+    const hanziLookupSet = new Set(hanziWritingPool.map((h) => h.char));
 
     function saveWrittenSections() {
       try {
         localStorage.setItem('chinese_notes_written_sections', JSON.stringify([...writtenSectionsSet]));
+        localStorage.setItem('chinese_notes_written_items_v2', JSON.stringify([...writtenItemsSet]));
       } catch (e) {
         // Ignore storage errors
       }
     }
 
-    // Build and inject the structured Notebook Copy Sheet + Step Headers into each lesson section once
+    // Dock / Undock #view-hanzi-writing into the sticky right-hand split column (#split-hanzi-dock)
+    function dockHanziPad(show, targetChar = null, targetLessonCode = null) {
+      const splitDock = document.getElementById('split-hanzi-dock');
+      const homeAnchor = document.getElementById('hanzi-home-anchor');
+      const hanziPadEl = document.getElementById('view-hanzi-writing');
+      const closeSplitBtn = document.getElementById('close-split-hanzi-btn');
+      const backLessonBtn = document.getElementById('hanzi-back-lesson-btn');
+      const navJumpBtn = document.getElementById('nav-jump-hanzi-btn');
+
+      if (!splitDock || !hanziPadEl) return;
+
+      if (show) {
+        if (hanziPadEl.parentNode !== splitDock) {
+          splitDock.appendChild(hanziPadEl);
+        }
+        splitDock.classList.remove('hidden');
+        if (closeSplitBtn) closeSplitBtn.classList.remove('hidden');
+        if (backLessonBtn) backLessonBtn.classList.add('hidden');
+        isHanziDocked = true;
+        if (navJumpBtn) {
+          navJumpBtn.className = 'px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold shadow-sm transition flex items-center gap-1.5';
+          navJumpBtn.innerHTML = '<span>✕ Close Split Hanzi Pad</span>';
+        }
+
+        // Select target lesson or target character cleanly
+        if (targetChar) {
+          let desiredLesson = targetLessonCode || (hanziLessonSelect ? hanziLessonSelect.value : 'L7');
+          let poolForLesson = desiredLesson === 'all'
+            ? [...hanziWritingPool]
+            : hanziWritingPool.filter((h) => h.lesson === desiredLesson);
+          let foundIdx = poolForLesson.findIndex((h) => h.char === targetChar);
+
+          if (foundIdx === -1) {
+            const globalMatch = hanziWritingPool.find((h) => h.char === targetChar);
+            if (globalMatch) {
+              desiredLesson = globalMatch.lesson;
+              poolForLesson = hanziWritingPool.filter((h) => h.lesson === desiredLesson);
+              foundIdx = poolForLesson.findIndex((h) => h.char === targetChar);
+            }
+          }
+
+          if (foundIdx !== -1 && hanziLessonSelect) {
+            hanziFilter = desiredLesson;
+            hanziLessonSelect.value = desiredLesson;
+            filteredHanziList = poolForLesson;
+            hanziCurrentIdx = foundIdx;
+            hanziStrokes = [];
+            renderHanziStation();
+            const activeItem = filteredHanziList[hanziCurrentIdx];
+            if (activeItem) speakChinese(activeItem.char, `${activeItem.char} (${activeItem.pinyin}) — ${activeItem.meaning}`);
+          }
+        } else if (targetLessonCode && hanziLessonSelect) {
+          hanziLessonSelect.value = targetLessonCode;
+          hanziLessonSelect.dispatchEvent(new Event('change'));
+        }
+
+        if (window.innerWidth < 1280) {
+          setTimeout(() => splitDock.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
+        }
+      } else {
+        if (homeAnchor && homeAnchor.parentNode && hanziPadEl.parentNode !== homeAnchor.parentNode) {
+          homeAnchor.parentNode.insertBefore(hanziPadEl, homeAnchor.nextSibling);
+        }
+        splitDock.classList.add('hidden');
+        if (closeSplitBtn) closeSplitBtn.classList.add('hidden');
+        if (backLessonBtn) backLessonBtn.classList.remove('hidden');
+        isHanziDocked = false;
+        if (navJumpBtn) {
+          navJumpBtn.className = 'px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold shadow-sm transition flex items-center gap-1.5';
+          navJumpBtn.innerHTML = '<span>🪟 Split-Screen Hanzi Pad</span>';
+        }
+      }
+    }
+
+    // Update Hanzi Checklist badges inside any visible Notebook Sheet whenever checkmarks change
+    function refreshSheetHanziCards() {
+      document.querySelectorAll('[data-sheet-hanzi-card]').forEach((card) => {
+        const ch = card.getAttribute('data-sheet-hanzi-card');
+        const badge = card.querySelector('.sheet-hanzi-status');
+        const done = checkedHanziSet.has(ch);
+        if (done) {
+          card.classList.add('border-emerald-400', 'bg-emerald-50/70');
+          card.classList.remove('border-slate-200', 'bg-white');
+          if (badge) {
+            badge.textContent = '✓ Practiced';
+            badge.className = 'sheet-hanzi-status px-1.5 py-0.5 rounded bg-emerald-600 text-white font-mono text-[10px] font-extrabold';
+          }
+        } else {
+          card.classList.remove('border-emerald-400', 'bg-emerald-50/70');
+          card.classList.add('border-slate-200', 'bg-white');
+          if (badge) {
+            badge.textContent = '✍️ Write';
+            badge.className = 'sheet-hanzi-status px-1.5 py-0.5 rounded bg-red-50 text-red-700 border border-red-200 font-mono text-[10px] font-extrabold';
+          }
+        }
+      });
+    }
+
+    // Build and inject the Practical 4-Part Study Notebook + Step Headers into each lesson section once
     function initStructuredLessonNotes() {
+      const lessonCodeMap = { lesson1: 'L1', lesson2: 'L2', lesson3: 'L3', lesson4: 'L4', lesson5: 'L5', lesson6: 'L6', lesson7: 'L7' };
+
       ['lesson1', 'lesson2', 'lesson3', 'lesson4', 'lesson5', 'lesson6', 'lesson7'].forEach((lessonKey) => {
         const secEl = document.getElementById(`view-${lessonKey}`);
         const data = lessonNotebookData[lessonKey];
+        const lessonCode = lessonCodeMap[lessonKey];
         if (!secEl || !data) return;
 
         // Collect all existing diagram cards (children after the header banner)
         const children = Array.from(secEl.children);
         const headerBanner = children[0];
         const diagramCards = children.slice(1);
+        const lessonChars = hanziWritingPool.filter((h) => h.lesson === lessonCode);
 
-        // Create the Structured 1-2-3 Notebook Copy Sheet Card
+        // Create the Clean Practical 4-Section Study Notebook Card
         const sheetCard = document.createElement('div');
         sheetCard.id = `${lessonKey}-copy-sheet`;
-        sheetCard.className = 'lesson-step-unit notebook-copy-sheet bg-amber-50/90 rounded-2xl border-2 border-amber-400 p-5 sm:p-6 shadow-sm space-y-5';
-        sheetCard.setAttribute('data-step-title', '📋 Notebook Copy Sheet (1-2-3 Summary)');
+        sheetCard.className = 'lesson-step-unit notebook-copy-sheet bg-white rounded-2xl border-2 border-slate-300 p-4 sm:p-6 shadow-sm space-y-6';
+        sheetCard.setAttribute('data-step-title', '📓 Study Notebook Sheet');
         sheetCard.setAttribute('data-step-id', `${lessonKey}-sheet`);
 
-        const vocabRowsHtml = data.vocab.map((v, i) => `
-          <button type="button" data-speak="${v.hanzi.split(' ')[0]}" data-label="${v.hanzi} (${v.pinyin}) — ${v.meaning}" class="speak-btn w-full p-2 rounded-lg bg-white hover:bg-amber-100/70 border border-amber-200 text-left flex items-baseline justify-between gap-2 transition">
-            <div class="text-xs">
-              <span class="font-mono font-bold text-slate-400 mr-1">${i + 1}.</span>
-              <strong class="text-sm text-slate-900">${v.hanzi}</strong>
-              <span class="font-mono font-bold text-red-700 ml-1.5">[${v.pinyin}]</span>
-              <div class="text-[11px] text-slate-600 mt-0.5 pl-4">${v.meaning}</div>
-            </div>
-            <span class="text-xs shrink-0">🔊</span>
-          </button>
-        `).join('');
+        // Part 1: Full-Width Vocabulary Rows with ✓ Checkboxes + Audio + Per-Char Write Buttons
+        const vocabRowsHtml = data.vocab.map((v, i) => {
+          const itemId = `${lessonKey}-v-${i}`;
+          const isChecked = writtenItemsSet.has(itemId);
+          const uniqueChars = [...new Set(v.hanzi.split('').filter((c) => hanziLookupSet.has(c)))].slice(0, 5);
+          const charWriteBtns = uniqueChars.map((c) => `
+            <button type="button" data-write-char="${c}" data-write-lesson="${lessonCode}" class="write-char-btn px-2 py-1 rounded-lg bg-red-50 hover:bg-red-600 hover:text-white border border-red-200 text-red-800 text-xs font-black transition" title="Practice writing ${c} side-by-side">
+              ✍️ ${c}
+            </button>
+          `).join('');
 
-        const formulaRowsHtml = data.formulas.map((f) => `
-          <div class="p-2.5 rounded-xl bg-white border border-indigo-200 space-y-1">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded bg-indigo-100 text-indigo-900 font-mono text-[10px] font-extrabold uppercase">${f.tag}</span>
+          return `
+            <div class="p-3 rounded-xl border ${isChecked ? 'border-emerald-300 bg-emerald-50/40' : 'border-slate-200 bg-slate-50/50'} hover:bg-white transition flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div class="flex items-start gap-3 flex-1 min-w-0">
+                <label class="mt-1 shrink-0 cursor-pointer flex items-center" title="Check off when written in notebook">
+                  <input type="checkbox" data-item-id="${itemId}" class="written-item-cb w-4 h-4 accent-emerald-600 rounded cursor-pointer" ${isChecked ? 'checked' : ''} />
+                </label>
+                <div class="space-y-1 flex-1 min-w-0">
+                  <div class="flex flex-wrap items-baseline gap-2">
+                    <span class="font-mono text-xs font-bold text-slate-400">#${i + 1}</span>
+                    <span class="study-hanzi text-lg sm:text-xl font-black text-slate-900 tracking-tight">${v.hanzi}</span>
+                    <span class="study-pinyin px-2 py-0.5 rounded-md bg-red-50 border border-red-200 font-mono text-xs font-extrabold text-red-700">${v.pinyin}</span>
+                  </div>
+                  <div class="study-meaning text-xs sm:text-sm text-slate-700 font-medium">${v.meaning}</div>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5 shrink-0 pl-7 sm:pl-0">
+                <button type="button" data-speak="${v.hanzi.split(' ')[0]}" data-label="${v.hanzi} (${v.pinyin}) — ${v.meaning}" class="speak-btn px-2.5 py-1 rounded-lg bg-white hover:bg-amber-50 border border-slate-300 text-xs font-bold text-slate-800 transition" title="Hear pronunciation">
+                  🔊 Speak
+                </button>
+                ${charWriteBtns}
+              </div>
             </div>
-            <div class="font-mono text-xs font-black text-slate-900">${f.formula}</div>
-            <div class="text-[11px] text-slate-600">${f.note}</div>
+          `;
+        }).join('');
+
+        // Part 2: 2-Column Blackboard Formulas & Grammar Rules
+        const formulaRowsHtml = data.formulas.map((f) => `
+          <div class="p-4 rounded-xl bg-slate-50 border border-indigo-200 space-y-2 flex flex-col justify-between">
+            <div class="space-y-1.5">
+              <span class="inline-block px-2.5 py-0.5 rounded-md bg-indigo-900 text-indigo-100 font-mono text-[11px] font-extrabold uppercase">${f.tag}</span>
+              <div class="study-hanzi font-mono text-xs sm:text-sm font-black text-slate-900 bg-white p-2.5 rounded-lg border border-indigo-100 leading-relaxed">${f.formula}</div>
+              <div class="study-meaning text-xs text-slate-700 leading-relaxed">${f.note}</div>
+            </div>
           </div>
         `).join('');
 
-        const sentenceRowsHtml = data.sentences.map((s, i) => `
-          <button type="button" data-speak="${s.hanzi.replace(/[^\u4e00-\u9fa5]/g, '')}" data-label="${s.pinyin} — ${s.en}" class="speak-btn w-full p-2.5 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-200 text-left space-y-0.5 transition">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-slate-900"><span class="font-mono text-emerald-700 mr-1">#${i + 1}</span>${s.hanzi}</span>
-              <span class="text-xs">🔊</span>
+        // Part 3: Key Sentences & Dialogues
+        const sentenceRowsHtml = data.sentences.map((s, i) => {
+          const itemId = `${lessonKey}-s-${i}`;
+          const isChecked = writtenItemsSet.has(itemId);
+          return `
+            <div class="p-3.5 rounded-xl border ${isChecked ? 'border-emerald-300 bg-emerald-50/40' : 'border-emerald-200 bg-emerald-50/20'} hover:bg-white transition flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div class="flex items-start gap-3 flex-1 min-w-0">
+                <label class="mt-1 shrink-0 cursor-pointer flex items-center" title="Check off when written in notebook">
+                  <input type="checkbox" data-item-id="${itemId}" class="written-item-cb w-4 h-4 accent-emerald-600 rounded cursor-pointer" ${isChecked ? 'checked' : ''} />
+                </label>
+                <div class="space-y-1 flex-1 min-w-0">
+                  <div class="study-hanzi text-base sm:text-lg font-black text-slate-900">
+                    <span class="font-mono text-xs text-emerald-700 mr-1.5">#${i + 1}</span>${s.hanzi}
+                  </div>
+                  <div class="study-pinyin font-mono text-xs font-bold text-emerald-800">${s.pinyin}</div>
+                  <div class="study-meaning text-xs sm:text-sm text-slate-600">${s.en}</div>
+                </div>
+              </div>
+              <button type="button" data-speak="${s.hanzi.replace(/[^\u4e00-\u9fa5]/g, '')}" data-label="${s.pinyin} — ${s.en}" class="speak-btn shrink-0 self-start sm:self-center px-3 py-1.5 rounded-lg bg-white hover:bg-emerald-50 border border-emerald-300 text-xs font-extrabold text-emerald-900 transition">
+                🔊 Read Sentence
+              </button>
             </div>
-            <div class="font-mono text-[11px] font-bold text-emerald-800">${s.pinyin}</div>
-            <div class="text-[11px] text-slate-600">${s.en}</div>
-          </button>
-        `).join('');
+          `;
+        }).join('');
+
+        // Part 4: Class Hanzi Writing Checklist (Side-by-Side Mǐzìgé Triggers)
+        const hanziGridHtml = lessonChars.map((h) => {
+          const done = checkedHanziSet.has(h.char);
+          return `
+            <div data-sheet-hanzi-card="${h.char}" class="p-3 rounded-xl border-2 ${done ? 'border-emerald-400 bg-emerald-50/70' : 'border-slate-200 bg-white'} hover:border-red-400 transition flex flex-col justify-between gap-2 cursor-pointer write-char-btn" data-write-char="${h.char}" data-write-lesson="${lessonCode}">
+              <div class="flex items-start justify-between gap-1">
+                <span class="study-hanzi text-3xl font-black text-slate-900 leading-none">${h.char}</span>
+                <span class="sheet-hanzi-status px-1.5 py-0.5 rounded ${done ? 'bg-emerald-600 text-white' : 'bg-red-50 text-red-700 border border-red-200'} font-mono text-[10px] font-extrabold">${done ? '✓ Practiced' : '✍️ Write'}</span>
+              </div>
+              <div class="space-y-0.5">
+                <div class="study-pinyin font-mono text-xs font-extrabold text-red-700">${h.pinyin}</div>
+                <div class="study-meaning text-[11px] text-slate-600 line-clamp-1">${h.meaning}</div>
+                <div class="text-[10px] font-mono text-slate-400">${h.strokesOrder.length} strokes</div>
+              </div>
+            </div>
+          `;
+        }).join('');
 
         sheetCard.innerHTML = `
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-amber-300 pb-3">
+          <!-- Sheet Header -->
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
-              <span class="text-[11px] font-mono font-extrabold uppercase text-amber-900 bg-amber-200 px-2.5 py-0.5 rounded">Step 0 • Ordered Notebook Copy Sheet (笔记本抄写清单)</span>
-              <h3 class="text-base sm:text-lg font-black text-slate-900 mt-1">✍️ Write Your Paper Notes in This Exact 1 ──► 2 ──► 3 Order (No Getting Lost!)</h3>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-slate-900 text-amber-300 font-mono text-[11px] font-extrabold uppercase">Structured Notebook</span>
+                <span class="text-xs font-mono font-bold text-slate-500">${data.vocab.length} Words • ${data.formulas.length} Rules • ${data.sentences.length} Sentences • ${lessonChars.length} Hanzi</span>
+              </div>
+              <h3 class="text-lg sm:text-xl font-black text-slate-900 mt-1">${data.title}</h3>
             </div>
             <button type="button" data-mark-id="${lessonKey}-sheet" class="mark-written-btn px-3 py-1.5 rounded-xl border-2 text-xs font-extrabold transition"></button>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <!-- Column 1: Vocabulary List -->
-            <div class="lg:col-span-4 space-y-2">
-              <div class="p-2.5 rounded-xl bg-slate-900 text-white text-xs font-mono font-extrabold flex items-center justify-between">
-                <span>1️⃣ FIRST: Write New Words (生词表)</span>
-                <span class="text-amber-300">${data.vocab.length} items</span>
-              </div>
-              <div class="space-y-1.5 max-h-[420px] overflow-y-auto pr-1">
-                ${vocabRowsHtml}
-              </div>
-            </div>
+          <!-- Sheet Quick Part Filter Tabs -->
+          <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+            <button type="button" data-part-filter="all" class="sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold bg-slate-900 text-white shadow-sm transition">All 4 Sections</button>
+            <button type="button" data-part-filter="vocab" class="sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">1️⃣ Vocab (${data.vocab.length})</button>
+            <button type="button" data-part-filter="formulas" class="sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">2️⃣ Grammar Rules (${data.formulas.length})</button>
+            <button type="button" data-part-filter="sentences" class="sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">3️⃣ Sentences (${data.sentences.length})</button>
+            <button type="button" data-part-filter="hanzi" class="sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition">4️⃣ Write Hanzi (${lessonChars.length})</button>
+          </div>
 
-            <!-- Column 2: Blackboard Formulas & Rules -->
-            <div class="lg:col-span-4 space-y-2">
-              <div class="p-2.5 rounded-xl bg-indigo-950 text-white text-xs font-mono font-extrabold flex items-center justify-between">
-                <span>2️⃣ SECOND: Write Blackboard Rules</span>
-                <span class="text-indigo-300">${data.formulas.length} rules</span>
-              </div>
-              <div class="space-y-2">
-                ${formulaRowsHtml}
-              </div>
+          <!-- 1️⃣ Vocabulary Section -->
+          <div class="sheet-part space-y-2.5" data-sheet-part="vocab">
+            <div class="flex items-center justify-between border-l-4 border-red-500 pl-3">
+              <h4 class="text-sm sm:text-base font-black text-slate-900">1️⃣ New Vocabulary (本课生词表) — <span class="text-xs font-semibold text-slate-500">Check off as you copy, click ✍️ to write side-by-side</span></h4>
             </div>
+            <div class="space-y-2">
+              ${vocabRowsHtml}
+            </div>
+          </div>
 
-            <!-- Column 3: Key Sentences & Dialogues -->
-            <div class="lg:col-span-4 space-y-2">
-              <div class="p-2.5 rounded-xl bg-emerald-950 text-white text-xs font-mono font-extrabold flex items-center justify-between">
-                <span>3️⃣ THIRD: Write Key Sentences</span>
-                <span class="text-emerald-300">${data.sentences.length} lines</span>
-              </div>
-              <div class="space-y-2">
-                ${sentenceRowsHtml}
-              </div>
+          <!-- 2️⃣ Blackboard Formulas & Grammar -->
+          <div class="sheet-part space-y-2.5 pt-2 border-t border-slate-200" data-sheet-part="formulas">
+            <div class="flex items-center justify-between border-l-4 border-indigo-600 pl-3">
+              <h4 class="text-sm sm:text-base font-black text-slate-900">2️⃣ Blackboard Formulas &amp; Grammar (黑板公式 &amp; 语法)</h4>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${formulaRowsHtml}
+            </div>
+          </div>
+
+          <!-- 3️⃣ Key Sentences & Dialogues -->
+          <div class="sheet-part space-y-2.5 pt-2 border-t border-slate-200" data-sheet-part="sentences">
+            <div class="flex items-center justify-between border-l-4 border-emerald-600 pl-3">
+              <h4 class="text-sm sm:text-base font-black text-slate-900">3️⃣ Key Sentences, Dialogues &amp; Practice Lines (重点句子)</h4>
+            </div>
+            <div class="space-y-2">
+              ${sentenceRowsHtml}
+            </div>
+          </div>
+
+          <!-- 4️⃣ Class Hanzi Checklist -->
+          <div class="sheet-part space-y-2.5 pt-2 border-t border-slate-200" data-sheet-part="hanzi">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-l-4 border-amber-500 pl-3">
+              <h4 class="text-sm sm:text-base font-black text-slate-900">4️⃣ Class Hanzi Writing Deck (本课必写汉字 — Click any card to open Mǐzìgé Side-by-Side)</h4>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+              ${hanziGridHtml}
             </div>
           </div>
         `;
 
-        // Insert the copy sheet right after the lesson header banner
+        // Insert the Study Notebook sheet right after the lesson header banner
         if (headerBanner && headerBanner.nextSibling) {
           secEl.insertBefore(sheetCard, headerBanner.nextSibling);
         } else {
           secEl.appendChild(sheetCard);
         }
 
-        // Bind speak buttons inside the newly created copy sheet
+        // Bind section filter tabs inside this sheet
+        sheetCard.querySelectorAll('.sheet-part-btn').forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const filter = tab.getAttribute('data-part-filter');
+            sheetCard.querySelectorAll('.sheet-part-btn').forEach((t) => {
+              t.className = t === tab
+                ? 'sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold bg-slate-900 text-white shadow-sm transition'
+                : 'sheet-part-btn px-3 py-1 rounded-lg text-xs font-extrabold text-slate-700 hover:bg-white transition';
+            });
+            sheetCard.querySelectorAll('.sheet-part').forEach((part) => {
+              const pName = part.getAttribute('data-sheet-part');
+              if (filter === 'all' || pName === filter) {
+                part.classList.remove('hidden');
+              } else {
+                part.classList.add('hidden');
+              }
+            });
+          });
+        });
+
+        // Bind per-item checkboxes
+        sheetCard.querySelectorAll('.written-item-cb').forEach((cb) => {
+          cb.addEventListener('change', () => {
+            const id = cb.getAttribute('data-item-id');
+            const row = cb.closest('.rounded-xl');
+            if (cb.checked) {
+              writtenItemsSet.add(id);
+              if (row) {
+                row.classList.add('border-emerald-300', 'bg-emerald-50/40');
+                row.classList.remove('border-slate-200');
+              }
+            } else {
+              writtenItemsSet.delete(id);
+              if (row) {
+                row.classList.remove('border-emerald-300', 'bg-emerald-50/40');
+                row.classList.add('border-slate-200');
+              }
+            }
+            saveWrittenSections();
+          });
+        });
+
+        // Bind speak buttons inside the sheet
         sheetCard.querySelectorAll('.speak-btn').forEach((btn) => {
-          btn.addEventListener('click', () => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
             speakChinese(btn.getAttribute('data-speak'), btn.getAttribute('data-label'));
+          });
+        });
+
+        // Bind side-by-side Mǐzìgé write triggers
+        sheetCard.querySelectorAll('.write-char-btn').forEach((btn) => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const ch = btn.getAttribute('data-write-char');
+            const lCode = btn.getAttribute('data-write-lesson');
+            dockHanziPad(true, ch, lCode);
           });
         });
 
@@ -6913,7 +7269,7 @@
       const stepCounter = document.getElementById('nav-step-counter');
 
       if (titleEl && data) {
-        titleEl.textContent = mode === 'all' ? 'All Lessons (L1–L7 Stretched)' : data.title;
+        titleEl.textContent = mode === 'all' ? 'All 7 Classes Combined' : data.title.split('—')[0].trim();
       }
 
       const units = Array.from(secEl.querySelectorAll('.lesson-step-unit'));
@@ -6929,7 +7285,7 @@
         if (isDone) writtenCount++;
         const btn = u.querySelector('.mark-written-btn');
         if (btn) {
-          btn.textContent = isDone ? '✅ Written in Notebook' : '☐ Mark Written in Notebook';
+          btn.textContent = isDone ? '✅ Class Notes Complete' : '☐ Mark Class Complete';
           btn.className = isDone
             ? 'mark-written-btn px-3 py-1 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 text-xs font-extrabold transition'
             : 'mark-written-btn px-3 py-1 rounded-xl border-2 border-slate-300 bg-white hover:bg-slate-100 text-slate-700 text-xs font-extrabold transition';
@@ -6937,10 +7293,10 @@
       });
 
       if (progressEl) {
-        progressEl.textContent = `Notebook Progress: ${writtenCount} / ${units.length} Sections Written ✓`;
+        progressEl.textContent = `${writtenCount} / ${units.length} Sections Written ✓`;
       }
 
-      // Apply Note-Taking View Layout ('both' | 'sheet' | 'step')
+      // Apply Note-Taking View Layout ('sheet' | 'step' | 'both')
       document.querySelectorAll('.note-layout-btn').forEach((b) => {
         const isSelected = b.getAttribute('data-note-layout') === currentNoteLayout;
         b.className = isSelected
@@ -6976,7 +7332,7 @@
           const id = u.getAttribute('data-step-id');
           const label = u.getAttribute('data-step-title') || `Section ${idx + 1}`;
           const isDone = writtenSectionsSet.has(id);
-          const isFocused = currentNoteLayout === 'step' && idx === currentFocusedStepIdx;
+          const isFocused = (currentNoteLayout === 'step' && idx === currentFocusedStepIdx) || (currentNoteLayout === 'sheet' && idx === 0);
           const pill = document.createElement('button');
           pill.type = 'button';
           pill.className = isFocused
@@ -6989,11 +7345,11 @@
             if (currentNoteLayout === 'step') {
               currentFocusedStepIdx = idx;
               updateStudyNavigator(activeMode);
+            } else if (currentNoteLayout === 'sheet' && idx > 0) {
+              currentNoteLayout = 'step';
+              currentFocusedStepIdx = idx;
+              updateStudyNavigator(activeMode);
             } else {
-              if (currentNoteLayout === 'sheet' && idx > 0) {
-                currentNoteLayout = 'both';
-                updateStudyNavigator(activeMode);
-              }
               u.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           });
@@ -7002,12 +7358,51 @@
       }
     }
 
+    // Wrap renderHanziStation so Study Notebook checklist badges update live as you practice
+    const _baseRenderHanziStation = renderHanziStation;
+    renderHanziStation = function (...args) {
+      _baseRenderHanziStation.apply(this, args);
+      refreshSheetHanziCards();
+    };
+
+    // Day-by-Day 7-Class Timeline Strip clicks
+    document.querySelectorAll('.class-timeline-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setViewMode(btn.getAttribute('data-class-mode'));
+      });
+    });
+
     document.querySelectorAll('.note-layout-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         currentNoteLayout = btn.getAttribute('data-note-layout');
         currentFocusedStepIdx = 0;
         updateStudyNavigator(lessonSelect.value);
       });
+    });
+
+    // Self-Test Blur Toggles (Hide Pinyin / English / Hanzi + Tap to Reveal)
+    const selfTestToggleMap = [
+      { id: 'toggle-hide-pinyin', cls: 'hide-pinyin', onLabel: '👁️ Pinyin Hidden', offLabel: '🙈 Hide Pinyin' },
+      { id: 'toggle-hide-meaning', cls: 'hide-meaning', onLabel: '👁️ English Hidden', offLabel: '🙈 Hide English' },
+      { id: 'toggle-hide-hanzi', cls: 'hide-hanzi', onLabel: '👁️ Hanzi Hidden', offLabel: '🙈 Hide Hanzi' }
+    ];
+    selfTestToggleMap.forEach(({ id, cls, onLabel, offLabel }) => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const isActive = document.body.classList.toggle(cls);
+        btn.textContent = isActive ? onLabel : offLabel;
+        btn.className = isActive
+          ? 'px-2.5 py-1.5 rounded-xl bg-amber-500 text-white border border-amber-600 text-xs font-extrabold shadow-sm transition'
+          : 'px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 border border-slate-300 text-xs font-bold text-slate-800 transition';
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      const blurredEl = e.target.closest('.study-pinyin, .study-meaning, .study-hanzi');
+      if (blurredEl && (document.body.classList.contains('hide-pinyin') || document.body.classList.contains('hide-meaning') || document.body.classList.contains('hide-hanzi'))) {
+        blurredEl.classList.toggle('study-revealed');
+      }
     });
 
     const navPrevStepBtn = document.getElementById('nav-prev-step-btn');
@@ -7036,20 +7431,157 @@
       navJumpHanziBtn.addEventListener('click', () => {
         const lessonMap = { lesson1: 'L1', lesson2: 'L2', lesson3: 'L3', lesson4: 'L4', lesson5: 'L5', lesson6: 'L6', lesson7: 'L7' };
         const targetL = lessonMap[lastViewedLessonMode] || 'L7';
-        setViewMode('drills');
-        if (hanziLessonSelect) {
-          hanziLessonSelect.value = targetL;
-          hanziLessonSelect.dispatchEvent(new Event('change'));
+        dockHanziPad(!isHanziDocked, null, targetL);
+      });
+    }
+
+    const closeSplitHanziBtn = document.getElementById('close-split-hanzi-btn');
+    if (closeSplitHanziBtn) {
+      closeSplitHanziBtn.addEventListener('click', () => dockHanziPad(false));
+    }
+
+    // Global Instant Search Across All 7 Classes (Tone-insensitive Pinyin, Hanzi, English)
+    function normalizePinyinForSearch(str) {
+      return String(str || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/ü/gi, 'u')
+        .toLowerCase();
+    }
+
+    const globalSearchInput = document.getElementById('global-search-input');
+    const globalSearchClear = document.getElementById('global-search-clear');
+    const globalSearchResults = document.getElementById('global-search-results');
+    const globalSearchCount = document.getElementById('global-search-count');
+    const globalSearchList = document.getElementById('global-search-list');
+    const globalSearchClose = document.getElementById('global-search-close');
+
+    function runGlobalSearch(rawQuery) {
+      const q = normalizePinyinForSearch(rawQuery.trim());
+      if (!q) {
+        if (globalSearchResults) globalSearchResults.classList.add('hidden');
+        if (globalSearchClear) globalSearchClear.classList.add('hidden');
+        return;
+      }
+      if (globalSearchClear) globalSearchClear.classList.remove('hidden');
+      if (globalSearchResults) globalSearchResults.classList.remove('hidden');
+
+      const matches = [];
+      const seen = new Set();
+
+      Object.keys(lessonNotebookData).forEach((lessonKey) => {
+        const data = lessonNotebookData[lessonKey];
+        const lNum = lessonKey.replace('lesson', '');
+        const lCode = `L${lNum}`;
+        data.vocab.forEach((v) => {
+          const hay = normalizePinyinForSearch(`${v.hanzi} ${v.pinyin} ${v.meaning}`);
+          if (hay.includes(q) && !seen.has(`v-${lessonKey}-${v.hanzi}`)) {
+            seen.add(`v-${lessonKey}-${v.hanzi}`);
+            matches.push({
+              lessonKey,
+              lCode,
+              badge: `Class ${lNum} • Vocab`,
+              hanzi: v.hanzi,
+              pinyin: v.pinyin,
+              meaning: v.meaning
+            });
+          }
+        });
+        data.sentences.forEach((s) => {
+          const hay = normalizePinyinForSearch(`${s.hanzi} ${s.pinyin} ${s.en}`);
+          if (hay.includes(q) && !seen.has(`s-${lessonKey}-${s.hanzi}`)) {
+            seen.add(`s-${lessonKey}-${s.hanzi}`);
+            matches.push({
+              lessonKey,
+              lCode,
+              badge: `Class ${lNum} • Sentence`,
+              hanzi: s.hanzi,
+              pinyin: s.pinyin,
+              meaning: s.en
+            });
+          }
+        });
+      });
+
+      hanziWritingPool.forEach((h) => {
+        const hay = normalizePinyinForSearch(`${h.char} ${h.pinyin} ${h.meaning} ${h.example}`);
+        if (hay.includes(q) && !seen.has(`h-${h.char}`)) {
+          seen.add(`h-${h.char}`);
+          matches.push({
+            lessonKey: `lesson${h.lesson.replace('L', '')}`,
+            lCode: h.lesson,
+            badge: `Class ${h.lesson.replace('L', '')} • Hanzi`,
+            hanzi: h.char,
+            pinyin: h.pinyin,
+            meaning: `${h.meaning} (${h.strokesOrder.length} strokes)`,
+            exactChar: h.char
+          });
         }
-        const hanziPadEl = document.getElementById('view-hanzi-writing');
-        if (hanziPadEl) {
-          setTimeout(() => hanziPadEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
-        }
+      });
+
+      const capped = matches.slice(0, 24);
+      if (globalSearchCount) {
+        globalSearchCount.textContent = `${matches.length} match${matches.length === 1 ? '' : 'es'} across Classes 1–7${matches.length > 24 ? ' (showing first 24)' : ''}`;
+      }
+      if (globalSearchList) {
+        globalSearchList.innerHTML = capped.length === 0
+          ? '<div class="col-span-full py-4 text-center text-xs font-semibold text-slate-500">No matches found. Try searching Hanzi (e.g. 喜欢), tone-free Pinyin (e.g. faguo), or English (e.g. family).</div>'
+          : capped.map((m) => {
+              const firstWritable = m.exactChar || m.hanzi.split('').find((c) => hanziLookupSet.has(c)) || '';
+              return `
+                <div class="p-2.5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between gap-1.5">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <span class="inline-block px-1.5 py-0.5 rounded bg-slate-900 text-amber-300 font-mono text-[10px] font-bold">${m.badge}</span>
+                      <div class="text-sm font-black text-slate-900 mt-0.5 truncate">${m.hanzi} <span class="font-mono text-xs text-red-700 font-bold ml-1">${m.pinyin}</span></div>
+                      <div class="text-[11px] text-slate-600 line-clamp-1">${m.meaning}</div>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-100">
+                    <button type="button" data-speak="${m.hanzi.replace(/[^\u4e00-\u9fa5]/g, '') || m.hanzi}" data-label="${m.hanzi} (${m.pinyin})" class="search-speak-btn px-2 py-0.5 rounded bg-slate-100 hover:bg-amber-100 text-[11px] font-bold text-slate-800">🔊</button>
+                    ${firstWritable ? `<button type="button" data-char="${firstWritable}" data-lcode="${m.lCode}" data-lkey="${m.lessonKey}" class="search-write-btn px-2 py-0.5 rounded bg-red-50 hover:bg-red-600 hover:text-white border border-red-200 text-[11px] font-black text-red-800 transition">✍️ Write ${firstWritable}</button>` : ''}
+                    <button type="button" data-lkey="${m.lessonKey}" class="search-goto-btn ml-auto px-2 py-0.5 rounded bg-slate-900 hover:bg-slate-700 text-white text-[11px] font-bold transition">Go to Class →</button>
+                  </div>
+                </div>
+              `;
+            }).join('');
+
+        globalSearchList.querySelectorAll('.search-speak-btn').forEach((b) => {
+          b.addEventListener('click', () => speakChinese(b.getAttribute('data-speak'), b.getAttribute('data-label')));
+        });
+        globalSearchList.querySelectorAll('.search-write-btn').forEach((b) => {
+          b.addEventListener('click', () => {
+            const lk = b.getAttribute('data-lkey');
+            if (lk) setViewMode(lk);
+            dockHanziPad(true, b.getAttribute('data-char'), b.getAttribute('data-lcode'));
+          });
+        });
+        globalSearchList.querySelectorAll('.search-goto-btn').forEach((b) => {
+          b.addEventListener('click', () => {
+            setViewMode(b.getAttribute('data-lkey'));
+            if (globalSearchResults) globalSearchResults.classList.add('hidden');
+          });
+        });
+      }
+    }
+
+    if (globalSearchInput) {
+      globalSearchInput.addEventListener('input', () => runGlobalSearch(globalSearchInput.value));
+    }
+    if (globalSearchClear) {
+      globalSearchClear.addEventListener('click', () => {
+        if (globalSearchInput) globalSearchInput.value = '';
+        runGlobalSearch('');
+      });
+    }
+    if (globalSearchClose) {
+      globalSearchClose.addEventListener('click', () => {
+        if (globalSearchResults) globalSearchResults.classList.add('hidden');
       });
     }
 
     initStructuredLessonNotes();
-    // Default to Class 7 (latest lesson, 11.11.2026) so student immediately sees the organized layout
+    // Default to Class 7 (latest lesson, 11.11.2026) in clean Study Notebook layout
     setViewMode('lesson7');
   </script>
 </body>
