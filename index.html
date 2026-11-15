@@ -6,10 +6,13 @@
   <title>Comprehensive Chinese — Interactive Structural Diagram Pad</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .font-serif-zh {
+      font-family: 'Noto Serif SC', 'Songti SC', 'STSong', Georgia, serif;
     }
     .mono-diagram {
       font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -18,6 +21,7 @@
     .pad-canvas {
       background-color: #faf8f5;
       color: #1c1917;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
     /* Structural tree connectors */
     .tree-branch {
@@ -132,89 +136,56 @@
     .studio-row:hover {
       background-color: #faf7f2;
     }
+    .word-tile-active {
+      border-color: #1c1917 !important;
+      box-shadow: 0 0 0 2px rgba(28, 25, 23, 0.22), 0 8px 18px -6px rgba(28, 25, 23, 0.14);
+      background-color: #fffdf9 !important;
+    }
+    /* Midnight Bento Dark Theme */
+    body.studio-dark-theme {
+      background-color: #0b0f19 !important;
+      color: #e2e8f0 !important;
+    }
+    body.studio-dark-theme #studio-main-header {
+      background-color: rgba(15, 23, 42, 0.94) !important;
+      border-color: #1e293b !important;
+    }
+    body.studio-dark-theme #studio-main-header h1,
+    body.studio-dark-theme #studio-main-header p {
+      color: #f1f5f9;
+    }
+    body.studio-dark-theme .studio-row:hover {
+      background-color: rgba(30, 41, 59, 0.65) !important;
+    }
   </style>
 </head>
 <body class="pad-canvas text-stone-900 min-h-screen flex flex-col">
 
-  <!-- Sticky Control Header for the Language Studio -->
-  <header class="bg-[#fdfbf7]/95 backdrop-blur border-b border-stone-200 sticky top-0 z-40 shadow-sm">
-    <div class="max-w-[1600px] mx-auto px-4 pt-2.5 pb-2 space-y-2">
-      <!-- Top Bar: Brand, Search, Audio Speed, Workspace Modes -->
+  <!-- Sticky Control Header for Chinese Course Studio -->
+  <header id="studio-main-header" class="bg-[#fdfbf7]/95 backdrop-blur border-b border-stone-200 sticky top-0 z-40 shadow-sm transition-colors">
+    <div class="max-w-[1600px] mx-auto px-4 py-2 space-y-2">
+      <!-- Top Row: Brand Seal + 4 Radical Design Switcher + Primary Workspace Tabs -->
       <div class="flex flex-wrap items-center justify-between gap-2.5">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-stone-900 text-white flex items-center justify-center font-black text-base shadow-sm border-b-2 border-red-600">
-            文
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-sm sm:text-base font-extrabold text-stone-900 tracking-tight">Chinese Class Studio</h1>
-              <span class="hidden md:inline-block px-2 py-0.5 text-[11px] font-bold rounded-md bg-stone-200/70 text-stone-700">HSK 1 • 7 Classes</span>
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-stone-900 text-white flex items-center justify-center font-serif-zh font-black text-base shadow-sm border-b-2 border-red-600">
+              文
             </div>
-            <p class="text-[11px] text-stone-500">Pick a layout below to study • Click any word to hear ONLY that word</p>
-          </div>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-2 flex-1 justify-end">
-          <div class="relative w-full sm:w-52 lg:w-64">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-xs pointer-events-none">🔍</span>
-            <input id="global-search-input" type="search" placeholder="Search word, pinyin, English..." class="w-full pl-8 pr-8 py-1.5 rounded-xl bg-stone-100 hover:bg-white focus:bg-white border border-stone-200 focus:border-red-500 focus:outline-none text-xs font-semibold text-stone-800 transition" />
-            <button id="global-search-clear" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-stone-400 hover:text-stone-700" title="Clear search">✕</button>
-          </div>
-
-          <button id="audio-speed-btn" type="button" class="px-2.5 py-1.5 rounded-xl bg-stone-100 hover:bg-amber-50 border border-stone-200 text-xs font-bold text-stone-800 transition" title="Toggle Mandarin speech speed between Normal (0.85x) and Slow Beginner (0.65x)">
-            🔊 0.85x (Normal)
-          </button>
-
-          <nav id="lesson-tabs-nav" class="flex flex-wrap items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200" aria-label="Workspace Tabs">
-            <button id="btn-mode-notes" type="button" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-stone-900 text-white shadow-sm transition">
-              📖 Study Notes
-            </button>
-
-            <div id="lesson-select-wrapper" class="hidden lg:flex items-center rounded-lg bg-white border border-stone-200 text-stone-700 px-2 py-1 transition">
-              <label for="lesson-select" class="sr-only">Select Class</label>
-              <select id="lesson-select" class="bg-transparent text-xs font-bold text-stone-800 focus:outline-none cursor-pointer">
-                <option value="lesson1" class="text-slate-900 bg-white">Class 1 (19.10) — Intro</option>
-                <option value="lesson2" class="text-slate-900 bg-white">Class 2 (22.10) — Greetings</option>
-                <option value="lesson3" class="text-slate-900 bg-white">Class 3 (26.10) — Finals &amp; Ex ①</option>
-                <option value="lesson4" class="text-slate-900 bg-white">Class 4 (28.10) — Names &amp; SVO</option>
-                <option value="lesson5" class="text-slate-900 bg-white">Class 5 (05.11) — Countries &amp; 的</option>
-                <option value="lesson6" class="text-slate-900 bg-white">Class 6 (09.11) — Family &amp; 有</option>
-                <option value="lesson7" class="text-slate-900 bg-white" selected>Class 7 (11.11) — Dates &amp; Hobbies</option>
-                <option value="all" class="text-slate-900 bg-white">All 7 Classes</option>
-              </select>
+            <div>
+              <h1 class="text-sm sm:text-base font-extrabold text-stone-900 tracking-tight leading-tight">Chinese Course Studio</h1>
+              <p class="text-[11px] text-stone-500 hidden sm:block">HSK 1 • 7 Classes • Click any design to test</p>
             </div>
-
-            <button id="tab-practice" type="button" data-mode="practice" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
-              🎯 Quiz &amp; Bingo
-            </button>
-            <button id="tab-drills" type="button" data-mode="drills" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
-              🧩 Cards &amp; Drills
-            </button>
-          </nav>
-
-          <!-- Diagram Zoom Bar (Shown only when Mind-Maps/Diagrams are active) -->
-          <div id="pad-zoom-controls" class="hidden items-center gap-1 bg-stone-100 px-2 py-1 rounded-xl border border-stone-200 text-xs font-bold text-stone-700">
-            <button id="zoom-out" type="button" class="px-2 py-1 rounded hover:bg-white" title="Zoom Out Diagrams">−</button>
-            <span id="zoom-label" class="min-w-[42px] text-center font-mono">100%</span>
-            <button id="zoom-in" type="button" class="px-2 py-1 rounded hover:bg-white" title="Zoom In Diagrams">+</button>
-            <button id="zoom-reset" type="button" class="px-2 py-1 rounded bg-white border border-stone-200 hover:bg-stone-50 ml-1" title="Reset Zoom">Fit</button>
           </div>
-        </div>
-      </div>
 
-      <!-- Second Bar: 4-Design Switcher + Always-Available Self-Test Toggles & Writing Pad -->
-      <div id="studio-design-bar" class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-stone-200/80">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-stone-500">Design:</span>
           <div id="design-mode-switcher" class="inline-flex flex-wrap items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200" role="group" aria-label="Choose Study Layout">
             <button type="button" data-design-mode="textbook" class="design-mode-btn px-3 py-1 rounded-lg text-xs font-extrabold bg-stone-900 text-white shadow-sm transition">
-              📖 1. Textbook
+              ✨ 1. Guided Course
             </button>
             <button type="button" data-design-mode="focus" class="design-mode-btn px-3 py-1 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
-              🎴 2. Focus Cards
+              🎴 2. Flash Stage
             </button>
             <button type="button" data-design-mode="cheatsheet" class="design-mode-btn px-3 py-1 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
-              📊 3. Cheat Sheet
+              🌙 3. Midnight Bento
             </button>
             <button type="button" data-design-mode="diagrams" class="design-mode-btn px-3 py-1 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
               🗺️ 4. Mind-Maps
@@ -222,7 +193,55 @@
           </div>
         </div>
 
+        <nav id="lesson-tabs-nav" class="flex flex-wrap items-center gap-1 bg-stone-100 p-1 rounded-xl border border-stone-200" aria-label="Workspace Tabs">
+          <button id="btn-mode-notes" type="button" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-stone-900 text-white shadow-sm transition">
+            📖 Study Notes
+          </button>
+
+          <div id="lesson-select-wrapper" class="hidden lg:flex items-center rounded-lg bg-white border border-stone-200 text-stone-700 px-2 py-1 transition">
+            <label for="lesson-select" class="sr-only">Select Class</label>
+            <select id="lesson-select" class="bg-transparent text-xs font-bold text-stone-800 focus:outline-none cursor-pointer">
+              <option value="lesson1" class="text-slate-900 bg-white">Class 1 (19.10) — Intro</option>
+              <option value="lesson2" class="text-slate-900 bg-white">Class 2 (22.10) — Greetings</option>
+              <option value="lesson3" class="text-slate-900 bg-white">Class 3 (26.10) — Finals &amp; Ex ①</option>
+              <option value="lesson4" class="text-slate-900 bg-white">Class 4 (28.10) — Names &amp; SVO</option>
+              <option value="lesson5" class="text-slate-900 bg-white">Class 5 (05.11) — Countries &amp; 的</option>
+              <option value="lesson6" class="text-slate-900 bg-white">Class 6 (09.11) — Family &amp; 有</option>
+              <option value="lesson7" class="text-slate-900 bg-white" selected>Class 7 (11.11) — Dates &amp; Hobbies</option>
+              <option value="all" class="text-slate-900 bg-white">All 7 Classes</option>
+            </select>
+          </div>
+
+          <button id="tab-practice" type="button" data-mode="practice" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
+            🎯 Quiz &amp; Bingo
+          </button>
+          <button id="tab-drills" type="button" data-mode="drills" class="tab-btn px-3 py-1.5 rounded-lg text-xs font-extrabold text-stone-700 hover:bg-white transition">
+            🧩 Cards &amp; Drills
+          </button>
+
+          <!-- Diagram Zoom Bar (Shown only when Mind-Maps/Diagrams are active) -->
+          <div id="pad-zoom-controls" class="hidden items-center gap-1 bg-white px-2 py-1 rounded-lg border border-stone-200 text-xs font-bold text-stone-700">
+            <button id="zoom-out" type="button" class="px-1.5 py-0.5 rounded hover:bg-stone-100" title="Zoom Out Diagrams">−</button>
+            <span id="zoom-label" class="min-w-[38px] text-center font-mono">100%</span>
+            <button id="zoom-in" type="button" class="px-1.5 py-0.5 rounded hover:bg-stone-100" title="Zoom In Diagrams">+</button>
+            <button id="zoom-reset" type="button" class="px-1.5 py-0.5 rounded bg-stone-100 hover:bg-stone-200 ml-0.5" title="Reset Zoom">Fit</button>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Compact Utility Bar: Search, Audio Speed, Self-Test Hide Pills & Writing Pad -->
+      <div id="studio-design-bar" class="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-stone-200/70">
+        <div class="relative w-full sm:w-64 lg:w-80">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-xs pointer-events-none">🔍</span>
+          <input id="global-search-input" type="search" placeholder="Search any Chinese word, pinyin, English..." class="w-full pl-8 pr-8 py-1 rounded-xl bg-stone-100 hover:bg-white focus:bg-white border border-stone-200 focus:border-red-500 focus:outline-none text-xs font-semibold text-stone-800 transition" />
+          <button id="global-search-clear" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-stone-400 hover:text-stone-700" title="Clear search">✕</button>
+        </div>
+
         <div class="flex flex-wrap items-center gap-1.5">
+          <button id="audio-speed-btn" type="button" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-50 border border-stone-200 text-xs font-bold text-stone-800 transition" title="Toggle Mandarin speech speed between Normal (0.85x) and Slow Beginner (0.65x)">
+            🔊 0.85x (Normal)
+          </button>
+          <span class="hidden sm:inline text-stone-300">|</span>
           <button id="toggle-hide-pinyin" type="button" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-50 border border-stone-200 text-xs font-bold text-stone-800 transition" title="Hide Pinyin to test reading (tap item to reveal)">
             🙈 Pinyin
           </button>
@@ -4281,8 +4300,20 @@
     let currentSpeechRate = 0.85;
     let currentDesignMode = 'textbook'; // 'textbook' | 'focus' | 'cheatsheet' | 'diagrams'
     let activeStudioLesson = 'lesson7';
+    let activeCourseStep = 'vocab'; // 'vocab' | 'grammar' | 'sentences' | 'chars'
+    let spotlightVocabIdx = 0;
     let focusDeckType = 'vocab';
     let focusCardIdx = 0;
+    let sentenceAutoPlayTimer = null;
+    let sentenceAutoPlayIdx = -1;
+
+    function stopSentenceAutoPlay() {
+      if (sentenceAutoPlayTimer) {
+        clearTimeout(sentenceAutoPlayTimer);
+        sentenceAutoPlayTimer = null;
+      }
+      sentenceAutoPlayIdx = -1;
+    }
 
     function speakChinese(text, label) {
       showToast(label || `Speaking: ${text}`);
@@ -4395,6 +4426,8 @@
       const zoomCtrl = document.getElementById('pad-zoom-controls');
 
       if (isPracticeOrDrills) {
+        if (typeof stopSentenceAutoPlay === 'function') stopSentenceAutoPlay();
+        document.body.classList.remove('studio-dark-theme');
         if (studioShell) studioShell.classList.add('hidden');
         if (studyNavBar) studyNavBar.classList.add('hidden');
         if (timelineStrip) { timelineStrip.classList.add('hidden'); timelineStrip.classList.remove('flex'); }
@@ -4404,15 +4437,23 @@
         return;
       }
 
+      if (typeof stopSentenceAutoPlay === 'function') stopSentenceAutoPlay();
       lastViewedLessonMode = mode;
       if (mode !== 'all') {
         if (activeStudioLesson !== mode) {
           focusCardIdx = 0;
+          spotlightVocabIdx = 0;
         }
         activeStudioLesson = mode;
       } else {
+        if (activeStudioLesson !== 'all') {
+          focusCardIdx = 0;
+          spotlightVocabIdx = 0;
+        }
         activeStudioLesson = 'all';
       }
+
+      document.body.classList.toggle('studio-dark-theme', currentDesignMode === 'cheatsheet');
 
       // Sync Hanzi writing lesson filter
       const lessonMap = { lesson1: 'L1', lesson2: 'L2', lesson3: 'L3', lesson4: 'L4', lesson5: 'L5', lesson6: 'L6', lesson7: 'L7', all: 'all' };
@@ -8209,7 +8250,7 @@
       };
     }
 
-    function renderStudioClassPills(includeAll = false) {
+    function renderStudioClassPills(includeAll = false, isDark = false) {
       const items = includeAll
         ? [...STUDIO_CLASSES, { key: 'all', num: 'Overview', shortDate: '1–7', topic: 'All Classes' }]
         : STUDIO_CLASSES;
@@ -8217,12 +8258,17 @@
         <div class="flex flex-wrap items-center gap-1.5">
           ${items.map((c) => {
             const active = activeStudioLesson === c.key;
+            const cls = isDark
+              ? (active
+                  ? 'px-3 py-1.5 rounded-xl bg-red-600 text-white text-xs font-extrabold shadow-sm'
+                  : 'px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold')
+              : (active
+                  ? 'px-3 py-1.5 rounded-xl bg-stone-900 text-white text-xs font-extrabold shadow-sm'
+                  : 'px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs font-bold');
             return `
-              <button type="button" data-studio-lesson="${c.key}" class="${active
-                ? 'px-3 py-1.5 rounded-xl bg-stone-900 text-white text-xs font-extrabold shadow-sm'
-                : 'px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 border border-stone-200 text-stone-700 text-xs font-bold'} transition">
+              <button type="button" data-studio-lesson="${c.key}" class="${cls} transition">
                 <span>${c.num}</span>
-                <span class="${active ? 'text-stone-300' : 'text-stone-400'} font-mono text-[11px] ml-1">${c.shortDate}</span>
+                <span class="${active ? 'opacity-80' : 'opacity-60'} font-mono text-[11px] ml-1">${c.shortDate}</span>
               </button>
             `;
           }).join('')}
@@ -8230,134 +8276,297 @@
       `;
     }
 
-    function renderTextbookChapter(lessonKey) {
-      const { meta, data, checkedCount, totalVocab, chars, practicedChars } = getLessonStats(lessonKey);
-      const groups = groupVocabByTopic(lessonKey, data.vocab);
-      const pct = totalVocab > 0 ? Math.round((checkedCount / totalVocab) * 100) : 0;
+    function renderWordSpotlightPanel(lessonKey) {
+      const { meta, data } = getLessonStats(lessonKey);
+      const vocab = data.vocab || [];
+      if (vocab.length === 0) return '';
+      if (spotlightVocabIdx >= vocab.length || spotlightVocabIdx < 0) spotlightVocabIdx = 0;
 
-      const vocabGroupsHtml = groups.map((g) => `
-        <div class="space-y-2">
-          <div class="flex items-center justify-between border-b border-stone-200 pb-1.5">
-            <h4 class="text-xs font-extrabold uppercase tracking-wider text-stone-500">${escapeStudioHtml(g.title)}</h4>
-            <span class="font-mono text-[11px] text-stone-400">${g.items.length} words</span>
+      const v = vocab[spotlightVocabIdx];
+      const itemId = `${lessonKey}-v-${spotlightVocabIdx}`;
+      const isChecked = writtenItemsSet.has(itemId);
+      const speakWord = v.speak || v.hanzi;
+      const uniqueChars = [...new Set(v.hanzi.split('').filter((c) => hanziLookupSet.has(c)))].slice(0, 4);
+
+      return `
+        <div class="bg-white rounded-3xl border-2 border-stone-300 p-5 shadow-md space-y-4">
+          <div class="flex items-center justify-between gap-2 pb-2.5 border-b border-stone-200">
+            <span class="font-mono text-[11px] font-extrabold uppercase tracking-wider text-stone-500">
+              🔍 Word Spotlight • #${spotlightVocabIdx + 1}/${vocab.length}
+            </span>
+            <div class="flex items-center gap-1">
+              <button type="button" data-spotlight-nav="prev" class="px-2 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-xs font-extrabold text-stone-700 transition" title="Previous Word">←</button>
+              <button type="button" data-spotlight-nav="next" class="px-2 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-xs font-extrabold text-stone-700 transition" title="Next Word">→</button>
+            </div>
           </div>
-          <div class="divide-y divide-stone-100">
-            ${g.items.map(({ item: v, idx }) => {
-              const itemId = `${lessonKey}-v-${idx}`;
-              const isChecked = writtenItemsSet.has(itemId);
-              const speakWord = v.speak || v.hanzi;
-              const uniqueChars = [...new Set(v.hanzi.split('').filter((c) => hanziLookupSet.has(c)))].slice(0, 4);
-              const writeBtns = uniqueChars.map((c) => `
-                <button type="button" data-studio-write="${escapeStudioAttr(c)}" data-studio-lcode="${meta.code}" class="px-2 py-1 rounded-lg bg-stone-100 hover:bg-stone-900 hover:text-white text-stone-700 text-xs font-bold transition" title="Practice writing ${escapeStudioAttr(c)}">
-                  ✍️ ${escapeStudioHtml(c)}
-                </button>
-              `).join('');
-              const exHtml = v.ex ? `
-                <div class="mt-2 ml-8 pl-3 border-l-2 border-amber-300 flex flex-wrap items-center justify-between gap-2">
-                  <div class="text-xs text-stone-600 min-w-0">
-                    <span class="font-bold text-amber-800 uppercase tracking-wide text-[10px] mr-1">Example</span>
-                    <span class="study-hanzi font-semibold text-stone-900">${escapeStudioHtml(v.ex.zh)}</span>
-                    <span class="study-pinyin font-mono text-[11px] text-stone-500 ml-1">(${escapeStudioHtml(v.ex.py)})</span>
-                    <span class="study-meaning text-stone-500 ml-1">— ${escapeStudioHtml(v.ex.en)}</span>
-                  </div>
-                  <button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)}) — ${escapeStudioAttr(v.ex.en)}" class="shrink-0 px-2.5 py-0.5 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-200 text-[11px] font-bold text-amber-900 transition" title="Hear ONLY this example sentence">
-                    🔊 Example
+
+          <div class="text-center py-2 space-y-1.5">
+            <div class="study-pinyin font-mono text-lg font-extrabold text-red-700">${escapeStudioHtml(v.pinyin)}</div>
+            <div class="study-hanzi font-serif-zh text-5xl sm:text-6xl font-black text-stone-900 tracking-tight py-1">${escapeStudioHtml(v.hanzi)}</div>
+            <div class="study-meaning text-base font-semibold text-stone-700">${escapeStudioHtml(v.meaning)}</div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <button type="button" data-studio-speak="${escapeStudioAttr(speakWord)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)}) — ${escapeStudioAttr(v.meaning)}" class="flex-1 min-w-[130px] px-4 py-2.5 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-extrabold shadow-sm transition">
+              🔊 Speak Word Only
+            </button>
+            <label class="px-3 py-2.5 rounded-2xl border ${isChecked ? 'border-emerald-400 bg-emerald-50 text-emerald-900' : 'border-stone-200 bg-stone-50 text-stone-700'} text-xs font-extrabold cursor-pointer flex items-center gap-1.5">
+              <input type="checkbox" data-studio-cb="${itemId}" data-studio-lesson-key="${lessonKey}" class="w-3.5 h-3.5 accent-emerald-600 rounded cursor-pointer" ${isChecked ? 'checked' : ''} />
+              <span>${isChecked ? 'Learned ✓' : 'Mark Learned'}</span>
+            </label>
+          </div>
+
+          ${uniqueChars.length > 0 ? `
+            <div class="pt-3 border-t border-stone-200 space-y-1.5">
+              <div class="text-[11px] font-bold uppercase tracking-wider text-stone-400">Practice Character Strokes</div>
+              <div class="flex flex-wrap gap-1.5">
+                ${uniqueChars.map((c) => `
+                  <button type="button" data-studio-write="${escapeStudioAttr(c)}" data-studio-lcode="${meta.code}" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-600 hover:text-white border border-red-200 text-red-800 text-xs font-extrabold transition">
+                    ✍️ Trace ${escapeStudioHtml(c)}
                   </button>
-                </div>
-              ` : '';
-
-              return `
-                <div class="studio-row py-3.5 px-2 -mx-2 rounded-xl ${isChecked ? 'bg-emerald-50/40' : ''}">
-                  <div class="flex flex-wrap items-start justify-between gap-3">
-                    <div class="flex items-start gap-3 flex-1 min-w-[210px]">
-                      <label class="mt-1.5 shrink-0 cursor-pointer flex items-center" title="Check off after practicing">
-                        <input type="checkbox" data-studio-cb="${itemId}" data-studio-lesson-key="${lessonKey}" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer" ${isChecked ? 'checked' : ''} />
-                      </label>
-                      <div class="min-w-0">
-                        <div class="flex flex-wrap items-baseline gap-2.5">
-                          <span class="study-hanzi text-2xl font-bold text-stone-900 tracking-tight leading-snug">${escapeStudioHtml(v.hanzi)}</span>
-                          <span class="study-pinyin font-mono text-sm font-semibold text-red-700">${escapeStudioHtml(v.pinyin)}</span>
-                        </div>
-                        <div class="study-meaning text-sm text-stone-600 mt-0.5 leading-relaxed">${escapeStudioHtml(v.meaning)}</div>
-                      </div>
-                    </div>
-
-                    <div class="flex flex-wrap items-center gap-1.5 shrink-0 pt-0.5">
-                      <button type="button" data-studio-speak="${escapeStudioAttr(speakWord)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)}) — ${escapeStudioAttr(v.meaning)}" class="px-3 py-1 rounded-lg bg-stone-100 hover:bg-amber-100 text-stone-900 text-xs font-extrabold transition" title="Hear ONLY this word">
-                        🔊 Word
-                      </button>
-                      ${writeBtns}
-                    </div>
-                  </div>
-                  ${exHtml}
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      `).join('');
-
-      const grammarHtml = (data.formulas || []).map((f) => `
-        <div class="border-l-4 border-stone-800 pl-4 py-1 space-y-2.5">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="font-mono text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-stone-900 text-white">${escapeStudioHtml(f.tag)}</span>
-            <h4 class="text-base font-bold text-stone-900">${escapeStudioHtml(f.title || '')}</h4>
-          </div>
-          <div class="study-hanzi inline-block font-mono text-xs sm:text-sm font-bold text-stone-900 bg-stone-100 px-3 py-2 rounded-xl border border-stone-200">${escapeStudioHtml(f.formula)}</div>
-          <p class="study-meaning text-sm text-stone-600 leading-relaxed max-w-3xl">${escapeStudioHtml(f.note)}</p>
-          ${f.examples && f.examples.length ? `
-            <div class="flex flex-wrap gap-2 pt-0.5">
-              ${f.examples.map((ex) => `
-                <button type="button" data-studio-speak="${escapeStudioAttr(ex.zh)}" data-studio-label="Grammar Example: ${escapeStudioAttr(ex.zh)} (${escapeStudioAttr(ex.py)}) — ${escapeStudioAttr(ex.en)}" class="px-3 py-1.5 rounded-xl bg-stone-50 hover:bg-amber-50 border border-stone-200 text-left text-xs transition inline-flex items-center gap-2" title="Hear only this example">
-                  <span class="study-hanzi font-bold text-stone-900">${escapeStudioHtml(ex.zh)}</span>
-                  <span class="study-pinyin font-mono text-[11px] text-red-700">${escapeStudioHtml(ex.py)}</span>
-                  <span class="study-meaning text-stone-500">— ${escapeStudioHtml(ex.en)}</span>
-                  <span class="text-stone-400">🔊</span>
-                </button>
-              `).join('')}
+                `).join('')}
+              </div>
             </div>
           ` : ''}
-        </div>
-      `).join('');
 
-      const sentencesHtml = (data.sentences || []).map((s, idx) => `
-        <div class="studio-row py-3.5 px-2 -mx-2 rounded-xl flex flex-wrap items-center justify-between gap-3">
-          <div class="flex items-start gap-3 flex-1 min-w-[220px]">
-            <span class="font-mono text-xs font-bold text-stone-400 mt-1.5">${idx + 1}.</span>
-            <div class="space-y-0.5">
-              <div class="study-hanzi text-lg font-bold text-stone-900 leading-snug">${escapeStudioHtml(s.hanzi)}</div>
-              <div class="study-pinyin font-mono text-xs text-red-700">${escapeStudioHtml(s.pinyin)}</div>
-              <div class="study-meaning text-sm text-stone-600">${escapeStudioHtml(s.en)}</div>
+          ${v.ex ? `
+            <div class="pt-3 border-t border-stone-200 bg-amber-50/70 rounded-2xl p-3.5 space-y-2 border border-amber-200/80">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-900">Sentence Example</span>
+                <button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)}) — ${escapeStudioAttr(v.ex.en)}" class="px-2.5 py-1 rounded-lg bg-amber-200/80 hover:bg-amber-300 text-amber-950 text-[11px] font-extrabold transition">
+                  🔊 Speak Example
+                </button>
+              </div>
+              <div class="study-hanzi font-serif-zh text-lg font-bold text-stone-900">${escapeStudioHtml(v.ex.zh)}</div>
+              <div class="study-pinyin font-mono text-xs text-red-700">${escapeStudioHtml(v.ex.py)}</div>
+              <div class="study-meaning text-xs text-stone-600">${escapeStudioHtml(v.ex.en)}</div>
             </div>
-          </div>
-          <button type="button" data-studio-speak="${escapeStudioAttr(s.speak || s.hanzi)}" data-studio-label="Sentence: ${escapeStudioAttr(s.hanzi)} (${escapeStudioAttr(s.pinyin)}) — ${escapeStudioAttr(s.en)}" class="shrink-0 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-amber-100 text-stone-900 text-xs font-extrabold transition" title="Hear ONLY this sentence">
-            🔊 Sentence
-          </button>
+          ` : `<div class="text-[11px] text-stone-400 text-center italic pt-1">Click any word tile on the left to inspect &amp; hear it</div>`}
         </div>
-      `).join('');
+      `;
+    }
 
-      const charsHtml = chars.length > 0 ? `
-        <div class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 gap-2.5">
-          ${chars.map((h) => {
-            const done = checkedHanziSet.has(h.char);
+    function renderGuidedCourseStage(lessonKey) {
+      const { meta, data, checkedCount, totalVocab, chars, practicedChars } = getLessonStats(lessonKey);
+      const groups = groupVocabByTopic(lessonKey, data.vocab);
+      const formulas = data.formulas || [];
+      const sentences = data.sentences || [];
+      const pct = totalVocab > 0 ? Math.round((checkedCount / totalVocab) * 100) : 0;
+
+      const steps = [
+        { id: 'vocab', num: 'Step 1', title: 'Words', count: totalVocab },
+        { id: 'grammar', num: 'Step 2', title: 'Grammar', count: formulas.length },
+        { id: 'sentences', num: 'Step 3', title: 'Sentences', count: sentences.length },
+        { id: 'chars', num: 'Step 4', title: 'Write Hanzi', count: chars.length }
+      ];
+
+      const stepTabsHtml = `
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-stone-200/70 p-1.5 rounded-2xl border border-stone-300/80">
+          ${steps.map((st) => {
+            const active = activeCourseStep === st.id;
             return `
-              <button type="button" data-studio-write="${escapeStudioAttr(h.char)}" data-studio-lcode="${meta.code}" class="studio-char-tile p-2.5 rounded-2xl border ${done ? 'border-emerald-400 bg-emerald-50/70' : 'border-stone-200 bg-stone-50/60 hover:bg-white hover:border-stone-400'} text-center transition flex flex-col items-center gap-0.5" title="Open ${escapeStudioAttr(h.char)} in Mǐzìgé Writing Pad">
-                <div class="w-full flex items-center justify-between text-[10px] font-mono">
-                  <span class="text-stone-400">${escapeStudioHtml(h.pinyin)}</span>
-                  <span class="studio-char-badge font-bold ${done ? 'text-emerald-700' : 'text-stone-400'}">${done ? '✓' : '✍️'}</span>
+              <button type="button" data-course-step="${st.id}" class="px-3 py-2.5 rounded-xl text-left transition flex items-center justify-between gap-2 ${active ? 'bg-stone-900 text-white shadow-sm' : 'bg-white/80 hover:bg-white text-stone-700'}">
+                <div>
+                  <div class="font-mono text-[10px] uppercase font-bold ${active ? 'text-amber-300' : 'text-stone-400'}">${st.num}</div>
+                  <div class="text-xs sm:text-sm font-extrabold">${st.title}</div>
                 </div>
-                <div class="study-hanzi text-3xl font-bold text-stone-900 py-0.5">${escapeStudioHtml(h.char)}</div>
-                <div class="study-meaning text-[11px] text-stone-500 line-clamp-1">${escapeStudioHtml(h.meaning)}</div>
+                <span class="px-2 py-0.5 rounded-lg font-mono text-xs font-bold ${active ? 'bg-white/15 text-white' : 'bg-stone-100 text-stone-600'}">${st.count}</span>
               </button>
             `;
           }).join('')}
         </div>
-      ` : `<p class="text-sm text-stone-500 italic">This early Pinyin & pronunciation class uses whole-word reading above; open the Writing Pad anytime to practice HSK 1 strokes.</p>`;
+      `;
+
+      let stageBodyHtml = '';
+      if (activeCourseStep === 'vocab') {
+        const vocabTopicsHtml = groups.map((g) => `
+          <div class="space-y-2.5">
+            <div class="flex items-center justify-between border-b border-stone-200 pb-1">
+              <h4 class="text-xs font-extrabold uppercase tracking-wider text-stone-500">${escapeStudioHtml(g.title)}</h4>
+              <span class="font-mono text-[11px] text-stone-400">Tap word to hear • Tap example strip for sentence</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+              ${g.items.map(({ item: v, idx }) => {
+                const itemId = `${lessonKey}-v-${idx}`;
+                const isChecked = writtenItemsSet.has(itemId);
+                const isSpotlit = idx === spotlightVocabIdx;
+                const speakWord = v.speak || v.hanzi;
+                const firstChar = v.hanzi.split('').find((c) => hanziLookupSet.has(c));
+
+                return `
+                  <div class="rounded-2xl border transition flex flex-col justify-between overflow-hidden ${isSpotlit ? 'word-tile-active' : (isChecked ? 'border-emerald-300 bg-emerald-50/40' : 'border-stone-200/90 bg-white hover:border-stone-400')}">
+                    <div class="p-3.5 space-y-1.5">
+                      <div class="flex items-center justify-between gap-1">
+                        <span class="study-pinyin font-mono text-xs font-bold text-red-700">${escapeStudioHtml(v.pinyin)}</span>
+                        <div class="flex items-center gap-1.5">
+                          ${firstChar ? `<button type="button" data-studio-write="${escapeStudioAttr(firstChar)}" data-studio-lcode="${meta.code}" class="px-1.5 py-0.5 rounded bg-stone-100 hover:bg-stone-900 hover:text-white text-[10px] font-bold text-stone-600 transition" title="Write ${escapeStudioAttr(firstChar)}">✍️</button>` : ''}
+                          <input type="checkbox" data-studio-cb="${itemId}" data-studio-lesson-key="${lessonKey}" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer" title="Mark learned" ${isChecked ? 'checked' : ''} />
+                        </div>
+                      </div>
+
+                      <button type="button" data-studio-speak="${escapeStudioAttr(speakWord)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)}) — ${escapeStudioAttr(v.meaning)}" data-spotlight-idx="${idx}" class="w-full text-left group py-0.5">
+                        <div class="flex items-baseline justify-between gap-2">
+                          <span class="study-hanzi font-serif-zh text-2xl sm:text-3xl font-bold text-stone-900 group-hover:text-red-700 transition">${escapeStudioHtml(v.hanzi)}</span>
+                          <span class="text-xs text-stone-400 group-hover:text-stone-900 transition">🔊</span>
+                        </div>
+                        <div class="study-meaning text-xs text-stone-600 font-medium mt-1 line-clamp-2">${escapeStudioHtml(v.meaning)}</div>
+                      </button>
+                    </div>
+
+                    ${v.ex ? `
+                      <button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)}) — ${escapeStudioAttr(v.ex.en)}" data-spotlight-idx="${idx}" class="w-full px-3.5 py-2 bg-amber-50/70 hover:bg-amber-100/80 border-t border-amber-200/70 text-left flex items-center justify-between gap-2 transition" title="Hear ONLY this example sentence">
+                        <span class="study-hanzi text-xs font-semibold text-stone-800 truncate">💬 ${escapeStudioHtml(v.ex.zh)}</span>
+                        <span class="text-[10px] font-bold text-amber-900 shrink-0">🔊 Ex</span>
+                      </button>
+                    ` : ''}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `).join('');
+
+        stageBodyHtml = `
+          <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+            <div class="xl:col-span-8 space-y-6">
+              ${vocabTopicsHtml}
+            </div>
+            <div class="xl:col-span-4 xl:sticky xl:top-28">
+              ${renderWordSpotlightPanel(lessonKey)}
+            </div>
+          </div>
+          <div class="pt-4 border-t border-stone-200 flex items-center justify-end">
+            <button type="button" data-course-step="grammar" class="px-5 py-2.5 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-extrabold shadow-sm transition">
+              Continue to Step 2: Grammar Patterns (${formulas.length}) →
+            </button>
+          </div>
+        `;
+      } else if (activeCourseStep === 'grammar') {
+        stageBodyHtml = `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            ${formulas.map((f) => `
+              <div class="bg-white rounded-3xl border border-stone-200 p-5 shadow-sm flex flex-col justify-between gap-4">
+                <div class="space-y-3">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2.5 py-0.5 rounded-lg bg-red-700 text-white font-mono text-[11px] font-extrabold uppercase">${escapeStudioHtml(f.tag)}</span>
+                    <h4 class="text-base font-extrabold text-stone-900">${escapeStudioHtml(f.title || '')}</h4>
+                  </div>
+                  <div class="study-hanzi font-mono text-xs sm:text-sm font-bold text-amber-200 bg-stone-900 px-4 py-3 rounded-2xl leading-relaxed">${escapeStudioHtml(f.formula)}</div>
+                  <p class="study-meaning text-sm text-stone-600 leading-relaxed">${escapeStudioHtml(f.note)}</p>
+                </div>
+                ${f.examples && f.examples.length ? `
+                  <div class="space-y-1.5 pt-3 border-t border-stone-100">
+                    <div class="text-[10px] font-extrabold uppercase tracking-wider text-stone-400">Tap an example to listen</div>
+                    ${f.examples.map((ex) => `
+                      <button type="button" data-studio-speak="${escapeStudioAttr(ex.zh)}" data-studio-label="Grammar Example: ${escapeStudioAttr(ex.zh)} (${escapeStudioAttr(ex.py)}) — ${escapeStudioAttr(ex.en)}" class="w-full px-3 py-2 rounded-xl bg-stone-50 hover:bg-amber-50 border border-stone-200 text-left text-xs flex items-center justify-between gap-2 transition">
+                        <div>
+                          <span class="study-hanzi font-serif-zh font-bold text-sm text-stone-900">${escapeStudioHtml(ex.zh)}</span>
+                          <span class="study-pinyin font-mono text-[11px] text-red-700 ml-1.5">${escapeStudioHtml(ex.py)}</span>
+                          <span class="study-meaning text-stone-500 ml-1.5">— ${escapeStudioHtml(ex.en)}</span>
+                        </div>
+                        <span class="shrink-0">🔊</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+          <div class="pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-2">
+            <button type="button" data-course-step="vocab" class="px-4 py-2.5 rounded-2xl bg-white hover:bg-stone-100 border border-stone-300 text-stone-700 text-xs font-extrabold transition">
+              ← Back to Step 1: Words
+            </button>
+            <button type="button" data-course-step="sentences" class="px-5 py-2.5 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-extrabold shadow-sm transition">
+              Continue to Step 3: Class Sentences (${sentences.length}) →
+            </button>
+          </div>
+        `;
+      } else if (activeCourseStep === 'sentences') {
+        const isPlaying = sentenceAutoPlayTimer !== null;
+        stageBodyHtml = `
+          <div class="bg-white rounded-3xl border border-stone-200 p-5 sm:p-6 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-stone-200">
+              <div>
+                <h3 class="text-base font-extrabold text-stone-900">Real Class Sentences &amp; Mini-Dialogues</h3>
+                <p class="text-xs text-stone-500">Click any sentence to hear it isolated, or play all slowly one by one.</p>
+              </div>
+              <button type="button" data-sentence-autoplay="${lessonKey}" class="px-4 py-2 rounded-xl ${isPlaying ? 'bg-red-600 text-white' : 'bg-stone-900 hover:bg-stone-800 text-white'} text-xs font-extrabold shadow-sm transition">
+                ${isPlaying ? '⏹ Stop Auto-Play' : '▶ Play All 1-by-1'}
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              ${sentences.map((s, idx) => {
+                const activeSent = sentenceAutoPlayIdx === idx;
+                return `
+                  <button type="button" data-studio-speak="${escapeStudioAttr(s.speak || s.hanzi)}" data-studio-label="Sentence: ${escapeStudioAttr(s.hanzi)} (${escapeStudioAttr(s.pinyin)}) — ${escapeStudioAttr(s.en)}" class="p-4 rounded-2xl border text-left transition flex items-start justify-between gap-3 ${activeSent ? 'border-red-600 bg-amber-50/70 shadow-sm' : 'border-stone-200 bg-stone-50/50 hover:bg-white hover:border-stone-400'}">
+                    <div class="flex items-start gap-3 min-w-0">
+                      <span class="w-6 h-6 rounded-full bg-stone-900 text-white font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
+                      <div class="space-y-1 min-w-0">
+                        <div class="study-hanzi font-serif-zh text-xl font-bold text-stone-900 leading-snug">${escapeStudioHtml(s.hanzi)}</div>
+                        <div class="study-pinyin font-mono text-xs font-semibold text-red-700">${escapeStudioHtml(s.pinyin)}</div>
+                        <div class="study-meaning text-xs sm:text-sm text-stone-600">${escapeStudioHtml(s.en)}</div>
+                      </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-white border border-stone-200 text-xs font-bold text-stone-800 shrink-0">🔊</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+          <div class="pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-2">
+            <button type="button" data-course-step="grammar" class="px-4 py-2.5 rounded-2xl bg-white hover:bg-stone-100 border border-stone-300 text-stone-700 text-xs font-extrabold transition">
+              ← Back to Step 2: Grammar
+            </button>
+            <button type="button" data-course-step="chars" class="px-5 py-2.5 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-xs sm:text-sm font-extrabold shadow-sm transition">
+              Continue to Step 4: Write Characters (${chars.length}) →
+            </button>
+          </div>
+        `;
+      } else {
+        stageBodyHtml = `
+          <div class="bg-white rounded-3xl border border-stone-200 p-5 sm:p-6 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-stone-200">
+              <div>
+                <h3 class="text-base font-extrabold text-stone-900">Character Stroke-Order Studio (${chars.length} Characters)</h3>
+                <p class="text-xs text-stone-500">Click any character tile below to open the interactive Mǐzìgé stroke pad side-by-side.</p>
+              </div>
+              <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-xl">✓ ${practicedChars} / ${chars.length} Practiced</span>
+            </div>
+
+            ${chars.length > 0 ? `
+              <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                ${chars.map((h) => {
+                  const done = checkedHanziSet.has(h.char);
+                  return `
+                    <button type="button" data-studio-write="${escapeStudioAttr(h.char)}" data-studio-lcode="${meta.code}" class="studio-char-tile p-3.5 rounded-2xl border ${done ? 'border-emerald-400 bg-emerald-50/70' : 'border-stone-200 bg-stone-50/50 hover:bg-white hover:border-stone-400'} text-center transition flex flex-col items-center gap-1" title="Practice writing ${escapeStudioAttr(h.char)}">
+                      <div class="w-full flex items-center justify-between text-[10px] font-mono">
+                        <span class="study-pinyin text-red-700 font-bold">${escapeStudioHtml(h.pinyin)}</span>
+                        <span class="studio-char-badge font-bold ${done ? 'text-emerald-700' : 'text-stone-400'}">${done ? '✓' : '✍️'}</span>
+                      </div>
+                      <div class="study-hanzi font-serif-zh text-4xl font-bold text-stone-900 py-1">${escapeStudioHtml(h.char)}</div>
+                      <div class="study-meaning text-xs text-stone-600 line-clamp-1">${escapeStudioHtml(h.meaning)}</div>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            ` : `<p class="text-sm text-stone-500 italic py-4">This introductory pronunciation class focuses on Pinyin &amp; spoken tones. Click <strong>✍️ Writing Pad</strong> in the top bar anytime to practice HSK 1 characters.</p>`}
+          </div>
+          <div class="pt-4 border-t border-stone-200 flex flex-wrap items-center justify-between gap-2">
+            <button type="button" data-course-step="sentences" class="px-4 py-2.5 rounded-2xl bg-white hover:bg-stone-100 border border-stone-300 text-stone-700 text-xs font-extrabold transition">
+              ← Back to Step 3: Sentences
+            </button>
+            <button type="button" data-studio-action="quiz" class="px-5 py-2.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-extrabold shadow-sm transition">
+              🎯 Finished Lesson! Take Class Quiz →
+            </button>
+          </div>
+        `;
+      }
 
       return `
-        <article class="bg-white rounded-3xl border border-stone-200/90 shadow-sm px-5 py-6 sm:px-9 sm:py-8 space-y-10">
-          <header class="border-b border-stone-200 pb-6 flex flex-wrap items-start justify-between gap-4">
-            <div class="space-y-1.5 max-w-2xl">
+        <div class="space-y-5">
+          <div class="bg-white rounded-3xl border border-stone-200/90 px-5 py-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
+            <div class="space-y-1">
               <div class="flex flex-wrap items-center gap-2 text-xs font-mono font-bold text-red-700 uppercase tracking-wider">
                 <span>${meta.num}</span>
                 <span>•</span>
@@ -8365,110 +8574,97 @@
                 <span>•</span>
                 <span class="text-stone-500">${meta.tag}</span>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">${escapeStudioHtml(meta.topic)}</h2>
-              <p class="text-sm text-stone-600 leading-relaxed">${escapeStudioHtml(data.summary || '')}</p>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-stone-900 tracking-tight">${escapeStudioHtml(meta.topic)}</h2>
+              <p class="text-xs sm:text-sm text-stone-600">${escapeStudioHtml(data.summary || '')}</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
               <div class="studio-progress-pill px-3 py-1.5 rounded-xl bg-stone-100 border border-stone-200 text-xs font-mono font-bold text-stone-800">
-                ✓ ${checkedCount}/${totalVocab} words (${pct}%) • ✍️ ${practicedChars}/${chars.length} chars
+                ✓ ${checkedCount}/${totalVocab} words (${pct}%)
               </div>
               <button type="button" data-studio-action="mindmaps" class="px-3 py-1.5 rounded-xl bg-stone-50 hover:bg-stone-100 border border-stone-200 text-xs font-bold text-stone-700 transition">
-                🗺️ View Mind-Map
+                🗺️ Class Mind-Map
               </button>
             </div>
-          </header>
+          </div>
 
-          <section id="studio-sec-vocab-${lessonKey}" class="space-y-6">
-            <div class="flex items-baseline justify-between">
-              <h3 class="text-lg font-extrabold text-stone-900">1. Core Vocabulary</h3>
-              <span class="text-xs text-stone-500">Click <strong class="text-stone-800">🔊 Word</strong> for isolated pronunciation</span>
-            </div>
-            <div class="space-y-7">${vocabGroupsHtml}</div>
-          </section>
-
-          <section id="studio-sec-grammar-${lessonKey}" class="space-y-5 pt-4 border-t border-stone-200">
-            <h3 class="text-lg font-extrabold text-stone-900">2. How Sentences Work (Grammar)</h3>
-            <div class="space-y-5">${grammarHtml}</div>
-          </section>
-
-          <section id="studio-sec-sentences-${lessonKey}" class="space-y-3 pt-4 border-t border-stone-200">
-            <h3 class="text-lg font-extrabold text-stone-900">3. Real Class Sentences</h3>
-            <div class="divide-y divide-stone-100">${sentencesHtml}</div>
-          </section>
-
-          <section id="studio-sec-chars-${lessonKey}" class="space-y-4 pt-4 border-t border-stone-200">
-            <div class="flex items-baseline justify-between gap-2">
-              <h3 class="text-lg font-extrabold text-stone-900">4. Character Writing Practice</h3>
-              <span class="text-xs text-stone-500">Click any character to trace strokes side-by-side</span>
-            </div>
-            ${charsHtml}
-          </section>
-        </article>
+          ${stepTabsHtml}
+          ${stageBodyHtml}
+        </div>
       `;
     }
 
     function renderTextbookDesign() {
       const isAll = activeStudioLesson === 'all';
-      const targetKey = isAll ? 'lesson7' : activeStudioLesson;
-      const stats = getLessonStats(targetKey);
-      const pct = stats.totalVocab > 0 ? Math.round((stats.checkedCount / stats.totalVocab) * 100) : 0;
 
       const sidebarHtml = `
-        <aside class="bg-white rounded-2xl border border-stone-200/90 p-3.5 lg:sticky lg:top-28 space-y-5 shadow-sm">
+        <aside class="bg-white rounded-3xl border border-stone-200/90 p-3.5 lg:sticky lg:top-28 space-y-4 shadow-sm">
           <div>
-            <div class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400 px-2 mb-2">7 Classes Curriculum</div>
+            <div class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400 px-2 mb-2">Course Chapters (1–7)</div>
             <div class="space-y-1">
-              ${STUDIO_CLASSES.map((c) => {
+              ${STUDIO_CLASSES.map((c, idx) => {
                 const active = activeStudioLesson === c.key;
                 const st = getLessonStats(c.key);
+                const cPct = st.totalVocab > 0 ? Math.round((st.checkedCount / st.totalVocab) * 100) : 0;
                 return `
-                  <button type="button" data-studio-lesson="${c.key}" class="w-full text-left px-2.5 py-2 rounded-xl transition flex items-start justify-between gap-2 ${active ? 'bg-stone-900 text-white shadow-sm' : 'hover:bg-stone-100 text-stone-800'}">
-                    <div class="min-w-0">
-                      <div class="flex items-center gap-1.5 text-xs font-extrabold">
-                        <span>${c.num}</span>
+                  <button type="button" data-studio-lesson="${c.key}" class="w-full text-left p-2.5 rounded-2xl transition flex items-start gap-2.5 ${active ? 'bg-stone-900 text-white shadow-sm' : 'hover:bg-stone-100 text-stone-800'}">
+                    <span class="w-6 h-6 rounded-lg font-mono text-[11px] font-extrabold flex items-center justify-center shrink-0 mt-0.5 ${active ? 'bg-red-600 text-white' : 'bg-stone-100 text-stone-600'}">0${idx + 1}</span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex items-center justify-between gap-1">
+                        <span class="text-xs font-extrabold">${c.num}</span>
                         <span class="font-mono text-[10px] ${active ? 'text-stone-300' : 'text-stone-400'}">${c.shortDate}</span>
                       </div>
                       <div class="text-[11px] truncate ${active ? 'text-stone-200' : 'text-stone-500'}">${escapeStudioHtml(c.topic)}</div>
+                      <div class="mt-1.5 h-1 rounded-full ${active ? 'bg-stone-700' : 'bg-stone-200'} overflow-hidden">
+                        <div class="h-full bg-emerald-500 rounded-full" style="width:${cPct}%"></div>
+                      </div>
                     </div>
-                    <span class="font-mono text-[10px] font-bold shrink-0 mt-0.5 ${active ? 'text-emerald-300' : 'text-stone-400'}">${st.checkedCount}/${st.totalVocab}</span>
                   </button>
                 `;
               }).join('')}
-              <button type="button" data-studio-lesson="all" class="w-full text-left px-2.5 py-2 rounded-xl transition flex items-center justify-between text-xs font-bold ${isAll ? 'bg-stone-900 text-white shadow-sm' : 'hover:bg-stone-100 text-stone-600'}">
-                <span>All 7 Classes Sheet</span>
+              <button type="button" data-studio-lesson="all" class="w-full text-left px-3 py-2 rounded-2xl transition flex items-center justify-between text-xs font-bold ${isAll ? 'bg-stone-900 text-white shadow-sm' : 'hover:bg-stone-100 text-stone-600'}">
+                <span>📚 All 7 Classes Overview</span>
                 <span class="font-mono text-[10px]">1–7</span>
               </button>
             </div>
           </div>
 
-          ${!isAll ? `
-            <div class="pt-3 border-t border-stone-200 space-y-2">
-              <div class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400 px-2">Jump in ${stats.meta.num}</div>
-              <div class="space-y-0.5 text-xs font-bold text-stone-600">
-                <button type="button" data-studio-scroll="studio-sec-vocab-${targetKey}" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-100 flex justify-between"><span>1. Words</span><span class="font-mono text-stone-400">${stats.totalVocab}</span></button>
-                <button type="button" data-studio-scroll="studio-sec-grammar-${targetKey}" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-100 flex justify-between"><span>2. Grammar</span><span class="font-mono text-stone-400">${(stats.data.formulas || []).length}</span></button>
-                <button type="button" data-studio-scroll="studio-sec-sentences-${targetKey}" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-100 flex justify-between"><span>3. Sentences</span><span class="font-mono text-stone-400">${(stats.data.sentences || []).length}</span></button>
-                <button type="button" data-studio-scroll="studio-sec-chars-${targetKey}" class="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-stone-100 flex justify-between"><span>4. Characters</span><span class="font-mono text-stone-400">${stats.chars.length}</span></button>
-              </div>
-              <div class="px-2 pt-2">
-                <div class="flex justify-between text-[11px] font-mono text-stone-500 mb-1"><span>Checked Words</span><span>${pct}%</span></div>
-                <div class="h-1.5 rounded-full bg-stone-100 overflow-hidden"><div class="h-full bg-emerald-600 rounded-full" style="width:${pct}%"></div></div>
-              </div>
-            </div>
-          ` : ''}
-
           <div class="pt-3 border-t border-stone-200 space-y-1.5">
-            <button type="button" data-studio-action="quiz" class="w-full px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-950 text-xs font-extrabold text-left transition">🎯 Take Quiz &amp; Bingo →</button>
-            <button type="button" data-studio-action="drills" class="w-full px-3 py-2 rounded-xl bg-stone-50 hover:bg-stone-100 border border-stone-200 text-stone-800 text-xs font-bold text-left transition">🧩 Sentence Builder &amp; Drills →</button>
+            <button type="button" data-studio-action="quiz" class="w-full px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-950 text-xs font-extrabold text-left transition">🎯 Quiz &amp; Bingo →</button>
+            <button type="button" data-studio-action="drills" class="w-full px-3 py-2 rounded-xl bg-stone-50 hover:bg-stone-100 border border-stone-200 text-stone-800 text-xs font-bold text-left transition">🧩 Sentence Drills →</button>
           </div>
         </aside>
       `;
 
       const mainHtml = isAll
-        ? `<div class="space-y-8">${STUDIO_CLASSES.map((c) => renderTextbookChapter(c.key)).join('')}</div>`
-        : renderTextbookChapter(activeStudioLesson);
+        ? `
+          <div class="space-y-4">
+            <div class="bg-white rounded-3xl border border-stone-200 p-5 shadow-sm">
+              <h2 class="text-xl font-extrabold text-stone-900">All 7 Classes — Curriculum Overview</h2>
+              <p class="text-xs text-stone-500 mt-0.5">Select any class below to open its 4-step interactive lesson, or switch to <strong>🌙 3. Midnight Bento</strong> to view all tables at once.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${STUDIO_CLASSES.map((c) => {
+                const st = getLessonStats(c.key);
+                return `
+                  <div class="bg-white rounded-3xl border border-stone-200 p-5 shadow-sm flex flex-col justify-between gap-4">
+                    <div>
+                      <div class="text-xs font-mono font-bold text-red-700">${c.num} • ${c.date} • ${c.tag}</div>
+                      <h3 class="text-lg font-extrabold text-stone-900 mt-1">${escapeStudioHtml(c.topic)}</h3>
+                      <p class="text-xs text-stone-600 mt-1">${escapeStudioHtml(st.data.summary || '')}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-3 border-t border-stone-100">
+                      <span class="font-mono text-xs text-stone-500">${st.totalVocab} words • ${(st.data.formulas || []).length} rules • ${st.chars.length} chars</span>
+                      <button type="button" data-studio-lesson="${c.key}" class="px-3.5 py-1.5 rounded-xl bg-stone-900 hover:bg-red-600 text-white text-xs font-extrabold transition">Open Class →</button>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `
+        : renderGuidedCourseStage(activeStudioLesson);
 
-      return `<div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6 items-start">${sidebarHtml}<div class="min-w-0">${mainHtml}</div></div>`;
+      return `<div class="grid grid-cols-1 lg:grid-cols-[235px_1fr] gap-5 items-start">${sidebarHtml}<div class="min-w-0">${mainHtml}</div></div>`;
     }
 
     function getFocusDeckItems(lessonKey, deckType) {
@@ -8516,21 +8712,21 @@
         const uniqueChars = [...new Set(v.hanzi.split('').filter((c) => hanziLookupSet.has(c)))].slice(0, 5);
 
         cardBodyHtml = `
-          <div class="text-center space-y-4 py-3">
+          <div class="text-center space-y-4 py-2">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 text-xs font-mono font-bold text-stone-600">
               <span>${entry.meta.num} (${entry.meta.shortDate})</span>
               ${isDone ? '<span class="text-emerald-700 font-extrabold">• ✓ Practiced</span>' : ''}
             </div>
-            <div class="study-hanzi text-5xl sm:text-6xl font-bold text-stone-900 tracking-tight py-2">${escapeStudioHtml(v.hanzi)}</div>
             <div class="study-pinyin font-mono text-xl sm:text-2xl font-bold text-red-700">${escapeStudioHtml(v.pinyin)}</div>
-            <div class="study-meaning text-lg sm:text-xl text-stone-700 font-medium">${escapeStudioHtml(v.meaning)}</div>
+            <div class="study-hanzi font-serif-zh text-6xl sm:text-7xl font-black text-stone-900 tracking-tight py-1">${escapeStudioHtml(v.hanzi)}</div>
+            <div class="study-meaning text-lg sm:text-xl text-stone-700 font-semibold">${escapeStudioHtml(v.meaning)}</div>
 
             <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <button type="button" data-studio-speak="${escapeStudioAttr(speakWord)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)}) — ${escapeStudioAttr(v.meaning)}" class="px-5 py-2.5 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-sm font-extrabold shadow-sm transition">
+              <button type="button" data-studio-speak="${escapeStudioAttr(speakWord)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)}) — ${escapeStudioAttr(v.meaning)}" class="px-6 py-3 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white text-sm font-extrabold shadow-sm transition">
                 🔊 Speak Word
               </button>
               ${uniqueChars.map((c) => `
-                <button type="button" data-studio-write="${escapeStudioAttr(c)}" data-studio-lcode="${entry.meta.code}" class="px-3.5 py-2.5 rounded-2xl bg-red-50 hover:bg-red-600 hover:text-white border border-red-200 text-red-800 text-sm font-extrabold transition">
+                <button type="button" data-studio-write="${escapeStudioAttr(c)}" data-studio-lcode="${entry.meta.code}" class="px-4 py-3 rounded-2xl bg-red-50 hover:bg-red-600 hover:text-white border border-red-200 text-red-800 text-sm font-extrabold transition">
                   ✍️ ${escapeStudioHtml(c)}
                 </button>
               `).join('')}
@@ -8538,16 +8734,16 @@
           </div>
 
           ${v.ex ? `
-            <div class="mt-6 pt-5 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 bg-stone-50/80 rounded-2xl p-4">
+            <div class="mt-6 pt-5 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 bg-amber-50/70 rounded-2xl p-4 border border-amber-200/80">
               <div class="min-w-0">
                 <div class="text-[11px] font-extrabold uppercase tracking-wider text-amber-800 mb-0.5">Context Example</div>
-                <div class="study-hanzi text-base sm:text-lg font-bold text-stone-900">${escapeStudioHtml(v.ex.zh)}</div>
+                <div class="study-hanzi font-serif-zh text-lg sm:text-xl font-bold text-stone-900">${escapeStudioHtml(v.ex.zh)}</div>
                 <div class="text-xs text-stone-600 mt-0.5">
                   <span class="study-pinyin font-mono text-red-700">${escapeStudioHtml(v.ex.py)}</span>
                   <span class="study-meaning ml-1">— ${escapeStudioHtml(v.ex.en)}</span>
                 </div>
               </div>
-              <button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)}) — ${escapeStudioAttr(v.ex.en)}" class="shrink-0 px-4 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 text-xs font-extrabold transition">
+              <button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)}) — ${escapeStudioAttr(v.ex.en)}" class="shrink-0 px-4 py-2 rounded-xl bg-amber-200/80 hover:bg-amber-300 text-amber-950 text-xs font-extrabold transition">
                 🔊 Speak Example
               </button>
             </div>
@@ -8562,7 +8758,7 @@
               <span class="text-xs font-mono text-stone-500">${entry.meta.num} • Grammar Pattern</span>
             </div>
             <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900">${escapeStudioHtml(f.title || '')}</h3>
-            <div class="study-hanzi font-mono text-base sm:text-lg font-bold text-stone-900 bg-stone-100 px-4 py-3.5 rounded-2xl border border-stone-200 leading-relaxed">${escapeStudioHtml(f.formula)}</div>
+            <div class="study-hanzi font-mono text-base sm:text-lg font-bold text-amber-200 bg-stone-900 px-4 py-3.5 rounded-2xl leading-relaxed">${escapeStudioHtml(f.formula)}</div>
             <p class="study-meaning text-base text-stone-700 leading-relaxed">${escapeStudioHtml(f.note)}</p>
             ${f.examples && f.examples.length ? `
               <div class="space-y-2 pt-2">
@@ -8571,7 +8767,7 @@
                   ${f.examples.map((ex) => `
                     <button type="button" data-studio-speak="${escapeStudioAttr(ex.zh)}" data-studio-label="Grammar Example: ${escapeStudioAttr(ex.zh)} (${escapeStudioAttr(ex.py)}) — ${escapeStudioAttr(ex.en)}" class="p-3 rounded-xl bg-stone-50 hover:bg-amber-50 border border-stone-200 text-left flex items-center justify-between gap-3 transition">
                       <div>
-                        <span class="study-hanzi text-base font-bold text-stone-900">${escapeStudioHtml(ex.zh)}</span>
+                        <span class="study-hanzi font-serif-zh text-base font-bold text-stone-900">${escapeStudioHtml(ex.zh)}</span>
                         <span class="study-pinyin font-mono text-xs text-red-700 ml-2">${escapeStudioHtml(ex.py)}</span>
                         <span class="study-meaning text-xs text-stone-600 ml-2">— ${escapeStudioHtml(ex.en)}</span>
                       </div>
@@ -8588,7 +8784,7 @@
         cardBodyHtml = `
           <div class="text-center space-y-5 py-6">
             <div class="inline-block px-3 py-1 rounded-full bg-stone-100 text-xs font-mono font-bold text-stone-600">${entry.meta.num} • Real Sentence</div>
-            <div class="study-hanzi text-3xl sm:text-4xl font-bold text-stone-900 leading-snug">${escapeStudioHtml(s.hanzi)}</div>
+            <div class="study-hanzi font-serif-zh text-3xl sm:text-4xl font-bold text-stone-900 leading-snug">${escapeStudioHtml(s.hanzi)}</div>
             <div class="study-pinyin font-mono text-lg text-red-700 font-semibold">${escapeStudioHtml(s.pinyin)}</div>
             <div class="study-meaning text-base sm:text-lg text-stone-600">${escapeStudioHtml(s.en)}</div>
             <div class="pt-2">
@@ -8604,7 +8800,7 @@
         cardBodyHtml = `
           <div class="text-center space-y-4 py-4">
             <div class="inline-block px-3 py-1 rounded-full bg-stone-100 text-xs font-mono font-bold text-stone-600">${entry.meta.num} • Character Practice ${done ? '• ✓ Mastered' : ''}</div>
-            <div class="study-hanzi text-7xl font-bold text-stone-900 py-2">${escapeStudioHtml(h.char)}</div>
+            <div class="study-hanzi font-serif-zh text-7xl font-bold text-stone-900 py-2">${escapeStudioHtml(h.char)}</div>
             <div class="study-pinyin font-mono text-2xl font-bold text-red-700">${escapeStudioHtml(h.pinyin)}</div>
             <div class="study-meaning text-lg text-stone-700">${escapeStudioHtml(h.meaning)}</div>
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -8626,39 +8822,64 @@
         ...(charCount > 0 ? [{ id: 'characters', label: `Characters (${charCount})` }] : [])
       ];
 
+      const playlistHtml = deck.map((item, i) => {
+        const active = i === focusCardIdx;
+        const label = item.kind === 'vocab'
+          ? `${item.v.hanzi} — ${item.v.meaning}`
+          : item.kind === 'grammar'
+          ? `${item.f.tag}: ${item.f.title || item.f.formula}`
+          : item.kind === 'sentences'
+          ? item.s.hanzi
+          : `${item.h.char} (${item.h.pinyin})`;
+        return `
+          <button type="button" data-focus-jump="${i}" class="w-full text-left px-3 py-2 rounded-xl text-xs font-bold truncate transition flex items-center gap-2 ${active ? 'bg-stone-900 text-white shadow-sm' : 'hover:bg-stone-100 text-stone-700'}">
+            <span class="font-mono text-[10px] ${active ? 'text-amber-300' : 'text-stone-400'}">${i + 1}.</span>
+            <span class="truncate">${escapeStudioHtml(label)}</span>
+          </button>
+        `;
+      }).join('');
+
       return `
-        <div class="max-w-3xl mx-auto space-y-5">
-          <div class="flex flex-col gap-3">
+        <div class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             ${renderStudioClassPills(true)}
-            <div class="flex flex-wrap items-center justify-between gap-2 bg-white rounded-2xl border border-stone-200 px-3.5 py-2.5">
-              <div class="flex flex-wrap items-center gap-1.5">
-                ${decks.map((d) => `
-                  <button type="button" data-focus-deck="${d.id}" class="px-3 py-1 rounded-lg text-xs font-extrabold transition ${focusDeckType === d.id ? 'bg-red-600 text-white shadow-sm' : 'bg-stone-100 hover:bg-stone-200 text-stone-700'}">
-                    ${d.label}
-                  </button>
-                `).join('')}
-              </div>
-              <div id="focus-card-counter" class="text-xs font-mono font-bold text-stone-600">
-                Card ${focusCardIdx + 1} / ${deck.length}
-              </div>
-            </div>
-            <div class="h-1.5 rounded-full bg-stone-200 overflow-hidden">
-              <div class="h-full bg-red-600 transition-all duration-200" style="width:${pct}%"></div>
+            <div class="flex flex-wrap items-center gap-1.5 bg-white rounded-2xl border border-stone-200 p-1.5">
+              ${decks.map((d) => `
+                <button type="button" data-focus-deck="${d.id}" class="px-3 py-1 rounded-xl text-xs font-extrabold transition ${focusDeckType === d.id ? 'bg-red-600 text-white shadow-sm' : 'hover:bg-stone-100 text-stone-700'}">
+                  ${d.label}
+                </button>
+              `).join('')}
             </div>
           </div>
 
-          <div class="bg-white rounded-3xl border border-stone-200 shadow-md p-6 sm:p-10 min-h-[360px] flex flex-col justify-between">
-            <div>${cardBodyHtml}</div>
-          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5 items-start">
+            <aside class="bg-white rounded-3xl border border-stone-200 p-3 shadow-sm max-h-[500px] overflow-y-auto space-y-1">
+              <div class="px-2 py-1 text-[10px] font-mono font-extrabold uppercase tracking-wider text-stone-400">Deck Playlist (${deck.length})</div>
+              ${playlistHtml}
+            </aside>
 
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <button type="button" data-focus-nav="prev" class="px-5 py-3 rounded-2xl bg-white hover:bg-stone-100 border border-stone-300 text-stone-800 text-sm font-extrabold shadow-sm transition">
-              ← Previous
-            </button>
-            <span class="hidden sm:inline text-xs text-stone-400 font-mono">Tip: Use ← and → arrow keys</span>
-            <button type="button" data-focus-nav="next" class="px-6 py-3 rounded-2xl bg-stone-900 hover:bg-emerald-700 text-white text-sm font-extrabold shadow-sm transition">
-              ✓ Got It — Next →
-            </button>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between px-1">
+                <span id="focus-card-counter" class="text-xs font-mono font-extrabold text-stone-700">Card ${focusCardIdx + 1} / ${deck.length}</span>
+                <span class="text-xs font-mono text-stone-400">${pct}% through deck • Use ← / → keys</span>
+              </div>
+              <div class="h-1.5 rounded-full bg-stone-200 overflow-hidden">
+                <div class="h-full bg-red-600 transition-all duration-200" style="width:${pct}%"></div>
+              </div>
+
+              <div class="bg-white rounded-3xl border border-stone-200 shadow-md p-6 sm:p-10 min-h-[360px] flex flex-col justify-between">
+                <div>${cardBodyHtml}</div>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <button type="button" data-focus-nav="prev" class="px-5 py-3 rounded-2xl bg-white hover:bg-stone-100 border border-stone-300 text-stone-800 text-sm font-extrabold shadow-sm transition">
+                  ← Previous
+                </button>
+                <button type="button" data-focus-nav="next" class="px-6 py-3 rounded-2xl bg-stone-900 hover:bg-emerald-700 text-white text-sm font-extrabold shadow-sm transition">
+                  ✓ Got It — Next →
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       `;
@@ -8670,42 +8891,42 @@
         <div class="space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-2 px-1">
             <div>
-              <h2 class="text-lg font-extrabold text-stone-900">${meta.num} (${meta.date}) — ${escapeStudioHtml(meta.topic)}</h2>
-              <p class="text-xs text-stone-500">${escapeStudioHtml(data.summary || '')}</p>
+              <h2 class="text-lg font-extrabold text-white">${meta.num} (${meta.date}) — ${escapeStudioHtml(meta.topic)}</h2>
+              <p class="text-xs text-slate-400">${escapeStudioHtml(data.summary || '')}</p>
             </div>
-            <div class="text-xs font-mono font-bold text-stone-700 bg-white border border-stone-200 px-3 py-1 rounded-xl">
+            <div class="text-xs font-mono font-bold text-emerald-400 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl">
               ✓ ${checkedCount}/${totalVocab} words • ✍️ ${practicedChars}/${chars.length} chars
             </div>
           </div>
 
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-            <!-- Col 1: Scannable Words Table -->
-            <div class="lg:col-span-5 bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
-              <div class="px-4 py-2.5 border-b border-stone-200 bg-stone-50 flex items-center justify-between">
-                <span class="text-xs font-extrabold uppercase tracking-wider text-stone-700">Words (${totalVocab})</span>
-                <span class="text-[11px] text-stone-400">🔊 word • 💬 example</span>
+            <!-- Col 1: Midnight Words Table -->
+            <div class="lg:col-span-5 bg-slate-900 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
+              <div class="px-4 py-2.5 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-sky-400">Words (${totalVocab})</span>
+                <span class="text-[11px] text-slate-400">🔊 word • 💬 example</span>
               </div>
-              <div class="divide-y divide-stone-100">
+              <div class="divide-y divide-slate-800/80">
                 ${(data.vocab || []).map((v, idx) => {
                   const itemId = `${lessonKey}-v-${idx}`;
                   const done = writtenItemsSet.has(itemId);
                   const firstChar = v.hanzi.split('').find((c) => hanziLookupSet.has(c));
                   return `
-                    <div class="studio-row px-3.5 py-2 flex items-center justify-between gap-2 ${done ? 'bg-emerald-50/40' : ''}">
+                    <div class="studio-row px-3.5 py-2.5 flex items-center justify-between gap-2 ${done ? 'bg-emerald-950/30' : ''}">
                       <div class="flex items-center gap-2.5 min-w-0">
-                        <input type="checkbox" data-studio-cb="${itemId}" data-studio-lesson-key="${lessonKey}" class="w-3.5 h-3.5 accent-emerald-600 shrink-0 cursor-pointer" ${done ? 'checked' : ''} />
+                        <input type="checkbox" data-studio-cb="${itemId}" data-studio-lesson-key="${lessonKey}" class="w-3.5 h-3.5 accent-emerald-500 shrink-0 cursor-pointer" ${done ? 'checked' : ''} />
                         <div class="min-w-0">
-                          <div class="flex items-baseline gap-1.5">
-                            <span class="study-hanzi text-base font-bold text-stone-900">${escapeStudioHtml(v.hanzi)}</span>
-                            <span class="study-pinyin font-mono text-[11px] font-semibold text-red-700 truncate">${escapeStudioHtml(v.pinyin)}</span>
+                          <div class="flex items-baseline gap-2">
+                            <span class="study-hanzi font-serif-zh text-lg font-bold text-white">${escapeStudioHtml(v.hanzi)}</span>
+                            <span class="study-pinyin font-mono text-xs font-semibold text-sky-400 truncate">${escapeStudioHtml(v.pinyin)}</span>
                           </div>
-                          <div class="study-meaning text-[11px] text-stone-500 truncate">${escapeStudioHtml(v.meaning)}</div>
+                          <div class="study-meaning text-xs text-slate-400 truncate">${escapeStudioHtml(v.meaning)}</div>
                         </div>
                       </div>
                       <div class="flex items-center gap-1 shrink-0">
-                        <button type="button" data-studio-speak="${escapeStudioAttr(v.speak || v.hanzi)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)})" class="px-2 py-1 rounded-md bg-stone-100 hover:bg-amber-100 text-[11px] font-bold text-stone-800 transition" title="Speak ONLY word">🔊</button>
-                        ${v.ex ? `<button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)})" class="px-2 py-1 rounded-md bg-amber-50 hover:bg-amber-100 border border-amber-200 text-[11px] font-bold text-amber-900 transition" title="Speak ONLY example: ${escapeStudioAttr(v.ex.zh)}">💬</button>` : ''}
-                        ${firstChar ? `<button type="button" data-studio-write="${escapeStudioAttr(firstChar)}" data-studio-lcode="${meta.code}" class="px-2 py-1 rounded-md bg-stone-100 hover:bg-stone-900 hover:text-white text-[11px] font-bold text-stone-700 transition" title="Write ${escapeStudioAttr(firstChar)}">✍️</button>` : ''}
+                        <button type="button" data-studio-speak="${escapeStudioAttr(v.speak || v.hanzi)}" data-studio-label="Word: ${escapeStudioAttr(v.hanzi)} (${escapeStudioAttr(v.pinyin)})" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-sky-500 hover:text-slate-950 text-[11px] font-bold text-slate-200 transition" title="Speak ONLY word">🔊</button>
+                        ${v.ex ? `<button type="button" data-studio-speak="${escapeStudioAttr(v.ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(v.ex.zh)} (${escapeStudioAttr(v.ex.py)})" class="px-2 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-400 hover:text-slate-950 border border-amber-500/30 text-[11px] font-bold text-amber-300 transition" title="Speak ONLY example: ${escapeStudioAttr(v.ex.zh)}">💬</button>` : ''}
+                        ${firstChar ? `<button type="button" data-studio-write="${escapeStudioAttr(firstChar)}" data-studio-lcode="${meta.code}" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-red-600 hover:text-white text-[11px] font-bold text-slate-300 transition" title="Write ${escapeStudioAttr(firstChar)}">✍️</button>` : ''}
                       </div>
                     </div>
                   `;
@@ -8713,23 +8934,23 @@
               </div>
             </div>
 
-            <!-- Col 2: Compact Grammar + Key Sentences -->
+            <!-- Col 2: Midnight Grammar + Key Sentences -->
             <div class="lg:col-span-4 space-y-4">
-              <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
-                <div class="px-4 py-2.5 border-b border-stone-200 bg-stone-50 text-xs font-extrabold uppercase tracking-wider text-stone-700">Grammar Formulas</div>
-                <div class="divide-y divide-stone-100">
+              <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
+                <div class="px-4 py-2.5 border-b border-slate-800 bg-slate-950/60 text-xs font-extrabold uppercase tracking-wider text-emerald-400">Grammar Formulas</div>
+                <div class="divide-y divide-slate-800/80">
                   ${(data.formulas || []).map((f) => `
-                    <div class="p-3 space-y-1.5">
-                      <div class="flex items-center gap-1.5">
-                        <span class="px-1.5 py-0.5 rounded bg-stone-900 text-white font-mono text-[10px] font-bold">${escapeStudioHtml(f.tag)}</span>
-                        <span class="text-xs font-extrabold text-stone-900">${escapeStudioHtml(f.title || '')}</span>
+                    <div class="p-3.5 space-y-2">
+                      <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono text-[10px] font-bold">${escapeStudioHtml(f.tag)}</span>
+                        <span class="text-xs font-extrabold text-white">${escapeStudioHtml(f.title || '')}</span>
                       </div>
-                      <div class="study-hanzi font-mono text-xs font-bold text-stone-800 bg-stone-100 px-2 py-1 rounded">${escapeStudioHtml(f.formula)}</div>
-                      <div class="study-meaning text-[11px] text-stone-600">${escapeStudioHtml(f.note)}</div>
+                      <div class="study-hanzi font-mono text-xs font-bold text-amber-300 bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-800">${escapeStudioHtml(f.formula)}</div>
+                      <div class="study-meaning text-xs text-slate-400">${escapeStudioHtml(f.note)}</div>
                       ${f.examples && f.examples.length ? `
-                        <div class="flex flex-wrap gap-1 pt-0.5">
+                        <div class="flex flex-wrap gap-1.5 pt-0.5">
                           ${f.examples.map((ex) => `
-                            <button type="button" data-studio-speak="${escapeStudioAttr(ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(ex.zh)} (${escapeStudioAttr(ex.py)})" class="px-2 py-0.5 rounded bg-stone-50 hover:bg-amber-50 border border-stone-200 text-[11px] font-semibold text-stone-800">
+                            <button type="button" data-studio-speak="${escapeStudioAttr(ex.zh)}" data-studio-label="Example: ${escapeStudioAttr(ex.zh)} (${escapeStudioAttr(ex.py)})" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-semibold text-slate-200">
                               <span class="study-hanzi">${escapeStudioHtml(ex.zh)}</span> 🔊
                             </button>
                           `).join('')}
@@ -8740,28 +8961,29 @@
                 </div>
               </div>
 
-              <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
-                <div class="px-4 py-2.5 border-b border-stone-200 bg-stone-50 text-xs font-extrabold uppercase tracking-wider text-stone-700">Key Sentences (${(data.sentences || []).length})</div>
-                <div class="divide-y divide-stone-100">
+              <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
+                <div class="px-4 py-2.5 border-b border-slate-800 bg-slate-950/60 text-xs font-extrabold uppercase tracking-wider text-amber-400">Key Sentences (${(data.sentences || []).length})</div>
+                <div class="divide-y divide-slate-800/80">
                   ${(data.sentences || []).map((s) => `
                     <div class="studio-row p-3 flex items-center justify-between gap-2">
                       <div class="min-w-0">
-                        <div class="study-hanzi text-xs font-bold text-stone-900">${escapeStudioHtml(s.hanzi)}</div>
-                        <div class="study-meaning text-[11px] text-stone-500">${escapeStudioHtml(s.en)}</div>
+                        <div class="study-hanzi font-serif-zh text-sm font-bold text-white">${escapeStudioHtml(s.hanzi)}</div>
+                        <div class="study-pinyin font-mono text-[11px] text-sky-400">${escapeStudioHtml(s.pinyin)}</div>
+                        <div class="study-meaning text-xs text-slate-400">${escapeStudioHtml(s.en)}</div>
                       </div>
-                      <button type="button" data-studio-speak="${escapeStudioAttr(s.speak || s.hanzi)}" data-studio-label="Sentence: ${escapeStudioAttr(s.hanzi)} (${escapeStudioAttr(s.pinyin)})" class="shrink-0 px-2 py-1 rounded-md bg-stone-100 hover:bg-amber-100 text-[11px] font-bold">🔊</button>
+                      <button type="button" data-studio-speak="${escapeStudioAttr(s.speak || s.hanzi)}" data-studio-label="Sentence: ${escapeStudioAttr(s.hanzi)} (${escapeStudioAttr(s.pinyin)})" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-sky-500 hover:text-slate-950 text-slate-200 text-[11px] font-bold transition">🔊</button>
                     </div>
                   `).join('')}
                 </div>
               </div>
             </div>
 
-            <!-- Col 3: Character Writing Tiles + Quick Practice -->
+            <!-- Col 3: Midnight Character Grid -->
             <div class="lg:col-span-3 space-y-4">
-              <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden">
-                <div class="px-4 py-2.5 border-b border-stone-200 bg-stone-50 flex items-center justify-between">
-                  <span class="text-xs font-extrabold uppercase tracking-wider text-stone-700">Characters (${chars.length})</span>
-                  <span class="font-mono text-[11px] text-emerald-700 font-bold">${practicedChars} done</span>
+              <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-lg overflow-hidden">
+                <div class="px-4 py-2.5 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between">
+                  <span class="text-xs font-extrabold uppercase tracking-wider text-rose-400">Characters (${chars.length})</span>
+                  <span class="font-mono text-[11px] text-emerald-400 font-bold">${practicedChars} done</span>
                 </div>
                 <div class="p-3">
                   ${chars.length > 0 ? `
@@ -8769,20 +8991,20 @@
                       ${chars.map((h) => {
                         const done = checkedHanziSet.has(h.char);
                         return `
-                          <button type="button" data-studio-write="${escapeStudioAttr(h.char)}" data-studio-lcode="${meta.code}" class="studio-char-tile p-1.5 rounded-xl border ${done ? 'border-emerald-400 bg-emerald-50/70' : 'border-stone-200 hover:border-stone-400 bg-stone-50/50'} text-center transition" title="${escapeStudioAttr(h.char)} (${escapeStudioAttr(h.pinyin)}) — ${escapeStudioAttr(h.meaning)}">
-                            <div class="study-hanzi text-xl font-bold text-stone-900">${escapeStudioHtml(h.char)}</div>
-                            <div class="study-pinyin text-[10px] font-mono text-stone-500 truncate">${escapeStudioHtml(h.pinyin)}</div>
+                          <button type="button" data-studio-write="${escapeStudioAttr(h.char)}" data-studio-lcode="${meta.code}" class="studio-char-tile p-2 rounded-xl border ${done ? 'border-emerald-500 bg-emerald-950/50' : 'border-slate-800 hover:border-slate-600 bg-slate-950/60'} text-center transition" title="${escapeStudioAttr(h.char)} (${escapeStudioAttr(h.pinyin)}) — ${escapeStudioAttr(h.meaning)}">
+                            <div class="study-hanzi font-serif-zh text-xl font-bold text-white">${escapeStudioHtml(h.char)}</div>
+                            <div class="study-pinyin text-[10px] font-mono text-sky-400 truncate">${escapeStudioHtml(h.pinyin)}</div>
                           </button>
                         `;
                       }).join('')}
                     </div>
-                  ` : `<div class="text-xs text-stone-500 py-2">No separate strokes this class.</div>`}
+                  ` : `<div class="text-xs text-slate-500 py-2">No separate strokes this class.</div>`}
                 </div>
               </div>
 
-              <div class="bg-white rounded-2xl border border-stone-200 p-3.5 space-y-2 shadow-sm">
-                <button type="button" data-studio-action="quiz" class="w-full px-3 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-extrabold transition">🎯 Test Yourself (Quiz)</button>
-                <button type="button" data-studio-action="mindmaps" class="w-full px-3 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-bold transition">🗺️ Open Mind-Map Diagram</button>
+              <div class="bg-slate-900 rounded-2xl border border-slate-800 p-3.5 space-y-2 shadow-lg">
+                <button type="button" data-studio-action="quiz" class="w-full px-3 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold transition">🎯 Test Yourself (Quiz)</button>
+                <button type="button" data-studio-action="mindmaps" class="w-full px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">🗺️ Open Mind-Map Diagram</button>
               </div>
             </div>
           </div>
@@ -8791,16 +9013,45 @@
     }
 
     function renderCheatSheetDesign() {
-      const topBar = `<div class="mb-4">${renderStudioClassPills(true)}</div>`;
+      const topBar = `<div class="mb-4">${renderStudioClassPills(true, true)}</div>`;
       if (activeStudioLesson === 'all') {
         return `${topBar}<div class="space-y-8">${STUDIO_CLASSES.map((c) => renderCheatSheetColumnSet(c.key)).join('')}</div>`;
       }
       return `${topBar}${renderCheatSheetColumnSet(activeStudioLesson)}`;
     }
 
+    function startSentenceAutoPlay(lessonKey) {
+      if (sentenceAutoPlayTimer !== null) {
+        stopSentenceAutoPlay();
+        renderStudioApp();
+        return;
+      }
+      const data = lessonNotebookData[lessonKey];
+      const sentences = (data && data.sentences) ? data.sentences : [];
+      if (sentences.length === 0) return;
+
+      let idx = 0;
+      const playNext = () => {
+        if (idx >= sentences.length || currentDesignMode !== 'textbook' || activeCourseStep !== 'sentences') {
+          stopSentenceAutoPlay();
+          renderStudioApp();
+          return;
+        }
+        sentenceAutoPlayIdx = idx;
+        renderStudioApp();
+        const s = sentences[idx];
+        speakChinese(s.speak || s.hanzi, `Sentence ${idx + 1}/${sentences.length}: ${s.hanzi}`);
+        idx++;
+        sentenceAutoPlayTimer = setTimeout(playNext, 3000);
+      };
+      playNext();
+    }
+
     function renderStudioApp() {
       const shell = document.getElementById('studio-app-shell');
       if (!shell || currentDesignMode === 'diagrams') return;
+
+      document.body.classList.toggle('studio-dark-theme', currentDesignMode === 'cheatsheet');
 
       if (currentDesignMode === 'focus') {
         shell.innerHTML = renderFocusDesign();
@@ -8815,8 +9066,39 @@
     const studioShellEl = document.getElementById('studio-app-shell');
     if (studioShellEl) {
       studioShellEl.addEventListener('click', (e) => {
+        const stepBtn = e.target.closest('[data-course-step]');
+        if (stepBtn) {
+          stopSentenceAutoPlay();
+          activeCourseStep = stepBtn.getAttribute('data-course-step') || 'vocab';
+          renderStudioApp();
+          return;
+        }
+        const autoPlayBtn = e.target.closest('[data-sentence-autoplay]');
+        if (autoPlayBtn) {
+          startSentenceAutoPlay(autoPlayBtn.getAttribute('data-sentence-autoplay'));
+          return;
+        }
+        const spotNavBtn = e.target.closest('[data-spotlight-nav]');
+        if (spotNavBtn) {
+          const dir = spotNavBtn.getAttribute('data-spotlight-nav');
+          const vocab = (lessonNotebookData[activeStudioLesson] && lessonNotebookData[activeStudioLesson].vocab) || [];
+          if (vocab.length > 0) {
+            spotlightVocabIdx = dir === 'next'
+              ? (spotlightVocabIdx + 1) % vocab.length
+              : (spotlightVocabIdx - 1 + vocab.length) % vocab.length;
+            const v = vocab[spotlightVocabIdx];
+            renderStudioApp();
+            if (v) speakChinese(v.speak || v.hanzi, `Word: ${v.hanzi} (${v.pinyin}) — ${v.meaning}`);
+          }
+          return;
+        }
         const speakBtn = e.target.closest('[data-studio-speak]');
         if (speakBtn) {
+          const spIdx = speakBtn.getAttribute('data-spotlight-idx');
+          if (spIdx !== null && spIdx !== '') {
+            spotlightVocabIdx = Number(spIdx) || 0;
+            renderStudioApp();
+          }
           speakChinese(speakBtn.getAttribute('data-studio-speak'), speakBtn.getAttribute('data-studio-label'));
           return;
         }
@@ -8828,12 +9110,6 @@
         const lessonBtn = e.target.closest('[data-studio-lesson]');
         if (lessonBtn) {
           setViewMode(lessonBtn.getAttribute('data-studio-lesson'));
-          return;
-        }
-        const scrollBtn = e.target.closest('[data-studio-scroll]');
-        if (scrollBtn) {
-          const targetEl = document.getElementById(scrollBtn.getAttribute('data-studio-scroll'));
-          if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
         const actionBtn = e.target.closest('[data-studio-action]');
@@ -8852,6 +9128,12 @@
         if (deckBtn) {
           focusDeckType = deckBtn.getAttribute('data-focus-deck');
           focusCardIdx = 0;
+          renderStudioApp();
+          return;
+        }
+        const jumpBtn = e.target.closest('[data-focus-jump]');
+        if (jumpBtn) {
+          focusCardIdx = Number(jumpBtn.getAttribute('data-focus-jump')) || 0;
           renderStudioApp();
           return;
         }
